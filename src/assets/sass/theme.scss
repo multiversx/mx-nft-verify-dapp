@@ -231,3 +231,20 @@ footer {
     }
   }
 }
+
+.button--hidden, .button--hidden_wrapper {
+  display: none;
+}
+
+.button--hidden_leadText, .button--hidden_title {
+  font-weight: 600 !important;
+}
+
+.button--hidden_leadText {
+  color: silver !important;
+  font-size: 12px !important;
+}
+
+.button--hidden_title {
+  font-size: 16px !important;
+}
