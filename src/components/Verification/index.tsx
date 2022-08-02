@@ -3,7 +3,7 @@ import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks';
 import { WalletConnectLoginButton } from '@elrondnetwork/dapp-core/UI';
 import { routeNames } from 'routes';
 
-export const UnlockRoute: () => JSX.Element = () => {
+export const Verification: () => JSX.Element = () => {
   const { isLoggedIn } = useGetLoginInfo();
 
   React.useEffect(() => {
@@ -15,14 +15,12 @@ export const UnlockRoute: () => JSX.Element = () => {
   return (
     <WalletConnectLoginButton
       callbackRoute={routeNames.dashboard}
-      className='button--hidden'
+      className='button-verify'
       lead='Two transactions will be required'
-      loginButtonText={''}
-      shouldRenderDefaultCss={false}
+      loginButtonText={'Verify'}
       title='Scan the QR using Maiar App'
-      wrapContentInsideModal={false}
     />
   );
 };
 
-export default UnlockRoute;
+export default Verification;

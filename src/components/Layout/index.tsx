@@ -7,6 +7,7 @@ import Navbar from './Navbar';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { search } = useLocation();
+
   return (
     <div className='bg-light d-flex flex-column flex-fill wrapper'>
       <Navbar />

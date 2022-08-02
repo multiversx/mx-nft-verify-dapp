@@ -9,13 +9,25 @@ interface GetLatestTransactionsType {
   url?: string;
 }
 
+interface GetBlocks {
+  apiAddress: string;
+  size: number;
+  timeout: number;
+  url?: string;
+}
+
+interface FetchResult {
+  data?: any[];
+  success: boolean;
+}
+
 const fetchTransactions = (url: string) =>
   async function getTransactions({
     apiAddress,
     address,
     contractAddress,
     timeout
-  }: GetLatestTransactionsType) {
+  }: GetLatestTransactionsType): Promise<FetchResult> {
     try {
       const { data } = await axios.get(`${apiAddress}${url}`, {
         params: {
@@ -38,5 +50,31 @@ const fetchTransactions = (url: string) =>
     }
   };
 
+const fetchBlocks = (url: string) =>
+  async function getBlocks({
+    apiAddress,
+    size,
+    timeout
+  }: GetBlocks): Promise<FetchResult> {
+    try {
+      const { data } = await axios.get(`${apiAddress}${url}`, {
+        params: {
+          size
+        },
+        timeout
+      });
+
+      return {
+        data: data,
+        success: data !== undefined
+      };
+    } catch (err) {
+      return {
+        success: false
+      };
+    }
+  };
+
+export const getBlocks = fetchBlocks('/blocks');
 export const getTransactions = fetchTransactions('/transactions');
 export const getTransactionsCount = fetchTransactions('/transactions/count');

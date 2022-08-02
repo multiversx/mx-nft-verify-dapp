@@ -23,6 +23,7 @@ const Transactions = () => {
     transactionsFetched: undefined
   });
   const account = useGetAccountInfo();
+
   const fetchData = () => {
     if (success || fail || !pending) {
       getTransactions({
