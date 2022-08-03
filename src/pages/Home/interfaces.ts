@@ -1,4 +1,4 @@
-interface ScResultType {
+export interface ScResultType {
   callType: string;
   gasLimit: number;
   gasPrice: number;
@@ -11,7 +11,7 @@ interface ScResultType {
   returnMessage?: string;
 }
 
-type TxStatusType = 'pending' | 'notExecuted' | 'success' | 'fail';
+export type TxStatusType = 'pending' | 'notExecuted' | 'success' | 'fail';
 
 export interface TransactionType {
   fee?: string;
@@ -38,4 +38,11 @@ export interface TransactionType {
 export interface StateType {
   transactions: TransactionType[];
   transactionsFetched: boolean | undefined;
+}
+
+export class HomeState {
+  constructor(
+    public ftCollectionHash: string = '',
+    public callbackUrl?: string
+  ) {}
 }
