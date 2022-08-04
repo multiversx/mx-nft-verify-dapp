@@ -1,4 +1,5 @@
 import * as React from 'react';
+// import OwnershipMessage from '../../components/OwnershipMessage';
 import Verification from '../../components/Verification';
 import { QueryParamEnum } from './enums';
 import { queryParamsParser } from './helpers';
@@ -30,6 +31,7 @@ const Home = () => {
             nftCollectionHash={state.nftCollectionHash}
             callbackUrl={state.callbackUrl}
           />
+          {/* <OwnershipMessage isValidated={true} /> */}
         </div>
       </div>
     </div>

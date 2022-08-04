@@ -19,7 +19,7 @@ const OwnershipMessage: (props: OwnershipMessageProps) => JSX.Element = ({
     if (isValidated) {
       setState(
         new OwnershipMessageState(
-          'text-secondary',
+          'result-icon text-success',
           'NFT Identifier: MOS',
           faCircleCheck,
           'Ownership Validated'
@@ -28,27 +28,29 @@ const OwnershipMessage: (props: OwnershipMessageProps) => JSX.Element = ({
     } else {
       setState(
         new OwnershipMessageState(
-          'text-danger',
+          'result-icon text-danger',
           'Reason: message signature does not match',
           faCircleXmark,
           'Unable to validate ownership'
         )
       );
     }
-  });
+  }, [state.className, state.description, state.icon, state.title]);
 
   return (
     <div className='card shadow-sm rounded p-4 border-0'>
       <div className='card-body text-center'>
         <FontAwesomeIcon
           icon={state.icon as IconDefinition}
-          className='text-secondary'
+          className={state.className}
         />
-        <h2 className='mb-3' data-testid='title'>
-          NFT Ticket Verification
-        </h2>
-        <h4></h4>
-        <Button variant='primary'>Primary</Button>
+        <h4 className='card-title mb-3' data-testid='title'>
+          {state.title}
+        </h4>
+        <p className='text-secondary'>{state.description}</p>
+        <Button className='button-submit' variant='primary'>
+          Start over
+        </Button>
       </div>
     </div>
   );

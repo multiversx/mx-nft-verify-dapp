@@ -3,7 +3,7 @@
 
   $body: #000;
   $headings-font-weight: 300 !important;
-$primary: #1b46c2;
+  $primary: #1b46c2;
   $light: #fafafa;
 
   $headings-font-weight: 300 !important;
@@ -232,7 +232,7 @@ footer {
   }
 }
 
-.button-verify_leadText, .button-verify_title {
+.button-verify_leadText, .button-verify_title, .card-title {
   font-weight: 600 !important;
 }
 
@@ -251,4 +251,13 @@ footer {
 
 #dapp-modal {
   display: none !important;
+}
+
+.result-icon {
+  font-size: 84px;
+  margin: 12px 0 24px 0;
+}
+
+.button-submit {
+  margin: 12px 0 0 0;
 }
