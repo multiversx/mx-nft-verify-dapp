@@ -14,25 +14,23 @@ export interface ScResultType {
 export type TxStatusType = 'pending' | 'notExecuted' | 'success' | 'fail';
 
 export interface TransactionType {
-  fee?: string;
-  blockHash: string;
-  data: string;
-  gasLimit: number;
-  gasPrice: number;
-  gasUsed: string;
-  txHash: string;
-  miniBlockHash: string;
+  epoch: number;
+  gasConsumed: number;
+  gasPenalized: number;
+  gasRefunded: number;
+  hash: string;
+  maxGasLimit: number;
   nonce: number;
-  receiver: string;
-  receiverShard: number;
+  prevHash: string;
+  proposer: string;
+  pubKeyBitmap: string;
   round: number;
-  sender: string;
-  senderShard: number;
-  signature: string;
-  status: TxStatusType;
+  shard: number;
+  size: number;
+  sizeTxs: number;
+  stateRootHash: string;
   timestamp: number;
-  value: string;
-  scResults?: ScResultType[];
+  txCount: number;
 }
 
 export interface StateType {
@@ -42,7 +40,7 @@ export interface StateType {
 
 export class HomeState {
   constructor(
-    public ftCollectionHash: string = '',
+    public nftCollectionHash: string = '',
     public callbackUrl?: string
   ) {}
 }
