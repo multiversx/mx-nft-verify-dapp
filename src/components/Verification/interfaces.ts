@@ -1,6 +1,9 @@
+import { TxStatusType } from 'pages/Home/interfaces';
+
 export interface VerificationProps {
   nftCollectionHash: string;
   callbackUrl?: string;
+  handleVerificationResult: (result: TxStatusType) => void;
 }
 
 export class VerificationState {

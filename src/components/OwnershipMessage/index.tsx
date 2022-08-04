@@ -8,15 +8,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'react-bootstrap/Button';
 import { OwnershipMessageProps, OwnershipMessageState } from './interfaces';
 
-const OwnershipMessage: (props: OwnershipMessageProps) => JSX.Element = ({
-  isValidated
-}: OwnershipMessageProps) => {
+const OwnershipMessage: (props: OwnershipMessageProps) => JSX.Element = (
+  props: OwnershipMessageProps
+) => {
   const [state, setState] = useState<OwnershipMessageState>(
     new OwnershipMessageState()
   );
 
   React.useEffect(() => {
-    if (isValidated) {
+    if (props.isValidated) {
       setState(
         new OwnershipMessageState(
           'result-icon text-success',
@@ -48,7 +48,11 @@ const OwnershipMessage: (props: OwnershipMessageProps) => JSX.Element = ({
           {state.title}
         </h4>
         <p className='text-secondary'>{state.description}</p>
-        <Button className='button-submit' variant='primary'>
+        <Button
+          onClick={props.handleReset}
+          className='button-submit'
+          variant='primary'
+        >
           Start over
         </Button>
       </div>

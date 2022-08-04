@@ -41,6 +41,8 @@ export interface StateType {
 export class HomeState {
   constructor(
     public nftCollectionHash: string = '',
-    public callbackUrl?: string
+    public callbackUrl?: string,
+    public isVerified: boolean = false,
+    public isValidated: boolean = false
   ) {}
 }
