@@ -1,59 +1,74 @@
 import * as React from 'react';
+import {
+  useGetAccountInfo,
+  useGetNetworkConfig
+} from '@elrondnetwork/dapp-core/hooks';
+import { logout } from '@elrondnetwork/dapp-core/utils';
+import { useLocation } from 'react-router-dom';
+import { routeNames } from 'routes';
+import { FetchResult, getAccountNfts, Nft } from '../../apiRequests';
 import OwnershipMessage from '../../components/OwnershipMessage';
-import Verification from '../../components/Verification';
 import { QueryParamEnum } from './enums';
 import { queryParamsParser } from './helpers';
-import { HomeState, TxStatusType } from './interfaces';
 
-const Home = () => {
-  const [state, setState] = React.useState<HomeState>(new HomeState());
+const Home: () => JSX.Element = () => {
+  const account = useGetAccountInfo();
+  const {
+    network: { apiAddress }
+  } = useGetNetworkConfig();
+  const { search } = useLocation();
 
-  React.useEffect(() => {
-    const queryParams: Map<string, string> | null = queryParamsParser(
-      location.search
-    );
+  const getNftCollection = async () => {
+    const queryParams: Map<string, string> | null = queryParamsParser(search);
 
     if (queryParams) {
-      setState(
-        new HomeState(
-          queryParams.get(QueryParamEnum.collection),
-          queryParams.get(QueryParamEnum.callbackUrl)
-        )
+      const nftColletionAddress: string | undefined = queryParams.get(
+        QueryParamEnum.collection
       );
-    }
-  }, [state.callbackUrl, state.nftCollectionHash]);
 
-  const handleVerificationResult = (result: TxStatusType): void => {
-    setState(
-      new HomeState(
-        state.nftCollectionHash,
-        state.callbackUrl,
-        true,
-        result === 'success'
-      )
-    );
+      if (!nftColletionAddress) {
+        return;
+      }
+
+      const accountAddress: number = account.address;
+      const nftResult: FetchResult<Nft> = await getAccountNfts({
+        apiAddress,
+        accountAddress,
+        timeout: 3000
+      });
+
+      if (nftResult.success && nftResult.data.length) {
+        const hasNft: boolean = nftResult.data.some(
+          (nft: Nft) => nft.collection === nftColletionAddress
+        );
+
+        setState(hasNft);
+      }
+
+      return;
+    }
   };
 
-  const handleReset = (): void => {
-    setState(new HomeState(state.nftCollectionHash, state.callbackUrl, false));
+  const [isValidated, setState] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    (async () => {
+      await getNftCollection();
+    })();
+  }, [isValidated]);
+
+  const handleLogout = () => {
+    logout(`${location.origin}${routeNames.verify}${search}`);
   };
 
   return (
     <div className='d-flex flex-fill align-items-center container'>
       <div className='row w-100'>
         <div className='col-12 col-md-8 col-lg-5 mx-auto'>
-          {!state.isVerified ? (
-            <Verification
-              nftCollectionHash={state.nftCollectionHash}
-              callbackUrl={state.callbackUrl}
-              handleVerificationResult={handleVerificationResult}
-            />
-          ) : (
-            <OwnershipMessage
-              isValidated={state.isValidated}
-              handleReset={handleReset}
-            />
-          )}
+          <OwnershipMessage
+            isValidated={isValidated}
+            handleReset={handleLogout}
+          />
         </div>
       </div>
     </div>

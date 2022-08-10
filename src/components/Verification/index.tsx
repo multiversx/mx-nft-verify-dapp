@@ -1,23 +1,16 @@
 import React from 'react';
-import {
-  useGetAccountInfo,
-  useGetNetworkConfig
-} from '@elrondnetwork/dapp-core/hooks';
+import { useGetNetworkConfig } from '@elrondnetwork/dapp-core/hooks';
 import { WalletConnectLoginButton } from '@elrondnetwork/dapp-core/UI';
-import { FetchResult, getBlocks } from 'apiRequests';
-import { TransactionType } from 'pages/Home/interfaces';
+import { useLocation } from 'react-router-dom';
+import { FetchResult, getBlocks, TransactionType } from 'apiRequests';
 import { routeNames } from 'routes';
-import { VerificationProps, VerificationState } from './interfaces';
+import { VerificationState } from './interfaces';
 
-const Verification: (props: VerificationProps) => JSX.Element = (
-  props: VerificationProps
-) => {
+const Verification: () => JSX.Element = () => {
   const {
     network: { apiAddress }
   } = useGetNetworkConfig();
-  const account = useGetAccountInfo();
-
-  console.log(account);
+  const { search } = useLocation();
 
   const [state, setState] = React.useState<VerificationState>(
     new VerificationState()
@@ -40,7 +33,7 @@ const Verification: (props: VerificationProps) => JSX.Element = (
   };
 
   const getLastBlock = async (): Promise<void> => {
-    const result: FetchResult = await getBlocks({
+    const result: FetchResult<TransactionType> = await getBlocks({
       apiAddress,
       size: 1,
       timeout: 3000
@@ -48,7 +41,6 @@ const Verification: (props: VerificationProps) => JSX.Element = (
 
     if (result.success && result.data.length) {
       const lastBlock: TransactionType = result.data[0];
-      console.log(lastBlock);
 
       setState({
         ...state,
@@ -79,14 +71,15 @@ const Verification: (props: VerificationProps) => JSX.Element = (
     <div className='card shadow-sm rounded p-4 border-0'>
       <div ref={getRef} className='card-body text-center'>
         <WalletConnectLoginButton
-          callbackRoute={props.callbackUrl || routeNames.home}
+          callbackRoute={routeNames.home + search}
           className='button-verify'
+          hideButtonWhenModalOpens={true}
           lead='Two transactions will be required'
           loginButtonText={'Verify'}
+          logoutRoute={routeNames.verify + search}
           title='Scan the QR using Maiar App'
-          hideButtonWhenModalOpens={true}
-          wrapContentInsideModal={false}
           token={state.blockHash}
+          wrapContentInsideModal={false}
         />
       </div>
     </div>

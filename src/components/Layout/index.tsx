@@ -14,7 +14,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <main className='d-flex flex-column flex-grow-1'>
         <AuthenticatedRoutesWrapper
           routes={routes}
-          unlockRoute={`${routeNames.unlock}${search}`}
+          unlockRoute={`${routeNames.verify}${search}`}
         >
           {children}
         </AuthenticatedRoutesWrapper>

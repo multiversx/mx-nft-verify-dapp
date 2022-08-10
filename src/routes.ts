@@ -1,19 +1,24 @@
 import { dAppName } from 'config';
+import OwnershipVerification from 'pages/OwnershipVerification';
 import withPageTitle from './components/PageTitle';
 import Home from './pages/Home';
 
 export const routeNames = {
   home: '/',
-  dashboard: '/dashboard',
-  unlock: '/unlock',
-  walletconnect: '/walletconnect'
+  verify: '/verify'
 };
 
 const routes: Array<any> = [
   {
     path: routeNames.home,
     title: 'Home',
-    component: Home
+    component: Home,
+    authenticatedRoute: true
+  },
+  {
+    path: routeNames.verify,
+    title: 'Verification',
+    component: OwnershipVerification
   }
 ];
 
