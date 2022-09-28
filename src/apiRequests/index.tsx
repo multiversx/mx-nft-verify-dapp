@@ -1,45 +1,15 @@
 import axios from 'axios';
-export interface TransactionType {
-  epoch: number;
-  gasConsumed: number;
-  gasPenalized: number;
-  gasRefunded: number;
-  hash: string;
-  maxGasLimit: number;
-  nonce: number;
-  prevHash: string;
-  proposer: string;
-  pubKeyBitmap: string;
-  round: number;
-  shard: number;
-  size: number;
-  sizeTxs: number;
-  stateRootHash: string;
-  timestamp: number;
-  txCount: number;
-}
 
-export interface Nft {
-  collection: string;
-}
+import {
+  GetBlocks,
+  FetchResult,
+  TransactionType,
+  GetAccountNfts,
+  Nft,
+  Transaction
+} from 'model';
 
-export interface GetBlocks {
-  apiAddress: string;
-  size: number;
-  timeout: number;
-  url?: string;
-}
-
-export interface GetAccountNfts {
-  apiAddress: string;
-  accountAddress: number;
-  timeout: number;
-}
-
-export interface FetchResult<T> {
-  data: T[];
-  success: boolean;
-}
+export const DEFAULT_TIMEOUT = 3000;
 
 export const getBlocks = async ({
   apiAddress,
@@ -75,6 +45,34 @@ export const getAccountNfts = async ({
     const { data } = await axios.get(
       `${apiAddress}/accounts/${accountAddress}/nfts`,
       {
+        timeout
+      }
+    );
+
+    return {
+      data: data,
+      success: data !== undefined
+    };
+  } catch (err) {
+    return {
+      data: [],
+      success: false
+    };
+  }
+};
+
+export const getReceivingTransactions = async ({
+  apiAddress,
+  accountAddress,
+  timeout
+}: GetAccountNfts): Promise<FetchResult<Transaction>> => {
+  try {
+    const { data } = await axios.get(
+      `${apiAddress}/accounts/${accountAddress}/transactions`,
+      {
+        params: {
+          receiver: accountAddress
+        },
         timeout
       }
     );

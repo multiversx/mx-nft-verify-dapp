@@ -3,9 +3,9 @@ import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks';
 import { logout } from '@elrondnetwork/dapp-core/utils';
 import { Navbar as BsNavbar, NavItem, Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
+import { ReactComponent as ElrondLogo } from 'assets/img/elrond.svg';
 import { dAppName } from 'config';
 import { routeNames } from 'routes';
-import { ReactComponent as ElrondLogo } from './../../../assets/img/elrond.svg';
 
 const Navbar = () => {
   const { isLoggedIn } = useGetLoginInfo();

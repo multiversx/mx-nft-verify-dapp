@@ -5,11 +5,15 @@ import {
 } from '@elrondnetwork/dapp-core/hooks';
 import { logout } from '@elrondnetwork/dapp-core/utils';
 import { useLocation } from 'react-router-dom';
+import {
+  DEFAULT_TIMEOUT,
+  getAccountNfts,
+  getReceivingTransactions
+} from 'apiRequests';
+import OwnershipMessage from 'components/OwnershipMessage';
 import { routeNames } from 'routes';
-import { FetchResult, getAccountNfts, Nft } from '../../apiRequests';
-import OwnershipMessage from '../../components/OwnershipMessage';
 import { QueryParamEnum } from './enums';
-import { queryParamsParser } from './helpers';
+import { checkNftOwnership, queryParamsParser } from './helpers';
 
 const Home: () => JSX.Element = () => {
   const account = useGetAccountInfo();
@@ -31,19 +35,26 @@ const Home: () => JSX.Element = () => {
       }
 
       const accountAddress: number = account.address;
-      const nftResult: FetchResult<Nft> = await getAccountNfts({
-        apiAddress,
-        accountAddress,
-        timeout: 3000
-      });
+      const [nftResult, transactionResult] = await Promise.all([
+        getAccountNfts({
+          apiAddress,
+          accountAddress,
+          timeout: DEFAULT_TIMEOUT
+        }),
+        getReceivingTransactions({
+          apiAddress,
+          accountAddress,
+          timeout: DEFAULT_TIMEOUT
+        })
+      ]);
 
-      if (nftResult.success && nftResult.data.length) {
-        const hasNft: boolean = nftResult.data.some(
-          (nft: Nft) => nft.collection === nftColletionAddress
-        );
+      const hasNft: boolean = checkNftOwnership(
+        nftResult,
+        nftColletionAddress,
+        transactionResult
+      );
 
-        setState(hasNft);
-      }
+      setState(hasNft);
 
       return;
     }

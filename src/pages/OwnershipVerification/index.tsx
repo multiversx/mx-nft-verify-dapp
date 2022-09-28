@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks';
 import { useLocation } from 'react-router-dom';
+import Verification from 'components/Verification';
 import { routeNames } from 'routes';
-import Verification from '../../components/Verification';
 
 const OwnershipVerification = () => {
   const { isLoggedIn } = useGetLoginInfo();
