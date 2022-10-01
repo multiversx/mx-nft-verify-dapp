@@ -2,7 +2,7 @@ import React from 'react';
 import { useGetNetworkConfig } from '@elrondnetwork/dapp-core/hooks';
 import { WalletConnectLoginButton } from '@elrondnetwork/dapp-core/UI';
 import { useLocation } from 'react-router-dom';
-import { DEFAULT_TIMEOUT, getBlocks } from 'apiRequests';
+import { getBlocks } from 'apiRequests';
 import { FetchResult, TransactionType } from 'model';
 import { routeNames } from 'routes';
 import { VerificationState } from './interfaces';
@@ -36,8 +36,7 @@ const Verification: () => JSX.Element = () => {
   const getLastBlock = async (): Promise<void> => {
     const result: FetchResult<TransactionType> = await getBlocks({
       apiAddress,
-      size: 1,
-      timeout: DEFAULT_TIMEOUT
+      size: 1
     });
 
     if (result.success && result.data.length) {

@@ -1,5 +1,12 @@
-import { DateTime, DurationObjectUnits } from 'luxon';
-import { FetchResult, Nft, Transaction } from 'model';
+import { DateTime } from 'luxon';
+import { NFT_CATEGORY } from 'appConstants';
+import {
+  FetchResult,
+  Nft,
+  NftTransferArgument,
+  Transaction,
+  TransactionAction
+} from 'model';
 
 export const queryParamsParser: (params: string) => Map<string, string> | null =
   (params: string) => {
@@ -21,37 +28,32 @@ export const queryParamsParser: (params: string) => Map<string, string> | null =
     return queryParamsMap;
   };
 
-export const isOlderThanHours = (timestamp: number, hours: number): boolean => {
-  const date: DateTime = DateTime.fromMillis(timestamp);
-  const diff: DurationObjectUnits = DateTime.now()
-    .diff(date, 'hours')
-    .toObject();
-
-  return (diff.hours as number) > hours;
-};
+export const getTimestamp = (timeField: string, units: number): number =>
+  DateTime.local()
+    .plus({ [timeField]: units })
+    .toMillis();
 
 export const checkNftOwnership = (
-  nftResult: FetchResult<Nft>,
-  nftColletionAddress: string,
+  accountNftsResult: FetchResult<Nft>,
   transactionResult: FetchResult<Transaction>
 ): boolean => {
-  if (nftResult.success && nftResult.data.length) {
-    const foundNft: Nft | undefined = nftResult.data.find(
-      (nft: Nft) => nft.collection === nftColletionAddress
+  if (accountNftsResult.success && transactionResult.success) {
+    return !!accountNftsResult.data.length && !transactionResult.data.length;
+  }
+
+  return false;
+};
+
+export const isNftTransfer = (
+  transaction: Transaction,
+  collection: string
+): boolean => {
+  const action: TransactionAction = transaction.action;
+
+  if (action.category === NFT_CATEGORY && action.arguments.transfers?.length) {
+    return action.arguments.transfers.some(
+      (transfer: NftTransferArgument) => transfer.collection === collection
     );
-
-    if (
-      !!foundNft &&
-      transactionResult.success &&
-      transactionResult.data.length
-    ) {
-      const nftTransaction: Transaction | undefined =
-        transactionResult.data.find(
-          (transaction: Transaction) => transaction.data === foundNft.data // FIXME: Find something common between NFT and its transaction
-        );
-
-      return !!nftTransaction && isOlderThanHours(nftTransaction.timestamp, 48);
-    }
   }
 
   return false;

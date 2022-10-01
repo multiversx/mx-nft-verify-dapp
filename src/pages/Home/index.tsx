@@ -5,15 +5,12 @@ import {
 } from '@elrondnetwork/dapp-core/hooks';
 import { logout } from '@elrondnetwork/dapp-core/utils';
 import { useLocation } from 'react-router-dom';
-import {
-  DEFAULT_TIMEOUT,
-  getAccountNfts,
-  getReceivingTransactions
-} from 'apiRequests';
+import { getAccountNfts, getAccountTransfers } from 'apiRequests';
 import OwnershipMessage from 'components/OwnershipMessage';
+import { FetchResult, Nft, Transaction } from 'model';
 import { routeNames } from 'routes';
 import { QueryParamEnum } from './enums';
-import { checkNftOwnership, queryParamsParser } from './helpers';
+import { checkNftOwnership, getTimestamp, queryParamsParser } from './helpers';
 
 const Home: () => JSX.Element = () => {
   const account = useGetAccountInfo();
@@ -26,32 +23,35 @@ const Home: () => JSX.Element = () => {
     const queryParams: Map<string, string> | null = queryParamsParser(search);
 
     if (queryParams) {
-      const nftColletionAddress: string | undefined = queryParams.get(
+      const nftCollection: string | undefined = queryParams.get(
         QueryParamEnum.collection
       );
 
-      if (!nftColletionAddress) {
+      if (!nftCollection) {
         return;
       }
 
       const accountAddress: number = account.address;
-      const [nftResult, transactionResult] = await Promise.all([
+
+      const [accountNftsResult, transactionResult]: FetchResult<
+        Transaction | Nft
+      >[] = await Promise.all([
         getAccountNfts({
           apiAddress,
           accountAddress,
-          timeout: DEFAULT_TIMEOUT
+          collections: [nftCollection]
         }),
-        getReceivingTransactions({
+        getAccountTransfers({
           apiAddress,
           accountAddress,
-          timeout: DEFAULT_TIMEOUT
+          after: getTimestamp('hours', -48),
+          token: nftCollection
         })
       ]);
 
       const hasNft: boolean = checkNftOwnership(
-        nftResult,
-        nftColletionAddress,
-        transactionResult
+        accountNftsResult as FetchResult<Nft>,
+        transactionResult as FetchResult<Transaction>
       );
 
       setState(hasNft);

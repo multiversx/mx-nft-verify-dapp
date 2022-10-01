@@ -18,6 +18,23 @@ export interface TransactionType {
   txCount: number;
 }
 
+export interface NftTransferArgument {
+  collection: string;
+  identifier: string;
+  name: string;
+  svgUrl: string;
+  ticker: string;
+  type: string;
+  value: string;
+}
+
+export interface TransactionAction {
+  category: string;
+  name: string;
+  description: string;
+  arguments: any;
+}
+
 export interface Transaction {
   txHash: string;
   gasLimit: number;
@@ -39,12 +56,7 @@ export interface Transaction {
   timestamp: number;
   data: string;
   function: string;
-  action: {
-    category: string;
-    name: string;
-    description: string;
-    arguments: any;
-  };
+  action: TransactionAction;
   scamInfo: {
     type: string;
     info: string;
@@ -63,14 +75,23 @@ export interface Nft {
 export interface GetBlocks {
   apiAddress: string;
   size: number;
-  timeout: number;
   url?: string;
 }
-
-export interface GetAccountNfts {
+export interface GetTransactions {
   apiAddress: string;
   accountAddress: number;
-  timeout: number;
+  before?: number;
+  after?: number;
+  token?: string;
+}
+
+export interface GetAccountNfts extends GetTransactions {
+  collections: string[];
+}
+
+export interface GetCollectionNfts {
+  apiAddress: string;
+  collection: string;
 }
 
 export interface FetchResult<T> {
