@@ -7,10 +7,10 @@ import { logout } from '@elrondnetwork/dapp-core/utils';
 import { useLocation } from 'react-router-dom';
 import { getAccountNfts, getAccountTransfers } from 'apiRequests';
 import OwnershipMessage from 'components/OwnershipMessage';
-import { FetchResult, Nft, Transaction } from 'model';
+import { checkNftOwnership, getTimestamp, queryParamsParser } from 'helpers';
 import { routeNames } from 'routes';
+import { FetchResult, Nft, Transaction } from 'types';
 import { QueryParamEnum } from './enums';
-import { checkNftOwnership, getTimestamp, queryParamsParser } from './helpers';
 
 const Home: () => JSX.Element = () => {
   const account = useGetAccountInfo();

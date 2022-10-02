@@ -3,8 +3,8 @@ import { useGetNetworkConfig } from '@elrondnetwork/dapp-core/hooks';
 import { WalletConnectLoginButton } from '@elrondnetwork/dapp-core/UI';
 import { useLocation } from 'react-router-dom';
 import { getBlocks } from 'apiRequests';
-import { FetchResult, TransactionType } from 'model';
 import { routeNames } from 'routes';
+import { FetchResult, TransactionType } from 'types';
 import { VerificationState } from './interfaces';
 
 const Verification: () => JSX.Element = () => {

@@ -11,7 +11,7 @@ import {
   Transaction,
   GetTransactions,
   GetCollectionNfts
-} from 'model';
+} from 'types';
 
 export const getBlocks = async ({
   apiAddress,

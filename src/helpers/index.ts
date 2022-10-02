@@ -6,7 +6,7 @@ import {
   NftTransferArgument,
   Transaction,
   TransactionAction
-} from 'model';
+} from 'types';
 
 export const queryParamsParser: (params: string) => Map<string, string> | null =
   (params: string) => {

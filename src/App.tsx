@@ -1,9 +1,4 @@
 import React from 'react';
-import {
-  TransactionsToastList,
-  SignTransactionsModals,
-  NotificationModal
-} from '@elrondnetwork/dapp-core/UI';
 import { DappProvider } from '@elrondnetwork/dapp-core/wrappers';
 
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
@@ -21,9 +16,6 @@ const App = () => {
         customNetworkConfig={{ name: 'customConfig', apiTimeout: 6000 }}
       >
         <Layout>
-          <TransactionsToastList />
-          <NotificationModal />
-          <SignTransactionsModals className='custom-class-for-modals' />
           <Routes>
             {routes.map((route: any, index: number) => (
               <Route
