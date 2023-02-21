@@ -1,21 +1,49 @@
-import React from 'react';
-import { useGetNetworkConfig } from '@elrondnetwork/dapp-core/hooks';
-import { WalletConnectLoginButton } from '@elrondnetwork/dapp-core/UI';
-import { useLocation } from 'react-router-dom';
-import { getBlocks } from 'apiRequests';
+import React, { useState, useEffect } from 'react';
+import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
+import { WalletConnectLoginButton } from '@multiversx/sdk-dapp/UI';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useApiRequests } from 'hooks/network';
 import { routeNames } from 'routes';
-import { FetchResult, TransactionType } from 'types';
+import { TransactionType } from 'types';
 import { VerificationState } from './interfaces';
 
-const Verification: () => JSX.Element = () => {
+const Verification = () => {
   const {
     network: { apiAddress }
   } = useGetNetworkConfig();
+
+  const { getBlocks } = useApiRequests();
+
   const { search } = useLocation();
 
-  const [state, setState] = React.useState<VerificationState>(
+  const navigate = useNavigate();
+
+  const [state, setState] = useState<VerificationState>(
     new VerificationState()
   );
+
+  const callbackRoute = `${routeNames.home}${search}}`;
+  const logoutRoute = `${routeNames.verify}${search}}`;
+
+  const onLoginRedirect = () => {
+    navigate(callbackRoute, { replace: true });
+  };
+
+  const loginParams = {
+    callbackRoute,
+    logoutRoute,
+    onLoginRedirect,
+    redirectAfterLogin: false,
+    shouldRenderDefaultCss: false,
+    nativeAuth: true,
+    className: 'button-verify',
+    hideButtonWhenModalOpens: true,
+    lead: 'Two transactions will be required',
+    loginButtonText: 'Verify',
+    title: 'Scan the QR using xPortal',
+    token: state.blockHash,
+    wrapContentInsideModal: false
+  };
 
   const getRef = async (e: HTMLDivElement) => {
     if (!e) {
@@ -33,8 +61,8 @@ const Verification: () => JSX.Element = () => {
     return e;
   };
 
-  const getLastBlock = async (): Promise<void> => {
-    const result: FetchResult<TransactionType> = await getBlocks({
+  const getLastBlock = async () => {
+    const result = await getBlocks({
       apiAddress,
       size: 1
     });
@@ -49,7 +77,7 @@ const Verification: () => JSX.Element = () => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!state.blockHash) {
       (async () => {
         await getLastBlock();
@@ -57,8 +85,8 @@ const Verification: () => JSX.Element = () => {
     }
   }, [state.blockHash]);
 
-  React.useEffect(() => {
-    const interval: NodeJS.Timeout = setInterval(async () => {
+  useEffect(() => {
+    const interval = setInterval(async () => {
       await getLastBlock();
     }, state.refreshRate);
 
@@ -70,17 +98,7 @@ const Verification: () => JSX.Element = () => {
   return (
     <div className='card shadow-sm rounded p-4 border-0'>
       <div ref={getRef} className='card-body text-center'>
-        <WalletConnectLoginButton
-          callbackRoute={routeNames.home + search}
-          className='button-verify'
-          hideButtonWhenModalOpens={true}
-          lead='Two transactions will be required'
-          loginButtonText={'Verify'}
-          logoutRoute={routeNames.verify + search}
-          title='Scan the QR using Maiar App'
-          token={state.blockHash}
-          wrapContentInsideModal={false}
-        />
+        <WalletConnectLoginButton {...loginParams} />
       </div>
     </div>
   );

@@ -2,21 +2,23 @@ import * as React from 'react';
 import {
   useGetAccountInfo,
   useGetNetworkConfig
-} from '@elrondnetwork/dapp-core/hooks';
-import { logout } from '@elrondnetwork/dapp-core/utils';
+} from '@multiversx/sdk-dapp/hooks';
+import { logout } from '@multiversx/sdk-dapp/utils';
 import { useLocation } from 'react-router-dom';
-import { getAccountNfts, getAccountTransfers } from 'apiRequests';
 import OwnershipMessage from 'components/OwnershipMessage';
-import { checkNftOwnership, getTimestamp, queryParamsParser } from 'helpers';
+import { checkNftOwnership, getTimestamp, queryParamsParser } from 'utils';
 import { routeNames } from 'routes';
 import { FetchResult, Nft, Transaction } from 'types';
 import { QueryParamEnum } from './enums';
+import { useApiRequests } from 'hooks/network';
 
 const Home: () => JSX.Element = () => {
   const account = useGetAccountInfo();
   const {
     network: { apiAddress }
   } = useGetNetworkConfig();
+
+  const { getAccountNfts, getAccountTransfers } = useApiRequests();
   const { search } = useLocation();
 
   const getNftCollection = async () => {
@@ -31,11 +33,9 @@ const Home: () => JSX.Element = () => {
         return;
       }
 
-      const accountAddress: number = account.address;
+      const accountAddress = Number(account.address);
 
-      const [accountNftsResult, transactionResult]: FetchResult<
-        Transaction | Nft
-      >[] = await Promise.all([
+      const [accountNftsResult, transactionResult] = await Promise.all([
         getAccountNfts({
           apiAddress,
           accountAddress,

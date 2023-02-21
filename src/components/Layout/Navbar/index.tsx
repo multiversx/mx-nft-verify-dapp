@@ -1,6 +1,6 @@
 import React from 'react';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks';
-import { logout } from '@elrondnetwork/dapp-core/utils';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
+import { logout } from '@multiversx/sdk-dapp/utils';
 import { Navbar as BsNavbar, NavItem, Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 import { ReactComponent as ElrondLogo } from 'assets/img/elrond.svg';

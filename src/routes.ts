@@ -8,7 +8,7 @@ export const routeNames = {
   verify: '/verify'
 };
 
-const routes: Array<any> = [
+const routes = [
   {
     path: routeNames.home,
     title: 'Home',

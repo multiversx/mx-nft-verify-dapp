@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
 import { useLocation } from 'react-router-dom';
 import Verification from 'components/Verification';
 import { routeNames } from 'routes';

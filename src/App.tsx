@@ -1,23 +1,32 @@
 import React from 'react';
-import { DappProvider } from '@elrondnetwork/dapp-core/wrappers';
+import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
+
+import {
+  DappProvider,
+  AxiosInterceptorContext
+} from '@multiversx/sdk-dapp/wrappers';
 
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import Layout from 'components/Layout';
+import { walletConnectV2ProjectId, apiTimeout } from 'config';
 import PageNotFound from 'pages/PageNotFound';
 import routes from 'routes';
 
-const environment = 'devnet';
-
 const App = () => {
   return (
-    <Router>
+    <AxiosInterceptorContext.Provider>
       <DappProvider
-        environment={environment}
-        customNetworkConfig={{ name: 'customConfig', apiTimeout: 6000 }}
+        environment={EnvironmentsEnum.devnet}
+        customNetworkConfig={{
+          name: 'customConfig',
+          apiTimeout,
+          walletConnectV2ProjectId
+        }}
       >
         <Layout>
+          <AxiosInterceptorContext.Listener />
           <Routes>
-            {routes.map((route: any, index: number) => (
+            {routes.map((route, index: number) => (
               <Route
                 path={route.path}
                 key={'route-key-' + index}
@@ -28,8 +37,16 @@ const App = () => {
           </Routes>
         </Layout>
       </DappProvider>
+    </AxiosInterceptorContext.Provider>
+  );
+};
+
+const RoutedApp = () => {
+  return (
+    <Router basename={process.env.PUBLIC_URL}>
+      <App />
     </Router>
   );
 };
 
-export default App;
+export default RoutedApp;
