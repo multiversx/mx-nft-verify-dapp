@@ -58,7 +58,7 @@ export interface Transaction {
 
 export interface GetTransactions {
   apiAddress: string;
-  accountAddress: number;
+  accountAddress: string;
   before?: number;
   after?: number;
   token?: string;

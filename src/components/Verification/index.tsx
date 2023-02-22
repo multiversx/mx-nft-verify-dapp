@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
 import { WalletConnectLoginButton } from '@multiversx/sdk-dapp/UI';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useApiRequests } from 'hooks/network';
 import { routeNames } from 'routes';
 import { TransactionType } from 'types';
@@ -14,16 +14,14 @@ const Verification = () => {
 
   const { getBlocks } = useApiRequests();
 
-  const { search } = useLocation();
-
   const navigate = useNavigate();
 
   const [state, setState] = useState<VerificationState>(
     new VerificationState()
   );
 
-  const callbackRoute = `${routeNames.home}${search}}`;
-  const logoutRoute = `${routeNames.verify}${search}}`;
+  const callbackRoute = `${routeNames.home}?collection=MOS-b9b4b2`;
+  const logoutRoute = `${routeNames.verify}`;
 
   const onLoginRedirect = () => {
     navigate(callbackRoute, { replace: true });

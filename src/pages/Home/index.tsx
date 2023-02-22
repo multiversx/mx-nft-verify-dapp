@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   useGetAccountInfo,
   useGetNetworkConfig
@@ -12,7 +12,7 @@ import { FetchResult, Nft, Transaction } from 'types';
 import { QueryParamEnum } from './enums';
 import { useApiRequests } from 'hooks/network';
 
-const Home: () => JSX.Element = () => {
+const Home = () => {
   const account = useGetAccountInfo();
   const {
     network: { apiAddress }
@@ -25,15 +25,13 @@ const Home: () => JSX.Element = () => {
     const queryParams: Map<string, string> | null = queryParamsParser(search);
 
     if (queryParams) {
-      const nftCollection: string | undefined = queryParams.get(
-        QueryParamEnum.collection
-      );
+      const nftCollection = queryParams.get(QueryParamEnum.collection);
 
       if (!nftCollection) {
         return;
       }
 
-      const accountAddress = Number(account.address);
+      const accountAddress = account.address;
 
       const [accountNftsResult, transactionResult] = await Promise.all([
         getAccountNfts({
@@ -49,27 +47,27 @@ const Home: () => JSX.Element = () => {
         })
       ]);
 
-      const hasNft: boolean = checkNftOwnership(
+      const hasNft = checkNftOwnership(
         accountNftsResult as FetchResult<Nft>,
         transactionResult as FetchResult<Transaction>
       );
 
-      setState(hasNft);
+      setIsValidated(hasNft);
 
       return;
     }
   };
 
-  const [isValidated, setState] = React.useState<boolean>(false);
+  const [isValidated, setIsValidated] = useState<boolean>(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       await getNftCollection();
     })();
   }, [isValidated]);
 
   const handleLogout = () => {
-    logout(`${location.origin}${routeNames.verify}${search}`);
+    logout(`${location.origin}${routeNames.verify}`);
   };
 
   return (
