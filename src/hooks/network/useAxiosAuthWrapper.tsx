@@ -1,21 +1,15 @@
 import { useAxiosInterceptorContext } from '@multiversx/sdk-dapp/wrappers/AxiosInterceptorContext';
-import defaultAxios, {
-  AxiosInstance,
-  AxiosError,
-  AxiosRequestConfig
-} from 'axios';
-// import {
-//   getImpersonatedCookieAddress,
-//   impersonateCookieName
-// } from 'components/Impersonate';
-// import { logoutFromApp } from 'utils';
+import defaultAxios, { AxiosError, AxiosRequestConfig } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const isTest = process.env.NODE_ENV === 'test';
 
 export const useAxiosAuthWrapper = () => {
   const { loginInfo } = useAxiosInterceptorContext();
 
-  const axiosAuthWrapper = async (): Promise<AxiosInstance> => {
+  const navigate = useNavigate();
+
+  const axiosAuthWrapper = async () => {
     if (isTest) {
       return defaultAxios;
     }
@@ -38,12 +32,10 @@ export const useAxiosAuthWrapper = () => {
     return authInstance;
   };
 
-  // const impersonatedAddress = getImpersonatedCookieAddress();
-
   const defaultAuthInterceptorErrorHandler = (error: AxiosError) => {
     if (error.response?.status === 403) {
       console.log('Axios request 403. Logging out.');
-      // logoutFromApp();
+      navigate('/verify', { replace: true });
     }
 
     return Promise.reject(error);
@@ -56,10 +48,6 @@ export const useAxiosAuthWrapper = () => {
       }
 
       config.headers.Authorization = bearerToken ? `Bearer ${bearerToken}` : '';
-
-      // if (impersonatedAddress) {
-      //   config.headers[impersonateCookieName] = impersonatedAddress;
-      // }
 
       return config;
     };
