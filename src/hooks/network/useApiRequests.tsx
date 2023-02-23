@@ -1,5 +1,3 @@
-import { DEFAULT_TIMEOUT } from 'appConstants';
-
 import {
   GetAccountNfts,
   GetBlocks,
@@ -11,6 +9,8 @@ import { useAxiosAuthWrapper } from './useAxiosAuthWrapper';
 
 export const useApiRequests = () => {
   const axiosAuthWrapper = useAxiosAuthWrapper();
+
+  const DEFAULT_TIMEOUT = 3000;
 
   return {
     getBlocks: ({ apiAddress, size }: GetBlocks) =>

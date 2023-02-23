@@ -1,31 +1,38 @@
+import { withPageTitle } from 'components';
 import { dAppName } from 'config';
-import OwnershipVerification from 'pages/OwnershipVerification';
-import withPageTitle from './components/PageTitle';
-import Home from './pages/Home';
+import { Home } from 'pages/Home';
+import { Result } from 'pages/Result';
+import { Verification } from 'pages/Verification';
 
 export const routeNames = {
   home: '/',
-  verify: '/verify'
+  verify: '/verify',
+  result: '/result'
 };
 
 const routes = [
   {
     path: routeNames.home,
     title: 'Home',
-    component: Home,
-    authenticatedRoute: true
+    component: Home
   },
   {
     path: routeNames.verify,
     title: 'Verification',
-    component: OwnershipVerification
+    component: Verification
+  },
+  {
+    path: routeNames.result,
+    title: 'Result',
+    component: Result,
+    authenticatedRoute: true
   }
 ];
 
 const mappedRoutes = routes.map((route) => {
   const title = route.title
-    ? `${route.title} • Elrond ${dAppName}`
-    : `Elrond ${dAppName}`;
+    ? `${route.title} •  MultiversX ${dAppName}`
+    : `MultiversX ${dAppName}`;
 
   const requiresAuth = Boolean(route.authenticatedRoute);
   const wrappedComponent = withPageTitle(title, route.component);

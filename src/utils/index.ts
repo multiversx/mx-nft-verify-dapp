@@ -1,5 +1,4 @@
 import { DateTime } from 'luxon';
-import { NFT_CATEGORY } from 'appConstants';
 import {
   FetchResult,
   Nft,
@@ -8,9 +7,9 @@ import {
   TransactionAction
 } from 'types';
 
-export const queryParamsParser: (
-  params: string
-) => Map<string, string> | null = (params: string) => {
+const NFT_CATEGORY = 'esdtNft';
+
+export const queryParamsParser = (params: string) => {
   if (!params?.length) {
     return null;
   }
@@ -29,7 +28,7 @@ export const queryParamsParser: (
   return queryParamsMap;
 };
 
-export const getTimestamp = (timeField: string, units: number): number =>
+export const getTimestamp = (timeField: string, units: number) =>
   DateTime.local()
     .plus({ [timeField]: units })
     .toMillis();
@@ -37,7 +36,7 @@ export const getTimestamp = (timeField: string, units: number): number =>
 export const checkNftOwnership = (
   accountNftsResult: FetchResult<Nft>,
   transactionResult: FetchResult<Transaction>
-): boolean => {
+) => {
   if (accountNftsResult.success && transactionResult.success) {
     return !!accountNftsResult.data.length && !transactionResult.data.length;
   }
@@ -45,10 +44,7 @@ export const checkNftOwnership = (
   return false;
 };
 
-export const isNftTransfer = (
-  transaction: Transaction,
-  collection: string
-): boolean => {
+export const isNftTransfer = (transaction: Transaction, collection: string) => {
   const action: TransactionAction = transaction.action;
 
   if (action.category === NFT_CATEGORY && action.arguments.transfers?.length) {
@@ -60,9 +56,7 @@ export const isNftTransfer = (
   return false;
 };
 
-export const asyncWrapper = async (
-  asyncRequest: () => Promise<any>
-): Promise<{ data?: any; success: boolean }> => {
+export const asyncWrapper = async (asyncRequest: () => Promise<any>) => {
   try {
     const { data } = await asyncRequest();
 

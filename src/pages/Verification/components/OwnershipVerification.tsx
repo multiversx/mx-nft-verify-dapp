@@ -3,11 +3,11 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
 import { WalletConnectLoginButton } from '@multiversx/sdk-dapp/UI';
 import { useNavigate } from 'react-router-dom';
 import { useApiRequests } from 'hooks/network';
+import { OwnershipVerificationState } from 'pages/Verification/verification.types';
 import { routeNames } from 'routes';
 import { TransactionType } from 'types';
-import { VerificationState } from './interfaces';
 
-const Verification = () => {
+export const OwnershipVerification = () => {
   const {
     network: { apiAddress }
   } = useGetNetworkConfig();
@@ -16,8 +16,8 @@ const Verification = () => {
 
   const navigate = useNavigate();
 
-  const [state, setState] = useState<VerificationState>(
-    new VerificationState()
+  const [verificationParams, setVerificationParams] = useState(
+    new OwnershipVerificationState()
   );
 
   const callbackRoute = `${routeNames.home}?collection=MOS-b9b4b2`;
@@ -39,7 +39,7 @@ const Verification = () => {
     lead: 'Two transactions will be required',
     loginButtonText: 'Verify',
     title: 'Scan the QR using xPortal',
-    token: state.blockHash,
+    token: verificationParams.blockHash,
     wrapContentInsideModal: false
   };
 
@@ -51,7 +51,7 @@ const Verification = () => {
     const buttonRef = e.querySelector('button');
 
     if (buttonRef) {
-      await setTimeout(() => {
+      setTimeout(() => {
         buttonRef.click();
       }, 0.01);
     }
@@ -68,30 +68,30 @@ const Verification = () => {
     if (result.success && result.data.length) {
       const lastBlock: TransactionType = result.data[0];
 
-      setState({
-        ...state,
+      setVerificationParams({
+        ...verificationParams,
         blockHash: lastBlock.hash
       });
     }
   };
 
   useEffect(() => {
-    if (!state.blockHash) {
+    if (!verificationParams.blockHash) {
       (async () => {
         await getLastBlock();
       })();
     }
-  }, [state.blockHash]);
+  }, [verificationParams.blockHash]);
 
   useEffect(() => {
     const interval = setInterval(async () => {
       await getLastBlock();
-    }, state.refreshRate);
+    }, verificationParams.refreshRate);
 
     return () => {
       clearInterval(interval);
     };
-  }, [state.blockHash]);
+  }, [verificationParams.blockHash]);
 
   return (
     <div className='card shadow-sm rounded p-4 border-0'>
@@ -101,5 +101,3 @@ const Verification = () => {
     </div>
   );
 };
-
-export default Verification;
