@@ -1,13 +1,15 @@
 /* Bootstrap overrides
 -------------------------------------------------- */
 
-  $body: #000;
-  $headings-font-weight: 300 !important;
-  $primary: #1b46c2;
-  $light: #fafafa;
+$body: #000;
+$headings-font-weight: 300 !important;
+$primary: #1b46c2;
+$light: #fafafa;
+$card-border-radius: 0.75rem;
+$card-inner-border-radius: subtract($card-border-radius, 1px);
 
-  $headings-font-weight: 300 !important;
-  $a: #1392ff;
+$headings-font-weight: 300 !important;
+$a: #1392ff;
 
 /* Do not move the imports from here.
 Override Bootstrap variables only above.
@@ -18,8 +20,6 @@ Override Bootstrap variables only above.
 @import '~bootstrap/scss/bootstrap.scss';
 
 @import '~bootstrap/scss/reboot';
-
-
 
 .custom-classname.btn-primary {
   background-color: green;
@@ -58,7 +58,7 @@ html {
 
 /* Navbar
 -------------------------------------------------- */
-.elrond-logo {
+.multiversx-logo {
   width: 85px;
   height: 25px;
 }
@@ -100,7 +100,6 @@ html {
   }
 
   &.table {
-
     .transaction-hash .trim {
       @include media-breakpoint-down(xl) {
         max-width: none;
@@ -116,7 +115,8 @@ html {
       }
     }
 
-    td, tr {
+    td,
+    tr {
       padding: 0.65rem;
     }
 
@@ -230,34 +230,4 @@ footer {
       }
     }
   }
-}
-
-.button-verify_leadText, .button-verify_title, .card-title {
-  font-weight: 600 !important;
-}
-
-.button-verify_leadText {
-  color: silver !important;
-  font-size: 12px !important;
-}
-
-.button-verify_title {
-  font-size: 16px !important;
-}
-
-._dappModalHeaderText_buhbv_35 {
-  display: none;
-}
-
-#dapp-modal {
-  display: none !important;
-}
-
-.result-icon {
-  font-size: 84px;
-  margin: 12px 0 24px 0;
-}
-
-.button-submit {
-  margin: 12px 0 0 0;
 }
