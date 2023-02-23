@@ -1,1 +1,1 @@
-export * from './OwnershipVerification';
+export * from './Verification';
