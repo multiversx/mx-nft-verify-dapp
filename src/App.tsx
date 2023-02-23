@@ -7,7 +7,7 @@ import {
 } from '@multiversx/sdk-dapp/wrappers';
 
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
-import Layout from 'components/Layout';
+import { Layout } from 'components/Layout';
 import { walletConnectV2ProjectId, apiTimeout } from 'config';
 import PageNotFound from 'pages/PageNotFound';
 import routes from 'routes';

@@ -1,18 +1,19 @@
 import React from 'react';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import { logout } from '@multiversx/sdk-dapp/utils';
-import { Navbar as BsNavbar, NavItem, Nav } from 'react-bootstrap';
+import { Nav, Navbar as BsNavbar, NavItem } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
-import { ReactComponent as ElrondLogo } from 'assets/img/elrond.svg';
+import { ReactComponent as MultiversXLogo } from 'assets/img/multiversx.svg';
 import { dAppName } from 'config';
 import { routeNames } from 'routes';
 
-const Navbar = () => {
-  const { isLoggedIn } = useGetLoginInfo();
+export const Navbar = () => {
+  const isLoggedIn = useGetIsLoggedIn();
+
   const { search } = useLocation();
 
   const handleLogout = () => {
-    logout(`${window.location.origin}${routeNames.verify}${search}`);
+    logout(`${window.location.origin}/${routeNames.verify}/${search}`);
   };
 
   return (
@@ -22,7 +23,7 @@ const Navbar = () => {
           className='d-flex align-items-center navbar-brand mr-0'
           to={isLoggedIn ? routeNames.home : routeNames.verify}
         >
-          <ElrondLogo className='elrond-logo' />
+          <MultiversXLogo className='multiversx-logo' />
           <span className='dapp-name text-muted'>{dAppName}</span>
         </Link>
 
@@ -39,5 +40,3 @@ const Navbar = () => {
     </BsNavbar>
   );
 };
-
-export default Navbar;
