@@ -1,41 +1,39 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   useGetAccountInfo,
   useGetNetworkConfig
-} from '@elrondnetwork/dapp-core/hooks';
-import { logout } from '@elrondnetwork/dapp-core/utils';
+} from '@multiversx/sdk-dapp/hooks';
+import { logout } from '@multiversx/sdk-dapp/utils';
 import { useLocation } from 'react-router-dom';
-import { getAccountNfts, getAccountTransfers } from 'apiRequests';
 import OwnershipMessage from 'components/OwnershipMessage';
-import { checkNftOwnership, getTimestamp, queryParamsParser } from 'helpers';
+import { checkNftOwnership, getTimestamp, queryParamsParser } from 'utils';
 import { routeNames } from 'routes';
 import { FetchResult, Nft, Transaction } from 'types';
 import { QueryParamEnum } from './enums';
+import { useApiRequests } from 'hooks/network';
 
-const Home: () => JSX.Element = () => {
+const Home = () => {
   const account = useGetAccountInfo();
   const {
     network: { apiAddress }
   } = useGetNetworkConfig();
+
+  const { getAccountNfts, getAccountTransfers } = useApiRequests();
   const { search } = useLocation();
 
   const getNftCollection = async () => {
     const queryParams: Map<string, string> | null = queryParamsParser(search);
 
     if (queryParams) {
-      const nftCollection: string | undefined = queryParams.get(
-        QueryParamEnum.collection
-      );
+      const nftCollection = queryParams.get(QueryParamEnum.collection);
 
       if (!nftCollection) {
         return;
       }
 
-      const accountAddress: number = account.address;
+      const accountAddress = account.address;
 
-      const [accountNftsResult, transactionResult]: FetchResult<
-        Transaction | Nft
-      >[] = await Promise.all([
+      const [accountNftsResult, transactionResult] = await Promise.all([
         getAccountNfts({
           apiAddress,
           accountAddress,
@@ -49,27 +47,27 @@ const Home: () => JSX.Element = () => {
         })
       ]);
 
-      const hasNft: boolean = checkNftOwnership(
+      const hasNft = checkNftOwnership(
         accountNftsResult as FetchResult<Nft>,
         transactionResult as FetchResult<Transaction>
       );
 
-      setState(hasNft);
+      setIsValidated(hasNft);
 
       return;
     }
   };
 
-  const [isValidated, setState] = React.useState<boolean>(false);
+  const [isValidated, setIsValidated] = useState<boolean>(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       await getNftCollection();
     })();
   }, [isValidated]);
 
   const handleLogout = () => {
-    logout(`${location.origin}${routeNames.verify}${search}`);
+    logout(`${location.origin}${routeNames.verify}`);
   };
 
   return (

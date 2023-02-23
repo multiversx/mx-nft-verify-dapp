@@ -1,40 +1,32 @@
 {
-  "name": "@elrondnetwork/dapp-template",
-  "description": "Elrond Dapp Template",
-  "version": "0.2.0",
-  "author": "ElrondNetwork",
+  "name": "@multiversx/mx-nft-verify-dapp",
+  "description": "MultiversX Dapp Template",
+  "version": "1.0.0",
+  "author": "MultiversX",
   "license": "GPL-3.0-or-later",
-  "repository": "@elrondnetwork/dapp-template",
+  "repository": "@multiversx/mx-nft-verify-dapp",
   "dependencies": {
-    "@elrondnetwork/dapp-core": "2.0.0-alpha.10",
-    "@elrondnetwork/erdjs": "10.2.5",
-    "@elrondnetwork/erdjs-network-providers": "0.1.5",
+    "@multiversx/sdk-core": "11.2.0",
+    "@multiversx/sdk-dapp": "2.4.0",
+    "@multiversx/sdk-network-providers": "1.2.1",
     "@fortawesome/fontawesome-svg-core": "6.1.0",
     "@fortawesome/free-solid-svg-icons": "6.1.0",
     "@fortawesome/react-fontawesome": "0.1.18",
-    "axios": "0.21.1",
+    "axios": "0.24.0",
     "bootstrap": "4.6.0",
-    "luxon": "^3.0.4",
+    "luxon": "3.0.4",
     "moment": "2.29.1",
-    "react": "18.1.0",
+    "react": "18.2.0",
     "react-bootstrap": "2.1.2",
-    "react-dom": "18.1.0",
-    "react-router-dom": "6.2.1",
+    "react-dom": "18.2.0",
+    "react-router-dom": "6.4.2",
     "react-scripts": "4.0.3",
-    "sass": "1.52.1",
-    "typescript": "4.1.2",
     "web-vitals": "1.0.1"
   },
   "scripts": {
-    "start": "HTTPS=true PORT=3001 react-scripts start",
-    "start-testnet": "npm run copy-testnet-config & npm run start",
-    "start-devnet": "npm run copy-devnet-config & npm run start",
-    "build": "react-scripts build",
-    "build-testnet": "npm run copy-testnet-config & npm run build",
-    "build-devnet": "npm run copy-devnet-config & npm run build",
-    "test": "react-scripts test",
-    "copy-testnet-config": "cp ./src/config.testnet.tsx ./src/config.tsx",
-    "copy-devnet-config": "cp ./src/config.devnet.tsx ./src/config.tsx",
+    "start": "HTTPS=true PORT=3001 react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext js,ts,tsx src"
   },
@@ -44,27 +36,20 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+   ">0.2%",
+  "not dead",
+  "not op_mini all"
+  ],
   "devDependencies": {
     "@testing-library/jest-dom": "5.16.2",
     "@testing-library/react": "12.1.2",
     "@testing-library/user-event": "13.5.0",
     "@types/jest": "26.0.15",
     "@types/luxon": "^3.0.1",
-    "@types/node": "12.0.0",
-    "@types/react": "18.0.10",
-    "@types/react-dom": "18.0.5",
+    "@types/node": "14.14.44",
+    "@types/react": "18.0.24",
+    "@types/react-dom": "18.0.8",
     "@types/react-router-dom": "5.1.7",
     "@typescript-eslint/eslint-plugin": "4.22.1",
     "@typescript-eslint/parser": "4.22.1",
@@ -80,7 +65,16 @@
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-react": "7.22.0",
     "eslint-plugin-react-hooks": "4.2.0",
-    "prettier": "2.3.2",
-    "react-error-overlay": "6.0.9"
+    "prettier": "2.7.1",
+    "react-app-rewired": "2.2.1",
+    "react-error-overlay": "6.0.9",
+    "typescript": "4.1.2",
+    "sass": "1.52.1",
+    "path-browserify": "1.0.1",
+    "stream-browserify": "3.0.0",
+    "crypto-browserify": "3.12.0"
+  },
+  "resolutions": {
+    "**/*/nth-check": "2.0.1"
   }
 }
