@@ -1,12 +1,12 @@
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
-export interface OwnershipMessageProps {
-  isValidated: boolean;
-  handleReset: () => void;
+export enum QueryParamEnum {
+  collection = 'collection',
+  callbackUrl = 'callbackUrl'
 }
 
-export class OwnershipMessageState {
+export class ResultMessageState {
   constructor(
     public className: string = '',
     public description: string = '',
