@@ -68,9 +68,7 @@ export const OwnershipVerification = () => {
 
   useEffect(() => {
     if (!verificationParams.blockHash) {
-      (async () => {
-        await getLastBlock();
-      })();
+      getLastBlock();
     }
   }, [verificationParams.blockHash]);
 

@@ -35,7 +35,6 @@ export const useAxiosAuthWrapper = () => {
 
   const defaultAuthInterceptorErrorHandler = (error: AxiosError) => {
     if (error.response?.status === 403 || error.response?.status === 404) {
-      console.log('Axios request 403. Logging out.');
       navigate(routeNames.home, { replace: true });
     }
 

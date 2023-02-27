@@ -66,6 +66,23 @@ export const useApiRequests = () => {
             timeout: DEFAULT_TIMEOUT
           })
         )
+      ),
+    callbackUrlAfterValidate: ({
+      callbackUrl,
+      address
+    }: {
+      callbackUrl: string;
+      address: string;
+    }) =>
+      axiosAuthWrapper().then((authAxios) =>
+        asyncWrapper(() =>
+          authAxios.get(callbackUrl, {
+            params: {
+              address
+            },
+            timeout: DEFAULT_TIMEOUT
+          })
+        )
       )
   };
 };

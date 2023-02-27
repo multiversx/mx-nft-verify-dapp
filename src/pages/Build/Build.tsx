@@ -3,7 +3,14 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
 import { CopyButton } from '@multiversx/sdk-dapp/UI/CopyButton';
 import { useFormik } from 'formik';
 import { useApiRequests } from 'hooks/network';
+import { BuildFormInputGroup } from './components';
 import { validationSchema } from './validation';
+
+interface BuildFormValuesType {
+  collectionId: string;
+  callbackUrl: string;
+  age: string;
+}
 
 export const Build = () => {
   const [generatedUrl, setGeneratedUrl] = useState<string>('');
@@ -14,20 +21,31 @@ export const Build = () => {
 
   const { getCollectionNfts } = useApiRequests();
 
-  const initialValues = {
+  const initialValues: BuildFormValuesType = {
     collectionId: '',
     callbackUrl: '',
-    age: '24h'
+    age: '1 day'
   };
 
-  const onSubmit = async ({
-    collectionId,
-    callbackUrl,
-    age
-  }: typeof initialValues) => {
+  const showComputedUrl = (values: BuildFormValuesType) => {
+    const { collectionId, callbackUrl, age } = values;
+    const domain = new URL(`${window.location.origin}/verify`);
+
+    domain.searchParams.append('collectionId', collectionId);
+
+    if (callbackUrl) {
+      domain.searchParams.append('callbackUrl', callbackUrl);
+    }
+    domain.searchParams.append('age', age);
+
+    setGeneratedUrl(domain.href);
+  };
+
+  const onSubmit = async (values: BuildFormValuesType) => {
+    // Before computing the URL, at first we must validate that the collectionId is valid
     const response = await getCollectionNfts({
       apiAddress,
-      collection: collectionId
+      collection: values.collectionId
     });
 
     if (!response.data) {
@@ -39,16 +57,7 @@ export const Build = () => {
       return;
     }
 
-    const domain = new URL(`${window.location.origin}/verify`);
-
-    domain.searchParams.append('collectionId', collectionId);
-
-    if (callbackUrl) {
-      domain.searchParams.append('callbackUrl', callbackUrl);
-    }
-    domain.searchParams.append('age', age);
-
-    setGeneratedUrl(domain.href);
+    showComputedUrl(values);
   };
 
   const {
@@ -74,36 +83,27 @@ export const Build = () => {
   return (
     <section className='build d-flex flex-column justify-content-center flex-fill align-items-center container'>
       <form className='build-form' onSubmit={handleSubmit}>
-        <div className='form-group position-relative'>
-          <label htmlFor='collectionId'>Collection ID *</label>
-          <input
-            className={`form-control ${isCollectionIdError && 'input-error'}`}
-            type='text'
-            id='collectionId'
-            placeholder='E.g. MOS-b9b4b2'
-            value={values.collectionId}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {isCollectionIdError && (
-            <span className='error'>{errors.collectionId}</span>
-          )}
-        </div>
-        <div className='form-group'>
-          <label htmlFor='callbackUrl'>Callback URL</label>
-          <input
-            className={`form-control ${isCallbackUrlError && 'input-error'}`}
-            type='text'
-            id='callbackUrl'
-            placeholder='E.g. https://example.com'
-            value={values.callbackUrl}
-            onBlur={handleBlur}
-            onChange={handleChange}
-          />
-          {isCallbackUrlError && (
-            <span className='error'>{errors.callbackUrl}</span>
-          )}
-        </div>
+        <BuildFormInputGroup
+          id='collectionId'
+          placeholder='E.g. MOS-b9b4b2'
+          labelValue='Collection ID *'
+          value={values.collectionId}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          isError={isCollectionIdError}
+          error={errors.collectionId}
+        />
+
+        <BuildFormInputGroup
+          id='callbackUrl'
+          placeholder='E.g. https://example.com'
+          labelValue='Callback URL'
+          value={values.callbackUrl}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          isError={isCallbackUrlError}
+          error={errors.callbackUrl}
+        />
         <div className='form-group'>
           <label htmlFor='age'>Age</label>
           <select className='form-control' id='age' onChange={handleChange}>

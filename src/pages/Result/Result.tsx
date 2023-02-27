@@ -4,7 +4,6 @@ import {
   useGetNetworkConfig
 } from '@multiversx/sdk-dapp/hooks';
 import { logout } from '@multiversx/sdk-dapp/utils';
-import axios from 'axios';
 import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
 import { collectionId, callbackUrl, age } from 'config';
 import { useApiRequests } from 'hooks/network';
@@ -23,7 +22,8 @@ export const Result = () => {
     network: { apiAddress }
   } = useGetNetworkConfig();
 
-  const { getAccountNfts, getAccountTransfers } = useApiRequests();
+  const { getAccountNfts, getAccountTransfers, callbackUrlAfterValidate } =
+    useApiRequests();
   const { search } = useLocation();
   const navigate = useNavigate();
 
@@ -76,7 +76,8 @@ export const Result = () => {
     const callbackUrlParam = searchParams.get('callbackUrl');
 
     if (callbackUrlParam) {
-      axios.post(callbackUrlParam, {
+      callbackUrlAfterValidate({
+        callbackUrl: callbackUrlParam,
         address: accountAddress
       });
     }
