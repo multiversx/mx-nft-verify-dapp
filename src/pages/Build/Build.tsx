@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
+import { CopyButton } from '@multiversx/sdk-dapp/UI/CopyButton';
 import { useFormik } from 'formik';
-import { CopyButton } from 'components';
 import { useApiRequests } from 'hooks/network';
 import { validationSchema } from './validation';
 
@@ -121,12 +121,7 @@ export const Build = () => {
 
       <div className='d-flex align-items-center'>
         <div className='build-generated-url'>{generatedUrl}</div>
-        {generatedUrl && (
-          <CopyButton
-            text={generatedUrl}
-            successMessage='URL copied to clipboard'
-          />
-        )}
+        {generatedUrl && <CopyButton text={generatedUrl} />}
       </div>
     </section>
   );
