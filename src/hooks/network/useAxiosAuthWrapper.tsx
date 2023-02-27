@@ -1,6 +1,7 @@
 import { useAxiosInterceptorContext } from '@multiversx/sdk-dapp/wrappers/AxiosInterceptorContext';
 import defaultAxios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { routeNames } from 'routes';
 
 const isTest = process.env.NODE_ENV === 'test';
 
@@ -33,9 +34,9 @@ export const useAxiosAuthWrapper = () => {
   };
 
   const defaultAuthInterceptorErrorHandler = (error: AxiosError) => {
-    if (error.response?.status === 403) {
+    if (error.response?.status === 403 || error.response?.status === 404) {
       console.log('Axios request 403. Logging out.');
-      navigate('/verify', { replace: true });
+      navigate(routeNames.home, { replace: true });
     }
 
     return Promise.reject(error);

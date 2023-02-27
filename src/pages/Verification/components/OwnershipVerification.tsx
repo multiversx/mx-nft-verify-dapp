@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
 import { WalletConnectLoginButton } from '@multiversx/sdk-dapp/UI';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useApiRequests } from 'hooks/network';
 import { OwnershipVerificationState } from 'pages/Verification/verification.types';
 import { routeNames } from 'routes';
@@ -14,31 +14,22 @@ export const OwnershipVerification = () => {
 
   const { getBlocks } = useApiRequests();
 
-  const navigate = useNavigate();
+  const { search } = useLocation();
 
   const [verificationParams, setVerificationParams] = useState(
     new OwnershipVerificationState()
   );
 
-  const callbackRoute = `${routeNames.home}?collection=MOS-b9b4b2`;
-  const logoutRoute = `${routeNames.verify}`;
-
-  const onLoginRedirect = () => {
-    navigate(callbackRoute, { replace: true });
-  };
+  const callbackRoute = `${routeNames.result}${search}`;
+  const logoutRoute = routeNames.home;
 
   const loginParams = {
     callbackRoute,
     logoutRoute,
-    onLoginRedirect,
-    redirectAfterLogin: false,
-    shouldRenderDefaultCss: false,
     nativeAuth: true,
     className: 'button-verify',
     hideButtonWhenModalOpens: true,
-    lead: 'Two transactions will be required',
     loginButtonText: 'Verify',
-    title: 'Scan the QR using xPortal',
     token: verificationParams.blockHash,
     wrapContentInsideModal: false
   };
