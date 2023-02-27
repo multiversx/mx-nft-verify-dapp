@@ -83,9 +83,7 @@ export const Result = () => {
   }, []);
 
   useEffect(() => {
-    (async () => {
-      await getNftCollection();
-    })();
+    getNftCollection();
   }, [isValidated, searchParams]);
 
   const handleLogout = () => {
@@ -95,18 +93,17 @@ export const Result = () => {
   const updateSearchParams = () => {
     if (collectionId) {
       searchParams.set('collectionId', collectionId);
-      setSearchParams(searchParams);
     }
 
     if (callbackUrl) {
       searchParams.set('callbackUrl', callbackUrl);
-      setSearchParams(searchParams);
     }
 
     if (age) {
       searchParams.set('age', age);
-      setSearchParams(searchParams);
     }
+
+    setSearchParams(searchParams);
   };
 
   return (
