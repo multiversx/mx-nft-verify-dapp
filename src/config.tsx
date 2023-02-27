@@ -1,6 +1,6 @@
-export const collectionId = 'MOS-b9b4b2'; // This must be set
-export const callbackUrl = 'https://google.com'; // This must be set
-export const age = '24h'; // This must be set
+export const collectionId = ''; // This must be set
+export const callbackUrl = ''; // This must be set
+export const age = ''; // This must be set
 
 export const contractAddress =
   'erd1qqqqqqqqqqqqqpgq72l6vl07fkn3alyfq753mcy4nakm0l72396qkcud5x';

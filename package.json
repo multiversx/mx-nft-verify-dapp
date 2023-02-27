@@ -14,7 +14,7 @@
     "@multiversx/sdk-network-providers": "1.2.1",
     "axios": "0.24.0",
     "bootstrap": "4.6.0",
-    "formik": "^2.2.9",
+    "formik": "2.2.9",
     "luxon": "3.0.4",
     "moment": "2.29.1",
     "react": "18.2.0",
@@ -23,7 +23,7 @@
     "react-router-dom": "6.4.2",
     "react-scripts": "4.0.3",
     "web-vitals": "1.0.1",
-    "yup": "^1.0.1"
+    "yup": "1.0.1"
   },
   "scripts": {
     "start": "HTTPS=true PORT=3001 react-app-rewired start",
@@ -48,7 +48,7 @@
     "@testing-library/react": "12.1.2",
     "@testing-library/user-event": "13.5.0",
     "@types/jest": "26.0.15",
-    "@types/luxon": "^3.0.1",
+    "@types/luxon": "3.0.1",
     "@types/node": "14.14.44",
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
