@@ -3,17 +3,13 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
 import { CopyButton } from '@multiversx/sdk-dapp/UI/CopyButton';
 import { useFormik } from 'formik';
 import { useApiRequests } from 'hooks/network';
+import { QueryParamEnum } from 'pages/Result/result.types';
+import { BuildFormValuesType, BuildFormFieldsEnum } from './build.types';
 import { BuildFormInputGroup } from './components';
 import { validationSchema } from './validation';
 
-interface BuildFormValuesType {
-  collectionId: string;
-  callbackUrl: string;
-  age: string;
-}
-
 export const Build = () => {
-  const [generatedUrl, setGeneratedUrl] = useState<string>('');
+  const [generatedUrl, setGeneratedUrl] = useState('');
 
   const {
     network: { apiAddress }
@@ -31,12 +27,12 @@ export const Build = () => {
     const { collectionId, callbackUrl, age } = values;
     const domain = new URL(`${window.location.origin}/verify`);
 
-    domain.searchParams.append('collectionId', collectionId);
+    domain.searchParams.append(QueryParamEnum.collectionId, collectionId);
 
     if (callbackUrl) {
-      domain.searchParams.append('callbackUrl', callbackUrl);
+      domain.searchParams.append(QueryParamEnum.callbackUrl, callbackUrl);
     }
-    domain.searchParams.append('age', age);
+    domain.searchParams.append(QueryParamEnum.age, age);
 
     setGeneratedUrl(domain.href);
   };
@@ -75,16 +71,18 @@ export const Build = () => {
   });
 
   const isCollectionIdError =
-    'collectionId' in errors && 'collectionId' in touched;
+    BuildFormFieldsEnum.collectionId in errors &&
+    BuildFormFieldsEnum.collectionId in touched;
 
   const isCallbackUrlError =
-    'callbackUrl' in errors && 'callbackUrl' in touched;
+    BuildFormFieldsEnum.callbackUrl in errors &&
+    BuildFormFieldsEnum.callbackUrl in touched;
 
   return (
     <section className='build d-flex flex-column justify-content-center flex-fill align-items-center container'>
       <form className='build-form' onSubmit={handleSubmit}>
         <BuildFormInputGroup
-          id='collectionId'
+          id={BuildFormFieldsEnum.collectionId}
           placeholder='E.g. MOS-b9b4b2'
           labelValue='Collection ID *'
           value={values.collectionId}
@@ -92,10 +90,11 @@ export const Build = () => {
           onBlur={handleBlur}
           isError={isCollectionIdError}
           error={errors.collectionId}
+          className='foo'
         />
 
         <BuildFormInputGroup
-          id='callbackUrl'
+          id={BuildFormFieldsEnum.callbackUrl}
           placeholder='E.g. https://example.com'
           labelValue='Callback URL'
           value={values.callbackUrl}

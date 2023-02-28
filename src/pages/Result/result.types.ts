@@ -3,7 +3,8 @@ import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 export enum QueryParamEnum {
   collectionId = 'collectionId',
-  callbackUrl = 'callbackUrl'
+  callbackUrl = 'callbackUrl',
+  age = 'age'
 }
 
 export class ResultMessageState {

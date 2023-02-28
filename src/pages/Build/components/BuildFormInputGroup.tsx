@@ -1,18 +1,19 @@
-import React, { FC } from 'react';
+import React from 'react';
+import classNames from 'classnames';
 
 interface BuildFormInputGroupProps {
   id: string;
   placeholder: string;
   labelValue: string;
   value: string;
-  onChange: (e: any) => void;
-  onBlur: (e: any) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isError: boolean;
   error?: string;
   className?: string;
 }
 
-export const BuildFormInputGroup: FC<BuildFormInputGroupProps> = ({
+export const BuildFormInputGroup = ({
   id,
   placeholder,
   labelValue,
@@ -22,12 +23,17 @@ export const BuildFormInputGroup: FC<BuildFormInputGroupProps> = ({
   isError,
   error,
   className
-}) => {
+}: BuildFormInputGroupProps) => {
   return (
-    <div className={`form-group position-relative ${className}`}>
+    <div
+      className={classNames('form-group position-relative', {
+        [className ? className : '']: className
+      })}
+      // className={`form-group position-relative ${className}`}
+    >
       <label htmlFor={id}>{labelValue}</label>
       <input
-        className={`form-control ${isError && 'input-error'}`}
+        className={classNames('form-control', { 'input-error': isError })}
         type='text'
         id={id}
         placeholder={placeholder}

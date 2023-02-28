@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { collectionId } from 'config';
+import { COLLECTION_ID } from 'config';
 import { routeNames } from 'routes';
 
 export const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!collectionId) {
+    if (!COLLECTION_ID) {
       navigate(routeNames.build, { replace: true });
     }
   }, []);

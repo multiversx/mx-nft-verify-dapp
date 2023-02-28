@@ -5,7 +5,7 @@ import {
 } from '@multiversx/sdk-dapp/hooks';
 import { logout } from '@multiversx/sdk-dapp/utils';
 import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
-import { collectionId, callbackUrl, age } from 'config';
+import { COLLECTION_ID, CALLBACK_URL, AGE } from 'config';
 import { useApiRequests } from 'hooks/network';
 import { routeNames } from 'routes';
 import { FetchResult, Nft, Transaction } from 'types';
@@ -29,7 +29,7 @@ export const Result = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [isValidated, setIsValidated] = useState<boolean>(false);
+  const [isValidated, setIsValidated] = useState(false);
 
   const getNftCollection = async () => {
     const queryParams: Map<string, string> | null = queryParamsParser(search);
@@ -69,11 +69,11 @@ export const Result = () => {
   useEffect(() => {
     updateSearchParams();
 
-    if (!searchParams.get('collectionId')) {
+    if (!searchParams.get(QueryParamEnum.collectionId)) {
       navigate(routeNames.home);
     }
 
-    const callbackUrlParam = searchParams.get('callbackUrl');
+    const callbackUrlParam = searchParams.get(QueryParamEnum.callbackUrl);
 
     if (callbackUrlParam) {
       callbackUrlAfterValidate({
@@ -92,16 +92,16 @@ export const Result = () => {
   };
 
   const updateSearchParams = () => {
-    if (collectionId) {
-      searchParams.set('collectionId', collectionId);
+    if (COLLECTION_ID) {
+      searchParams.set(QueryParamEnum.collectionId, COLLECTION_ID);
     }
 
-    if (callbackUrl) {
-      searchParams.set('callbackUrl', callbackUrl);
+    if (CALLBACK_URL) {
+      searchParams.set(QueryParamEnum.callbackUrl, CALLBACK_URL);
     }
 
-    if (age) {
-      searchParams.set('age', age);
+    if (AGE) {
+      searchParams.set(QueryParamEnum.age, AGE);
     }
 
     setSearchParams(searchParams);

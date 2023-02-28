@@ -24,3 +24,5 @@ export interface GetCollectionNfts {
   apiAddress: string;
   collection: string;
 }
+
+export type AgeType = '1 hour' | '1 day' | '1 week' | '1 month' | '1 year';
