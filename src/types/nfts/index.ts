@@ -25,4 +25,10 @@ export interface GetCollectionNfts {
   collection: string;
 }
 
-export type AgeType = '1 hour' | '1 day' | '1 week' | '1 month' | '1 year';
+export enum AgeEnum {
+  hour = '1 hour',
+  day = '1 day',
+  week = '1 week',
+  month = '1 month',
+  year = '1 year'
+}

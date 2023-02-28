@@ -1,8 +1,8 @@
-import { AgeType } from 'types';
+import { AgeEnum } from 'types';
 
 export const COLLECTION_ID = 'XAPES-0da7cd';
 export const CALLBACK_URL = ''; // TODO: This must be set
-export const AGE: AgeType = '1 day';
+export const AGE = AgeEnum.day;
 
 export const contractAddress =
   'erd1qqqqqqqqqqqqqpgq72l6vl07fkn3alyfq753mcy4nakm0l72396qkcud5x';

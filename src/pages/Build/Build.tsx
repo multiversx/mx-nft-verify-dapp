@@ -4,7 +4,8 @@ import { CopyButton } from '@multiversx/sdk-dapp/UI/CopyButton';
 import { useFormik } from 'formik';
 import { useApiRequests } from 'hooks/network';
 import { QueryParamEnum } from 'pages/Result/result.types';
-import { BuildFormValuesType, BuildFormFieldsEnum } from './build.types';
+import { AgeEnum } from 'types';
+import { BuildFormValuesType } from './build.types';
 import { BuildFormInputGroup } from './components';
 import { validationSchema } from './validation';
 
@@ -20,7 +21,7 @@ export const Build = () => {
   const initialValues: BuildFormValuesType = {
     collectionId: '',
     callbackUrl: '',
-    age: '1 day'
+    age: AgeEnum.day
   };
 
   const showComputedUrl = (values: BuildFormValuesType) => {
@@ -71,20 +72,20 @@ export const Build = () => {
   });
 
   const isCollectionIdError =
-    BuildFormFieldsEnum.collectionId in errors &&
-    BuildFormFieldsEnum.collectionId in touched;
+    QueryParamEnum.collectionId in errors &&
+    QueryParamEnum.collectionId in touched;
 
   const isCallbackUrlError =
-    BuildFormFieldsEnum.callbackUrl in errors &&
-    BuildFormFieldsEnum.callbackUrl in touched;
+    QueryParamEnum.callbackUrl in errors &&
+    QueryParamEnum.callbackUrl in touched;
 
   return (
     <section className='build d-flex flex-column justify-content-center flex-fill align-items-center container'>
       <form className='build-form' onSubmit={handleSubmit}>
         <BuildFormInputGroup
-          id={BuildFormFieldsEnum.collectionId}
+          id={QueryParamEnum.collectionId}
           placeholder='E.g. MOS-b9b4b2'
-          labelValue='Collection ID *'
+          labelValue='Collection ID'
           value={values.collectionId}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -94,7 +95,7 @@ export const Build = () => {
         />
 
         <BuildFormInputGroup
-          id={BuildFormFieldsEnum.callbackUrl}
+          id={QueryParamEnum.callbackUrl}
           placeholder='E.g. https://example.com'
           labelValue='Callback URL'
           value={values.callbackUrl}
@@ -104,10 +105,10 @@ export const Build = () => {
           error={errors.callbackUrl}
         />
         <div className='form-group'>
-          <label htmlFor={BuildFormFieldsEnum.age}>Age</label>
+          <label htmlFor={QueryParamEnum.age}>Age</label>
           <select
             className='form-control'
-            id={BuildFormFieldsEnum.age}
+            id={QueryParamEnum.age}
             onChange={handleChange}
           >
             <option>1 hour</option>

@@ -1,18 +1,8 @@
-import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-
-import { COLLECTION_ID } from 'config';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { routeNames } from 'routes';
 
 export const Home = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!COLLECTION_ID) {
-      navigate(routeNames.build, { replace: true });
-    }
-  }, []);
-
   return (
     <section className='home d-flex flex-fill align-items-center container'>
       <div className='d-flex flex-column align-items-center w-100 text-center'>
@@ -24,7 +14,7 @@ export const Home = () => {
           Browse the links below and get started.
         </p>
         <div className='home-links'>
-          <Link to='/build'>
+          <Link to={routeNames.build}>
             <button className='btn btn-primary'>Build</button>
           </Link>
         </div>
