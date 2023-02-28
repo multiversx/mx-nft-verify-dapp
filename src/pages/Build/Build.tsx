@@ -104,8 +104,12 @@ export const Build = () => {
           error={errors.callbackUrl}
         />
         <div className='form-group'>
-          <label htmlFor='age'>Age</label>
-          <select className='form-control' id='age' onChange={handleChange}>
+          <label htmlFor={BuildFormFieldsEnum.age}>Age</label>
+          <select
+            className='form-control'
+            id={BuildFormFieldsEnum.age}
+            onChange={handleChange}
+          >
             <option>1 hour</option>
             <option selected>1 day</option>
             <option>1 week</option>

@@ -25,12 +25,7 @@ export const BuildFormInputGroup = ({
   className
 }: BuildFormInputGroupProps) => {
   return (
-    <div
-      className={classNames('form-group position-relative', {
-        [className ? className : '']: className
-      })}
-      // className={`form-group position-relative ${className}`}
-    >
+    <div className={`form-group position-relative ${className}`}>
       <label htmlFor={id}>{labelValue}</label>
       <input
         className={classNames('form-control', { 'input-error': isError })}
