@@ -26,9 +26,9 @@ export interface GetCollectionNfts {
 }
 
 export enum AgeEnum {
-  hour = '1 hour',
-  day = '1 day',
-  week = '1 week',
-  month = '1 month',
-  year = '1 year'
+  oneHour = '1 hour',
+  oneDay = '1 day',
+  oneWeek = '1 week',
+  oneMonth = '1 month',
+  oneYear = '1 year'
 }

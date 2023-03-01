@@ -6,7 +6,7 @@ import { useApiRequests } from 'hooks/network';
 import { QueryParamEnum } from 'pages/Result/result.types';
 import { AgeEnum } from 'types';
 import { BuildFormValuesType } from './build.types';
-import { BuildFormInputGroup } from './components';
+import { BuildFormInputGroup, BuildFormSelectGroup } from './components';
 import { validationSchema } from './validation';
 
 export const Build = () => {
@@ -21,7 +21,7 @@ export const Build = () => {
   const initialValues: BuildFormValuesType = {
     collectionId: '',
     callbackUrl: '',
-    age: AgeEnum.day
+    age: AgeEnum.oneDay
   };
 
   const showComputedUrl = (values: BuildFormValuesType) => {
@@ -71,6 +71,25 @@ export const Build = () => {
     onSubmit
   });
 
+  const ageSelectOptions = [
+    {
+      value: '1 hour'
+    },
+    {
+      value: '1 day',
+      selected: true
+    },
+    {
+      value: '1 week'
+    },
+    {
+      value: '1 month'
+    },
+    {
+      value: '1 year'
+    }
+  ];
+
   const isCollectionIdError =
     QueryParamEnum.collectionId in errors &&
     QueryParamEnum.collectionId in touched;
@@ -104,20 +123,13 @@ export const Build = () => {
           isError={isCallbackUrlError}
           error={errors.callbackUrl}
         />
-        <div className='form-group'>
-          <label htmlFor={QueryParamEnum.age}>Age</label>
-          <select
-            className='form-control'
-            id={QueryParamEnum.age}
-            onChange={handleChange}
-          >
-            <option>1 hour</option>
-            <option selected>1 day</option>
-            <option>1 week</option>
-            <option>1 month</option>
-            <option>1 year</option>
-          </select>
-        </div>
+        <BuildFormSelectGroup
+          id={QueryParamEnum.age}
+          labelValue='Age'
+          onChange={handleChange}
+          options={ageSelectOptions}
+        />
+
         <button type='submit' className='btn btn-primary'>
           Generate URL
         </button>
