@@ -21,15 +21,15 @@ export const OwnershipVerification = () => {
   };
 
   return (
-    <div className='card shadow-sm rounded p-4 border-0'>
-      <div ref={getRef} className='card-body text-center'>
+    <div className='verify-ownership card'>
+      <h1 className='text-center'>Scan with xPortal</h1>
+      <div ref={getRef} className='card-body text-center pb-0 mx-auto'>
         <WalletConnectLoginButton
           callbackRoute={routeNames.result}
           logoutRoute={routeNames.verify}
           nativeAuth={true}
           className='button-verify'
           hideButtonWhenModalOpens={true}
-          loginButtonText={'Verify'}
           wrapContentInsideModal={false}
           {...(walletConnectV2ProjectId
             ? {

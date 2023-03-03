@@ -15,7 +15,7 @@ export const Home = () => {
         </p>
         <div className='home-links'>
           <Link to={routeNames.build}>
-            <button className='btn btn-primary'>Build</button>
+            <button className='btn btn-primary'>Build URL</button>
           </Link>
         </div>
       </div>

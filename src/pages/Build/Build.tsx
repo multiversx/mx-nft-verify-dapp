@@ -100,40 +100,43 @@ export const Build = () => {
 
   return (
     <section className='build d-flex flex-column justify-content-center flex-fill align-items-center container'>
-      <form className='build-form' onSubmit={handleSubmit}>
-        <BuildFormInputGroup
-          id={QueryParamEnum.collectionId}
-          placeholder='E.g. MOS-b9b4b2'
-          labelValue='Collection ID'
-          value={values.collectionId}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          isError={isCollectionIdError}
-          error={errors.collectionId}
-          className='foo'
-        />
+      <h2 className='text-white text-center'>Build URL</h2>
+      <div className='card w-100'>
+        <form className='build-form' onSubmit={handleSubmit}>
+          <BuildFormInputGroup
+            id={QueryParamEnum.collectionId}
+            placeholder='E.g. MOS-b9b4b2'
+            labelValue='Collection ID'
+            value={values.collectionId}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            isError={isCollectionIdError}
+            error={errors.collectionId}
+            className='foo'
+          />
 
-        <BuildFormInputGroup
-          id={QueryParamEnum.callbackUrl}
-          placeholder='E.g. https://example.com'
-          labelValue='Callback URL'
-          value={values.callbackUrl}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          isError={isCallbackUrlError}
-          error={errors.callbackUrl}
-        />
-        <BuildFormSelectGroup
-          id={QueryParamEnum.age}
-          labelValue='Age'
-          onChange={handleChange}
-          options={ageSelectOptions}
-        />
+          <BuildFormInputGroup
+            id={QueryParamEnum.callbackUrl}
+            placeholder='E.g. https://example.com'
+            labelValue='Callback URL'
+            value={values.callbackUrl}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            isError={isCallbackUrlError}
+            error={errors.callbackUrl}
+          />
+          <BuildFormSelectGroup
+            id={QueryParamEnum.age}
+            labelValue='Age'
+            onChange={handleChange}
+            options={ageSelectOptions}
+          />
 
-        <button type='submit' className='btn btn-primary'>
-          Generate URL
-        </button>
-      </form>
+          <button type='submit' className='btn btn-primary'>
+            Generate URL
+          </button>
+        </form>
+      </div>
 
       <div className='d-flex align-items-center'>
         <div className='build-generated-url'>{generatedUrl}</div>
