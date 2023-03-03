@@ -26,7 +26,7 @@ export const useValidateNft = () => {
   const { getAccountNfts, getTransactionsCount } = useApiRequests();
 
   const [isLoadingValidateNft, setIsLoadingValidateNft] = useState(false);
-  const [isValidated, setIsValidated] = useState(false);
+  const [isValidatedNft, setIsValidatedNft] = useState(false);
 
   const [searchParams] = useSearchParams();
   const { search } = useLocation();
@@ -56,7 +56,7 @@ export const useValidateNft = () => {
           apiAddress,
           receiverAddress: accountAddress,
           collectionId: nftCollection,
-          afterTimestamp: getTimestamp(duration, units * -1)
+          beforeTimestamp: getTimestamp(duration, units * -1)
         })
       ]);
 
@@ -67,17 +67,17 @@ export const useValidateNft = () => {
           accountNftsResult,
           transactionsCountResult
         });
-        setIsValidated(hasNft);
+        setIsValidatedNft(hasNft);
       }
     }
   };
 
   useEffect(() => {
     getNftCollection();
-  }, [isValidated, searchParams]);
+  }, [isValidatedNft, searchParams]);
 
   return {
-    isValidated,
+    isValidatedNft,
     isLoadingValidateNft
   };
 };

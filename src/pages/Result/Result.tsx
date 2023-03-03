@@ -17,7 +17,7 @@ export const Result = () => {
 
   const { callbackUrlAfterValidate } = useApiRequests();
 
-  const { isValidated, isLoadingValidateNft } = useValidateNft();
+  const { isValidatedNft, isLoadingValidateNft } = useValidateNft();
   const { search } = useLocation();
   const navigate = useNavigate();
 
@@ -68,7 +68,10 @@ export const Result = () => {
     <div className='d-flex flex-fill align-items-center container'>
       <div className='row w-100'>
         <div className='col-12 col-md-8 col-lg-5 mx-auto'>
-          <ResultMessage isValidated={isValidated} handleReset={handleLogout} />
+          <ResultMessage
+            isValidated={isValidatedNft}
+            handleReset={handleLogout}
+          />
         </div>
       </div>
     </div>

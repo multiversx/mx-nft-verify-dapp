@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GetAccountNfts, GetBlocks, GetCollectionNfts } from 'types';
+import { GetAccountNfts, GetCollectionNfts } from 'types';
 import { asyncWrapper } from 'utils';
 import { useAxiosAuthWrapper } from './useAxiosAuthWrapper';
 
@@ -9,16 +9,6 @@ export const useApiRequests = () => {
   const DEFAULT_TIMEOUT = 3000;
 
   return {
-    getBlocks: ({ apiAddress, size }: GetBlocks) =>
-      asyncWrapper(() =>
-        axios.get(`${apiAddress}/blocks`, {
-          params: {
-            size
-          },
-          timeout: DEFAULT_TIMEOUT
-        })
-      ),
-
     getAccountNfts: ({
       apiAddress,
       accountAddress,
@@ -62,12 +52,12 @@ export const useApiRequests = () => {
       apiAddress,
       receiverAddress,
       collectionId,
-      afterTimestamp
+      beforeTimestamp
     }: {
       apiAddress: string;
       receiverAddress: string;
       collectionId: string;
-      afterTimestamp: number;
+      beforeTimestamp: number;
     }): Promise<any> =>
       axiosAuthWrapper().then((authAxios) =>
         asyncWrapper(() =>
@@ -75,7 +65,7 @@ export const useApiRequests = () => {
             params: {
               receiver: receiverAddress,
               token: collectionId,
-              after: afterTimestamp
+              before: beforeTimestamp
             },
             timeout: DEFAULT_TIMEOUT
           })
