@@ -1,5 +1,6 @@
 import { withPageTitle } from 'components';
 import { dAppName } from 'config';
+import { Build } from 'pages/Build';
 import { Home } from 'pages/Home';
 import { Result } from 'pages/Result';
 import { Verification } from 'pages/Verification';
@@ -7,7 +8,8 @@ import { Verification } from 'pages/Verification';
 export const routeNames = {
   home: '/',
   verify: '/verify',
-  result: '/result'
+  result: '/result',
+  build: '/build'
 };
 
 const routes = [
@@ -22,10 +24,15 @@ const routes = [
     component: Verification
   },
   {
+    path: routeNames.build,
+    title: 'Build',
+    component: Build
+  },
+  {
     path: routeNames.result,
     title: 'Result',
     component: Result,
-    authenticatedRoute: true
+    authenticatedRoute: false
   }
 ];
 

@@ -1,10 +1,15 @@
 /* Bootstrap overrides
 -------------------------------------------------- */
 
-$body: #000;
-$headings-font-weight: 300 !important;
-$primary: #1b46c2;
-$light: #fafafa;
+$primary: #3066ff;
+$secondary: #8b94a1;
+$muted: #49494d;
+$light: #fff;
+$green: #12a366;
+$red: #ff4f8a;
+$dark: #242526;
+$warning: #ffc107;
+$purple: #7894c3;
 $card-border-radius: 0.75rem;
 $card-inner-border-radius: subtract($card-border-radius, 1px);
 
@@ -130,6 +135,74 @@ html {
         border-bottom: 1px solid #dee2e6;
       }
     }
+  }
+}
+
+/* Home
+-------------------------------------------------- */
+
+.home {
+  & > div {
+    gap: 16px;
+  }
+
+  & .home-title {
+    font-size: 32px;
+    font-weight: 600;
+  }
+
+  & .home-description {
+    color: $secondary;
+    font-size: 16px;
+  }
+
+  & .home-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    & button {
+      width: 100px;
+    }
+  }
+}
+
+/* Home
+-------------------------------------------------- */
+
+.build {
+  max-width: 500px;
+  gap: 18px;
+
+  & .build-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+
+    & label {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    & .input-error {
+      border-color: $red;
+      outline-color: $red;
+    }
+
+    & .error {
+      color: $red;
+      font-size: 14px;
+      position: absolute;
+      margin-top: 4px;
+    }
+
+  }
+  & .build-generated-url {
+    font-size: 16px;
+    font-weight: 600;
+    margin-right: 6px;
+    min-width: fit-content;
   }
 }
 

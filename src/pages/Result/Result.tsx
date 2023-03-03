@@ -4,7 +4,8 @@ import {
   useGetNetworkConfig
 } from '@multiversx/sdk-dapp/hooks';
 import { logout } from '@multiversx/sdk-dapp/utils';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
+import { COLLECTION_ID, CALLBACK_URL, AGE } from 'config';
 import { useApiRequests } from 'hooks/network';
 import { routeNames } from 'routes';
 import { FetchResult, Nft, Transaction } from 'types';
@@ -14,24 +15,31 @@ import { QueryParamEnum } from './result.types';
 
 export const Result = () => {
   const account = useGetAccountInfo();
+
+  const { address: accountAddress } = account;
+
   const {
     network: { apiAddress }
   } = useGetNetworkConfig();
 
-  const { getAccountNfts, getAccountTransfers } = useApiRequests();
+  const { getAccountNfts, getAccountTransfers, callbackUrlAfterValidate } =
+    useApiRequests();
   const { search } = useLocation();
+  const navigate = useNavigate();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [isValidated, setIsValidated] = useState(false);
 
   const getNftCollection = async () => {
     const queryParams: Map<string, string> | null = queryParamsParser(search);
 
     if (queryParams) {
-      const nftCollection = queryParams.get(QueryParamEnum.collection);
+      const nftCollection = queryParams.get(QueryParamEnum.collectionId);
 
       if (!nftCollection) {
         return;
       }
-
-      const accountAddress = account.address;
 
       const [accountNftsResult, transactionResult] = await Promise.all([
         getAccountNfts({
@@ -58,16 +66,45 @@ export const Result = () => {
     }
   };
 
-  const [isValidated, setIsValidated] = useState<boolean>(false);
+  useEffect(() => {
+    updateSearchParams();
+
+    if (!searchParams.get(QueryParamEnum.collectionId)) {
+      navigate(routeNames.home);
+    }
+
+    const callbackUrlParam = searchParams.get(QueryParamEnum.callbackUrl);
+
+    if (callbackUrlParam) {
+      callbackUrlAfterValidate({
+        callbackUrl: callbackUrlParam,
+        address: accountAddress
+      });
+    }
+  }, []);
 
   useEffect(() => {
-    (async () => {
-      await getNftCollection();
-    })();
-  }, [isValidated]);
+    getNftCollection();
+  }, [isValidated, searchParams]);
 
   const handleLogout = () => {
-    logout(`${location.origin}${routeNames.verify}`);
+    logout(`${location.origin}${routeNames.verify}${search}`);
+  };
+
+  const updateSearchParams = () => {
+    if (COLLECTION_ID) {
+      searchParams.set(QueryParamEnum.collectionId, COLLECTION_ID);
+    }
+
+    if (CALLBACK_URL) {
+      searchParams.set(QueryParamEnum.callbackUrl, CALLBACK_URL);
+    }
+
+    if (AGE) {
+      searchParams.set(QueryParamEnum.age, AGE);
+    }
+
+    setSearchParams(searchParams);
   };
 
   return (

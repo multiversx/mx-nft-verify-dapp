@@ -24,3 +24,11 @@ export interface GetCollectionNfts {
   apiAddress: string;
   collection: string;
 }
+
+export enum AgeEnum {
+  oneHour = '1 hour',
+  oneDay = '1 day',
+  oneWeek = '1 week',
+  oneMonth = '1 month',
+  oneYear = '1 year'
+}

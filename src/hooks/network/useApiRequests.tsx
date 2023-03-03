@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   GetAccountNfts,
   GetBlocks,
@@ -14,15 +15,13 @@ export const useApiRequests = () => {
 
   return {
     getBlocks: ({ apiAddress, size }: GetBlocks) =>
-      axiosAuthWrapper().then((authAxios) =>
-        asyncWrapper(() =>
-          authAxios.get(`${apiAddress}/blocks`, {
-            params: {
-              size
-            },
-            timeout: DEFAULT_TIMEOUT
-          })
-        )
+      asyncWrapper(() =>
+        axios.get(`${apiAddress}/blocks`, {
+          params: {
+            size
+          },
+          timeout: DEFAULT_TIMEOUT
+        })
       ),
 
     getAccountNfts: ({
@@ -42,12 +41,10 @@ export const useApiRequests = () => {
       ),
 
     getCollectionNfts: ({ apiAddress, collection }: GetCollectionNfts) =>
-      axiosAuthWrapper().then((authAxios) =>
-        asyncWrapper(() =>
-          authAxios.get(`${apiAddress}/collections/${collection}/nfts`, {
-            timeout: DEFAULT_TIMEOUT
-          })
-        )
+      asyncWrapper(() =>
+        axios.get(`${apiAddress}/collections/${collection}/nfts`, {
+          timeout: DEFAULT_TIMEOUT
+        })
       ),
 
     getAccountTransfers: ({
@@ -65,6 +62,23 @@ export const useApiRequests = () => {
               before,
               after,
               token
+            },
+            timeout: DEFAULT_TIMEOUT
+          })
+        )
+      ),
+    callbackUrlAfterValidate: ({
+      callbackUrl,
+      address
+    }: {
+      callbackUrl: string;
+      address: string;
+    }) =>
+      axiosAuthWrapper().then((authAxios) =>
+        asyncWrapper(() =>
+          authAxios.get(callbackUrl, {
+            params: {
+              address
             },
             timeout: DEFAULT_TIMEOUT
           })
