@@ -1,39 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
+import React from 'react';
 import { WalletConnectLoginButton } from '@multiversx/sdk-dapp/UI';
-import { useLocation } from 'react-router-dom';
-import { useApiRequests } from 'hooks/network';
-import { OwnershipVerificationState } from 'pages/Verification/verification.types';
+import { walletConnectV2ProjectId } from 'config';
 import { routeNames } from 'routes';
-import { TransactionType } from 'types';
 
 export const OwnershipVerification = () => {
-  const {
-    network: { apiAddress }
-  } = useGetNetworkConfig();
-
-  const { getBlocks } = useApiRequests();
-
-  const { search } = useLocation();
-
-  const [verificationParams, setVerificationParams] = useState(
-    new OwnershipVerificationState()
-  );
-
-  const callbackRoute = `${routeNames.result}${search}`;
-  const logoutRoute = routeNames.home;
-
-  const loginParams = {
-    callbackRoute,
-    logoutRoute,
-    nativeAuth: true,
-    className: 'button-verify',
-    hideButtonWhenModalOpens: true,
-    loginButtonText: 'Verify',
-    token: verificationParams.blockHash,
-    wrapContentInsideModal: false
-  };
-
   const getRef = async (e: HTMLDivElement) => {
     if (!e) {
       return;
@@ -50,42 +20,23 @@ export const OwnershipVerification = () => {
     return e;
   };
 
-  const getLastBlock = async () => {
-    const result = await getBlocks({
-      apiAddress,
-      size: 1
-    });
-
-    if (result.success && result.data.length) {
-      const lastBlock: TransactionType = result.data[0];
-
-      setVerificationParams({
-        ...verificationParams,
-        blockHash: lastBlock.hash
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (!verificationParams.blockHash) {
-      getLastBlock();
-    }
-  }, [verificationParams.blockHash]);
-
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      await getLastBlock();
-    }, verificationParams.refreshRate);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [verificationParams.blockHash]);
-
   return (
     <div className='card shadow-sm rounded p-4 border-0'>
       <div ref={getRef} className='card-body text-center'>
-        <WalletConnectLoginButton {...loginParams} />
+        <WalletConnectLoginButton
+          callbackRoute={routeNames.result}
+          logoutRoute={routeNames.verify}
+          nativeAuth={true}
+          className='button-verify'
+          hideButtonWhenModalOpens={true}
+          loginButtonText={'Verify'}
+          wrapContentInsideModal={false}
+          {...(walletConnectV2ProjectId
+            ? {
+                isWalletConnectV2: true
+              }
+            : {})}
+        />
       </div>
     </div>
   );

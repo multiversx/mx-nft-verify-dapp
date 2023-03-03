@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import {
-  useGetAccountInfo,
-  useGetNetworkConfig
-} from '@multiversx/sdk-dapp/hooks';
+import React, { useEffect } from 'react';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { Loader } from '@multiversx/sdk-dapp/UI/Loader';
 import { logout } from '@multiversx/sdk-dapp/utils';
 import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
 import { COLLECTION_ID, CALLBACK_URL, AGE } from 'config';
 import { useApiRequests } from 'hooks/network';
+import { useValidateNft } from 'hooks/nft';
 import { routeNames } from 'routes';
-import { FetchResult, Nft, Transaction } from 'types';
-import { checkNftOwnership, getTimestamp, queryParamsParser } from 'utils';
 import { ResultMessage } from './components';
 import { QueryParamEnum } from './result.types';
 
@@ -18,53 +15,13 @@ export const Result = () => {
 
   const { address: accountAddress } = account;
 
-  const {
-    network: { apiAddress }
-  } = useGetNetworkConfig();
+  const { callbackUrlAfterValidate } = useApiRequests();
 
-  const { getAccountNfts, getAccountTransfers, callbackUrlAfterValidate } =
-    useApiRequests();
+  const { isValidated, isLoadingValidateNft } = useValidateNft();
   const { search } = useLocation();
   const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const [isValidated, setIsValidated] = useState(false);
-
-  const getNftCollection = async () => {
-    const queryParams: Map<string, string> | null = queryParamsParser(search);
-
-    if (queryParams) {
-      const nftCollection = queryParams.get(QueryParamEnum.collectionId);
-
-      if (!nftCollection) {
-        return;
-      }
-
-      const [accountNftsResult, transactionResult] = await Promise.all([
-        getAccountNfts({
-          apiAddress,
-          accountAddress,
-          collections: [nftCollection]
-        }),
-        getAccountTransfers({
-          apiAddress,
-          accountAddress,
-          after: getTimestamp('hours', -48),
-          token: nftCollection
-        })
-      ]);
-
-      const hasNft = checkNftOwnership(
-        accountNftsResult as FetchResult<Nft>,
-        transactionResult as FetchResult<Transaction>
-      );
-
-      setIsValidated(hasNft);
-
-      return;
-    }
-  };
 
   useEffect(() => {
     updateSearchParams();
@@ -82,10 +39,6 @@ export const Result = () => {
       });
     }
   }, []);
-
-  useEffect(() => {
-    getNftCollection();
-  }, [isValidated, searchParams]);
 
   const handleLogout = () => {
     logout(`${location.origin}${routeNames.verify}${search}`);
@@ -106,6 +59,10 @@ export const Result = () => {
 
     setSearchParams(searchParams);
   };
+
+  if (isLoadingValidateNft) {
+    return <Loader noText />;
+  }
 
   return (
     <div className='d-flex flex-fill align-items-center container'>

@@ -1,10 +1,5 @@
 import axios from 'axios';
-import {
-  GetAccountNfts,
-  GetBlocks,
-  GetCollectionNfts,
-  GetTransactions
-} from 'types';
+import { GetAccountNfts, GetBlocks, GetCollectionNfts } from 'types';
 import { asyncWrapper } from 'utils';
 import { useAxiosAuthWrapper } from './useAxiosAuthWrapper';
 
@@ -28,7 +23,7 @@ export const useApiRequests = () => {
       apiAddress,
       accountAddress,
       collections
-    }: GetAccountNfts) =>
+    }: GetAccountNfts): Promise<any> =>
       axiosAuthWrapper().then((authAxios) =>
         asyncWrapper(() =>
           authAxios.get(`${apiAddress}/accounts/${accountAddress}/nfts`, {
@@ -46,27 +41,6 @@ export const useApiRequests = () => {
           timeout: DEFAULT_TIMEOUT
         })
       ),
-
-    getAccountTransfers: ({
-      apiAddress,
-      accountAddress,
-      token,
-      before,
-      after
-    }: GetTransactions) =>
-      axiosAuthWrapper().then((authAxios) =>
-        asyncWrapper(() =>
-          authAxios.get(`${apiAddress}/accounts/${accountAddress}/transfers`, {
-            params: {
-              receiver: accountAddress,
-              before,
-              after,
-              token
-            },
-            timeout: DEFAULT_TIMEOUT
-          })
-        )
-      ),
     callbackUrlAfterValidate: ({
       callbackUrl,
       address
@@ -79,6 +53,29 @@ export const useApiRequests = () => {
           authAxios.get(callbackUrl, {
             params: {
               address
+            },
+            timeout: DEFAULT_TIMEOUT
+          })
+        )
+      ),
+    getTransactionsCount: ({
+      apiAddress,
+      receiverAddress,
+      collectionId,
+      afterTimestamp
+    }: {
+      apiAddress: string;
+      receiverAddress: string;
+      collectionId: string;
+      afterTimestamp: number;
+    }): Promise<any> =>
+      axiosAuthWrapper().then((authAxios) =>
+        asyncWrapper(() =>
+          authAxios.get(`${apiAddress}/transactions/count`, {
+            params: {
+              receiver: receiverAddress,
+              token: collectionId,
+              after: afterTimestamp
             },
             timeout: DEFAULT_TIMEOUT
           })

@@ -39,12 +39,7 @@ export const ResultMessage: FC<ResultMessageProps> = ({
         )
       );
     }
-  }, [
-    resultMessage.className,
-    resultMessage.description,
-    resultMessage.icon,
-    resultMessage.title
-  ]);
+  }, [isValidated]);
 
   return (
     <div className='card shadow-sm rounded p-4 border-0'>

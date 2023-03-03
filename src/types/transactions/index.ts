@@ -56,7 +56,7 @@ export interface Transaction {
   pendingResults: boolean;
 }
 
-export interface GetTransactions {
+export interface GetAccountTransfers {
   apiAddress: string;
   accountAddress: string;
   before?: number;
