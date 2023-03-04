@@ -1,9 +1,17 @@
+import { FetchResult, Nft } from 'types';
+
 export const checkNftOwnership = ({
   accountNftsResult,
   transactionsCountResult
 }: {
-  accountNftsResult: any;
-  transactionsCountResult: any;
+  accountNftsResult: FetchResult<Nft>;
+  transactionsCountResult: FetchResult<number>;
 }) => {
-  return Boolean(accountNftsResult.data.length && transactionsCountResult.data);
+  if (accountNftsResult && transactionsCountResult) {
+    return Boolean(
+      accountNftsResult.data?.length && transactionsCountResult.data
+    );
+  }
+
+  return false;
 };
