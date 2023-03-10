@@ -1,4 +1,4 @@
-import { GetTransactions } from 'types/transactions';
+import { GetAccountTransfers } from 'types/transactions';
 
 export interface NftTransferArgument {
   collection: string;
@@ -16,7 +16,7 @@ export interface Nft {
   data: string;
 }
 
-export interface GetAccountNfts extends GetTransactions {
+export interface GetAccountNfts extends GetAccountTransfers {
   collections: string[];
 }
 

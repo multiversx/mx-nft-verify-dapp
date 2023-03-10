@@ -1,4 +1,4 @@
 export interface FetchResult<T> {
-  data: T[];
+  data: T[] | null;
   success: boolean;
 }
