@@ -1,9 +1,12 @@
 import React from 'react';
 import { WalletConnectLoginButton } from '@multiversx/sdk-dapp/UI';
+import { useLocation } from 'react-router-dom';
 import { walletConnectV2ProjectId } from 'config';
 import { routeNames } from 'routes';
 
 export const OwnershipVerification = () => {
+  const { search } = useLocation();
+
   const getRef = async (e: HTMLDivElement) => {
     if (!e) {
       return;
@@ -25,7 +28,7 @@ export const OwnershipVerification = () => {
       <h1 className='text-center'>Scan with xPortal</h1>
       <div ref={getRef} className='card-body text-center pb-0 mx-auto'>
         <WalletConnectLoginButton
-          callbackRoute={routeNames.result}
+          callbackRoute={`${routeNames.result}${search}`}
           logoutRoute={routeNames.verify}
           nativeAuth={true}
           hideButtonWhenModalOpens={true}

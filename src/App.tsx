@@ -16,7 +16,7 @@ const App = () => {
   return (
     <AxiosInterceptorContext.Provider>
       <DappProvider
-        environment={EnvironmentsEnum.devnet}
+        environment={EnvironmentsEnum.mainnet}
         customNetworkConfig={{
           name: 'customConfig',
           apiTimeout,

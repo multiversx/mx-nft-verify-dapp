@@ -6,13 +6,7 @@ import {
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useApiRequests } from 'hooks/network';
 import { QueryParamEnum } from 'pages/Result/result.types';
-import { AgeEnum } from 'types';
-import {
-  checkNftOwnership,
-  extractTimeParamsFromAge,
-  getTimestamp,
-  queryParamsParser
-} from 'utils';
+import { checkNftOwnership, getTimestamp, queryParamsParser } from 'utils';
 
 export const useValidateNft = () => {
   const account = useGetAccountInfo();
@@ -42,8 +36,6 @@ export const useValidateNft = () => {
         return;
       }
 
-      const { duration, units } = extractTimeParamsFromAge(age as AgeEnum);
-
       setIsLoadingValidateNft(true);
 
       const [accountNftsResult, transactionsCountResult] = await Promise.all([
@@ -56,7 +48,7 @@ export const useValidateNft = () => {
           apiAddress,
           receiverAddress: accountAddress,
           collectionId: nftCollection,
-          beforeTimestamp: getTimestamp(duration, units * -1)
+          beforeTimestamp: getTimestamp('seconds', Number(age) * -1)
         })
       ]);
 

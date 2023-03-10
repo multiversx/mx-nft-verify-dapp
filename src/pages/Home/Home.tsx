@@ -6,12 +6,10 @@ export const Home = () => {
   return (
     <section className='home d-flex flex-fill align-items-center container'>
       <div className='d-flex flex-column align-items-center w-100 text-center'>
-        <h2 className='home-title'>Welcome to NFT Verify Dapp</h2>
+        <h2 className='home-title'>NFT Ownership Verifier</h2>
         <p className='home-description'>
-          This page offers an easy way to configure and verify the authenticity
-          of a NFT holder.
-          <br />
-          Browse the links below and get started.
+          Quickly and easily verify user ownership of authentic NFTs from any
+          collection.
         </p>
         <div className='home-links'>
           <Link to={routeNames.build}>
