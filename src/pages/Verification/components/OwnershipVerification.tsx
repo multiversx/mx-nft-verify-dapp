@@ -28,7 +28,6 @@ export const OwnershipVerification = () => {
           callbackRoute={routeNames.result}
           logoutRoute={routeNames.verify}
           nativeAuth={true}
-          className='button-verify'
           hideButtonWhenModalOpens={true}
           wrapContentInsideModal={false}
           {...(walletConnectV2ProjectId

@@ -88,6 +88,11 @@ html {
   }
 }
 
+.result-icon {
+  background-color: $light;
+  border-radius: 50%;
+}
+
 /* Navbar
 -------------------------------------------------- */
 .multiversx-logo {
@@ -259,7 +264,8 @@ html {
   & .dapp-wallet-connect-login-modal,
   & .dapp-core-component__main__h4,
   & .dapp-core-component__main__lead,
-  & .dapp-core-component__main__link-style  {
+  & .dapp-core-component__main__link-style,
+  & p  {
     display: none;
   }
 
