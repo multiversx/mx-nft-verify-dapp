@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as HeartIcon } from '../../../assets/img/heart.svg';
+import { ReactComponent as MultiversxLogo } from 'assets/img/multiversx.svg';
 
 export const Footer = () => {
   return (
@@ -12,7 +12,8 @@ export const Footer = () => {
           className='d-flex align-items-center'
           href='https://multiversx.com/'
         >
-          Made with <HeartIcon className='mx-1' /> by MultiversX Network.
+          <span>Powered by</span>
+          <MultiversxLogo className='mutliversx-logo' />
         </a>
       </div>
     </footer>

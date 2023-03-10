@@ -19,14 +19,13 @@ export const ResultMessage = ({
   handleReset
 }: ResultMessageProps) => {
   const [resultMessage, setResultMessage] = useState(new ResultMessageState());
-
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    if (isValidated) {
+    if (!isValidated) {
       setResultMessage(
         new ResultMessageState(
-          'result-icon text-success color-white mb-4',
+          'result-icon text-success mb-4',
           `Collection identifier: ${searchParams.get(
             QueryParamEnum.collectionId
           )}`,
@@ -37,27 +36,27 @@ export const ResultMessage = ({
     } else {
       setResultMessage(
         new ResultMessageState(
-          'result-icon text-danger color-white mb-4',
+          'result-icon text-danger mb-4',
           'Reason: Could not find any NFT in the specified collection',
           faCircleXmark,
-          'Unable to validate ownership'
+          'Unable to Validate Ownership'
         )
       );
     }
   }, [isValidated]);
 
   return (
-    <div className='card shadow-sm rounded p-4 border-0'>
-      <div className='card-body text-center'>
+    <div className='card'>
+      <div className='text-center'>
         <FontAwesomeIcon
           icon={resultMessage.icon as IconDefinition}
-          size='3x'
+          size='7x'
           className={resultMessage.className}
         />
-        <h4 className='card-title mb-3 my-2' data-testid='title'>
+        <h4 className='text-white card-title' data-testid='title'>
           {resultMessage.title}
         </h4>
-        <p className='text-secondary'>{resultMessage.description}</p>
+        <p className='text-secondary mb-4'>{resultMessage.description}</p>
         <Button
           onClick={handleReset}
           className='button-submit'

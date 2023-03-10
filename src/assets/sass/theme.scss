@@ -1,15 +1,12 @@
 /* Bootstrap overrides
 -------------------------------------------------- */
 
-$primary: #3066ff;
-$secondary: #8b94a1;
-$muted: #49494d;
+$primary: #FBCA1C;
+$secondary: #8E9396;
 $light: #fff;
-$green: #12a366;
-$red: #ff4f8a;
-$dark: #242526;
-$warning: #ffc107;
-$purple: #7894c3;
+$dark: #000;
+$bg-body: #0B0B0B;
+$bg-card: #212121;
 $card-border-radius: 0.75rem;
 $card-inner-border-radius: subtract($card-border-radius, 1px);
 
@@ -31,9 +28,39 @@ Override Bootstrap variables only above.
 }
 /* Base
 -------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: $bg-body;
+}
+
 html {
   min-height: 100%;
   font-size: 14px;
+}
+
+.btn {
+  border-radius: 100px;
+  border: none;
+  min-width: 110px;
+  padding: 6px 22px;
+  font-size: 12px;
+}
+
+.btn-primary {
+  background-color: $primary;
+  color: $dark;
+}
+
+.card {
+  background-color: $bg-card;
+  border-radius: 10px;
+  padding: 1.5rem;
+  border: none;
 }
 
 .wrapper {
@@ -61,10 +88,15 @@ html {
   }
 }
 
+.result-icon {
+  background-color: $light;
+  border-radius: 50%;
+}
+
 /* Navbar
 -------------------------------------------------- */
 .multiversx-logo {
-  width: 85px;
+  width: 120px;
   height: 25px;
 }
 
@@ -149,6 +181,7 @@ html {
   & .home-title {
     font-size: 32px;
     font-weight: 600;
+    color: $light;
   }
 
   & .home-description {
@@ -167,7 +200,7 @@ html {
   }
 }
 
-/* Home
+/* Build
 -------------------------------------------------- */
 
 .build {
@@ -180,13 +213,22 @@ html {
     gap: 18px;
     width: 100%;
 
+    & input,
+    & select {
+      border: none;
+      background-color: #171717;
+      border-radius: 5px;
+      border-bottom: 1px solid $dark;
+      color: $light;
+    }
+
     & label {
-      font-weight: 600;
+      color: $light;
       font-size: 16px;
     }
 
     & .input-error {
-      border-color: $red;
+      border: 1px solid $red;
       outline-color: $red;
     }
 
@@ -197,12 +239,48 @@ html {
       margin-top: 4px;
     }
 
+    & button {
+      align-self: center;
+    }
+
   }
   & .build-generated-url {
     font-size: 16px;
+    color: $light;
     font-weight: 600;
     margin-right: 6px;
-    min-width: fit-content;
+  }
+}
+
+/* Build
+-------------------------------------------------- */
+
+.verify-ownership {
+  & h1 {
+    color: $light;
+    font-size: 24px;
+  }
+
+  & .dapp-wallet-connect-login-modal,
+  & .dapp-core-component__main__h4,
+  & .dapp-core-component__main__lead,
+  & .dapp-core-component__main__link-style,
+  & p  {
+    display: none;
+  }
+
+  & .dapp-core-component__main__card,
+  & .dapp-core-component__main__card-body {
+    width: fit-content;
+  }
+
+  & .dapp-core-component__main__card-body {
+    padding: 0;
+    margin: 0;
+  }
+
+  & .dapp-core-component__main__qr-code-svg-container {
+    margin: 0;
   }
 }
 
@@ -278,6 +356,15 @@ html {
 
 /* Footer
 -------------------------------------------------- */
+header {
+  padding: 80px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Footer
+-------------------------------------------------- */
 footer {
   div {
     margin-top: 0.5rem;
@@ -287,19 +374,16 @@ footer {
     line-height: 1.155rem;
 
     a {
-      color: $black;
+      color: $secondary;
+      text-decoration: none;
 
       &:hover {
-        color: $black;
+        color: $light;
+        text-decoration: none;
       }
 
-      #heart {
-        height: 16px;
-        width: 16px;
-
-        path {
-          fill: #c00;
-        }
+      span {
+        margin-right: 5px;
       }
     }
   }
