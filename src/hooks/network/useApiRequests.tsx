@@ -13,7 +13,7 @@ export const useApiRequests = () => {
       apiAddress,
       accountAddress,
       collections
-    }: GetAccountNfts): Promise<any> =>
+    }: GetAccountNfts) =>
       axiosAuthWrapper().then((authAxios) =>
         asyncWrapper(() =>
           authAxios.get(`${apiAddress}/accounts/${accountAddress}/nfts`, {
@@ -58,7 +58,7 @@ export const useApiRequests = () => {
       receiverAddress: string;
       collectionId: string;
       beforeTimestamp: number;
-    }): Promise<any> =>
+    }) =>
       axiosAuthWrapper().then((authAxios) =>
         asyncWrapper(() =>
           authAxios.get(`${apiAddress}/transactions/count`, {

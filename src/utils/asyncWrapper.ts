@@ -1,7 +1,7 @@
-import { FetchResult } from 'types';
+import { AxiosResponse } from 'axios';
 
-export const asyncWrapper = async (
-  asyncRequest: () => Promise<FetchResult<any>>
+export const asyncWrapper = async <T>(
+  asyncRequest: () => Promise<AxiosResponse<T>>
 ) => {
   try {
     const { data } = await asyncRequest();
@@ -13,7 +13,8 @@ export const asyncWrapper = async (
   } catch (e) {
     console.error(e);
     return {
-      success: false
+      success: false,
+      data: null
     };
   }
 };
