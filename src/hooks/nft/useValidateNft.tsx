@@ -3,15 +3,14 @@ import {
   useGetAccountInfo,
   useGetNetworkConfig
 } from '@multiversx/sdk-dapp/hooks';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useApiRequests } from 'hooks/network';
 import { QueryParamEnum } from 'pages/Result/result.types';
 import { AgeEnum } from 'types';
 import {
   checkNftOwnership,
   extractTimeParamsFromAge,
-  getTimestamp,
-  queryParamsParser
+  getTimestamp
 } from 'utils';
 
 export const useValidateNft = () => {
@@ -29,46 +28,41 @@ export const useValidateNft = () => {
   const [isValidatedNft, setIsValidatedNft] = useState(false);
 
   const [searchParams] = useSearchParams();
-  const { search } = useLocation();
 
   const getNftCollection = async () => {
-    const queryParams = queryParamsParser(search);
+    const nftCollection = searchParams.get(QueryParamEnum.collectionId);
+    const age = searchParams.get(QueryParamEnum.age);
 
-    if (queryParams) {
-      const nftCollection = queryParams.get(QueryParamEnum.collectionId);
-      const age = queryParams.get(QueryParamEnum.age);
+    if (!nftCollection || !age || !(age in AgeEnum)) {
+      return;
+    }
 
-      if (!nftCollection || !age) {
-        return;
-      }
+    const { duration, units } = extractTimeParamsFromAge(age);
 
-      const { duration, units } = extractTimeParamsFromAge(age as AgeEnum);
+    setIsLoadingValidateNft(true);
 
-      setIsLoadingValidateNft(true);
+    const [accountNftsResult, transactionsCountResult] = await Promise.all([
+      getAccountNfts({
+        apiAddress,
+        accountAddress,
+        collections: [nftCollection]
+      }),
+      getTransactionsCount({
+        apiAddress,
+        receiverAddress: accountAddress,
+        collectionId: nftCollection,
+        beforeTimestamp: getTimestamp(duration, units * -1)
+      })
+    ]);
 
-      const [accountNftsResult, transactionsCountResult] = await Promise.all([
-        getAccountNfts({
-          apiAddress,
-          accountAddress,
-          collections: [nftCollection]
-        }),
-        getTransactionsCount({
-          apiAddress,
-          receiverAddress: accountAddress,
-          collectionId: nftCollection,
-          beforeTimestamp: getTimestamp(duration, units * -1)
-        })
-      ]);
+    setIsLoadingValidateNft(false);
 
-      setIsLoadingValidateNft(false);
-
-      if (accountNftsResult && transactionsCountResult) {
-        const hasNft = checkNftOwnership({
-          accountNftsResult,
-          transactionsCountResult
-        });
-        setIsValidatedNft(hasNft);
-      }
+    if (accountNftsResult && transactionsCountResult) {
+      const hasNft = checkNftOwnership({
+        accountNftsResult,
+        transactionsCountResult
+      });
+      setIsValidatedNft(hasNft);
     }
   };
 
