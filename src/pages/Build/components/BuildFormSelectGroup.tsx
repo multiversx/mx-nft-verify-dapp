@@ -2,6 +2,7 @@ import React from 'react';
 
 interface SelectOptionType {
   value: string;
+  label: string;
   selected?: boolean;
 }
 
@@ -25,8 +26,8 @@ export const BuildFormSelectGroup = ({
       <label htmlFor={id}>{labelValue}</label>
       <select className='form-control' id={id} onChange={onChange}>
         {options.map((option: SelectOptionType, idx: number) => (
-          <option key={idx} selected={option.selected}>
-            {option.value}
+          <option key={idx} selected={option.selected} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>
