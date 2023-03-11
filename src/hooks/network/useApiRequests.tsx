@@ -33,14 +33,17 @@ export const useApiRequests = () => {
       ),
     callbackUrlAfterValidate: ({
       callbackUrl,
-      address
+      address,
+      ref
     }: {
       callbackUrl: string;
       address: string;
+      ref?: string;
     }) =>
       axios.get(callbackUrl, {
         params: {
-          address
+          address,
+          ref
         },
         timeout: DEFAULT_TIMEOUT
       }),

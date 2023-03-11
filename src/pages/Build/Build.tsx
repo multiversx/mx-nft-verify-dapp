@@ -21,11 +21,12 @@ export const Build = () => {
   const initialValues: BuildFormValuesType = {
     collectionId: '',
     callbackUrl: '',
-    age: AgeEnum.oneDay
+    age: AgeEnum.oneDay,
+    ref: ''
   };
 
   const showComputedUrl = (values: BuildFormValuesType) => {
-    const { collectionId, callbackUrl, age } = values;
+    const { collectionId, callbackUrl, age, ref } = values;
     const domain = new URL(`${window.location.origin}/verify`);
 
     domain.searchParams.append(QueryParamEnum.collectionId, collectionId);
@@ -34,6 +35,10 @@ export const Build = () => {
       domain.searchParams.append(QueryParamEnum.callbackUrl, callbackUrl);
     }
     domain.searchParams.append(QueryParamEnum.age, age);
+
+    if (ref) {
+      domain.searchParams.append(QueryParamEnum.ref, ref);
+    }
 
     setGeneratedUrl(domain.href);
   };
@@ -117,7 +122,6 @@ export const Build = () => {
             onBlur={handleBlur}
             isError={isCollectionIdError}
             error={errors.collectionId}
-            className='foo'
           />
 
           <BuildFormInputGroup
@@ -131,6 +135,15 @@ export const Build = () => {
             isError={isCallbackUrlError}
             error={errors.callbackUrl}
           />
+          <BuildFormInputGroup
+            id={QueryParamEnum.ref}
+            labelValue='Reference'
+            isOptional
+            value={values.ref}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+
           <BuildFormSelectGroup
             id={QueryParamEnum.age}
             labelValue='Age'

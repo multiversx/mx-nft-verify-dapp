@@ -4,4 +4,5 @@ export interface BuildFormValuesType {
   collectionId: string;
   callbackUrl: string;
   age: AgeEnum;
+  ref: string;
 }
