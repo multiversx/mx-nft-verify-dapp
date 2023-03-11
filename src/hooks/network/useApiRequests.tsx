@@ -38,16 +38,13 @@ export const useApiRequests = () => {
       callbackUrl: string;
       address: string;
     }) =>
-      axiosAuthWrapper().then((authAxios) =>
-        asyncWrapper(() =>
-          authAxios.get(callbackUrl, {
-            params: {
-              address
-            },
-            timeout: DEFAULT_TIMEOUT
-          })
-        )
-      ),
+      axios.get(callbackUrl, {
+        params: {
+          address
+        },
+        timeout: DEFAULT_TIMEOUT
+      }),
+
     getTransactionsCount: ({
       apiAddress,
       receiverAddress,
