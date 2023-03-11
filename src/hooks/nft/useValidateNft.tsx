@@ -48,6 +48,8 @@ export const useValidateNft = () => {
       })
     ]);
 
+    setIsLoadingValidateNft(false);
+
     if (accountNftsResult && transactionsCountResult) {
       const hasNft = checkNftOwnership({
         accountNftsResult,
