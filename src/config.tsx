@@ -1,13 +1,11 @@
-import { AgeEnum } from 'types';
-
-export const COLLECTION_ID = 'COL8-d66475';
+export const COLLECTION_ID = ''; // TODO: This must be set
 export const CALLBACK_URL = ''; // TODO: This must be set
-export const AGE = AgeEnum.oneHour;
+export const AGE = ''; // TODO: This must be set
 
 export const contractAddress =
   'erd1qqqqqqqqqqqqqpgq72l6vl07fkn3alyfq753mcy4nakm0l72396qkcud5x';
 
-export const dAppName = 'NFT Verify';
+export const dAppName = 'NFT Verifier Ownership';
 
 export const walletConnectV2ProjectId = 'fdd19378018183c698d061078e7cc960';
 

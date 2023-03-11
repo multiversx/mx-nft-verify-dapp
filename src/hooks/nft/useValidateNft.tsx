@@ -6,12 +6,7 @@ import {
 import { useSearchParams } from 'react-router-dom';
 import { useApiRequests } from 'hooks/network';
 import { QueryParamEnum } from 'pages/Result/result.types';
-import { AgeEnum } from 'types';
-import {
-  checkNftOwnership,
-  extractTimeParamsFromAge,
-  getTimestamp
-} from 'utils';
+import { checkNftOwnership, getTimestamp } from 'utils';
 
 export const useValidateNft = () => {
   const account = useGetAccountInfo();
@@ -33,11 +28,9 @@ export const useValidateNft = () => {
     const nftCollection = searchParams.get(QueryParamEnum.collectionId);
     const age = searchParams.get(QueryParamEnum.age);
 
-    if (!nftCollection || !age || !(age in AgeEnum)) {
+    if (!nftCollection || !age) {
       return;
     }
-
-    const { duration, units } = extractTimeParamsFromAge(age);
 
     setIsLoadingValidateNft(true);
 
@@ -51,11 +44,9 @@ export const useValidateNft = () => {
         apiAddress,
         receiverAddress: accountAddress,
         collectionId: nftCollection,
-        beforeTimestamp: getTimestamp(duration, units * -1)
+        beforeTimestamp: getTimestamp('seconds', Number(age) * -1)
       })
     ]);
-
-    setIsLoadingValidateNft(false);
 
     if (accountNftsResult && transactionsCountResult) {
       const hasNft = checkNftOwnership({
