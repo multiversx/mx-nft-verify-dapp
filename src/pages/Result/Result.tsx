@@ -31,11 +31,13 @@ export const Result = () => {
     }
 
     const callbackUrlParam = searchParams.get(QueryParamEnum.callbackUrl);
+    const ref = searchParams.get(QueryParamEnum.ref);
 
     if (callbackUrlParam) {
       callbackUrlAfterValidate({
         callbackUrl: callbackUrlParam,
-        address: accountAddress
+        address: accountAddress,
+        ...(ref && { ref })
       });
     }
   }, []);

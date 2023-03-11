@@ -3,13 +3,13 @@ import classNames from 'classnames';
 
 interface BuildFormInputGroupProps {
   id: string;
-  placeholder: string;
+  placeholder?: string;
   labelValue: string;
   isOptional?: boolean;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  isError: boolean;
+  isError?: boolean;
   error?: string;
   className?: string;
 }
