@@ -6,9 +6,7 @@ export const Home = () => {
   return (
     <section className='home d-flex flex-fill align-items-center container'>
       <div className='d-flex flex-column align-items-center w-100 text-center'>
-        <h2 className='home-title mb-0'>
-          Welcome to the NFT Ownership Verifier
-        </h2>
+        <h2 className='home-title mb-0'>NFT Ownership Verifier</h2>
         <p className='home-description'>
           Quickly and easily verify user ownership of authentic NFTs from any
           collection.
