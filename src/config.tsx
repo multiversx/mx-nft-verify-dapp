@@ -5,7 +5,7 @@ export const AGE = ''; // TODO: This must be set
 export const contractAddress =
   'erd1qqqqqqqqqqqqqpgq72l6vl07fkn3alyfq753mcy4nakm0l72396qkcud5x';
 
-export const dAppName = 'NFT Verifier Ownership';
+export const dAppName = 'NFT Ownership Verifier';
 
 export const walletConnectV2ProjectId = 'fdd19378018183c698d061078e7cc960';
 
