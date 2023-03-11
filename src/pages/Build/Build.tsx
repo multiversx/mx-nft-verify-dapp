@@ -73,20 +73,20 @@ export const Build = () => {
 
   const ageSelectOptions = [
     {
-      value: '1 hour'
+      value: '3600'
     },
     {
-      value: '1 day',
+      value: '86400',
       selected: true
     },
     {
-      value: '1 week'
+      value: '604800'
     },
     {
-      value: '1 month'
+      value: '2628288'
     },
     {
-      value: '1 year'
+      value: '31556952'
     }
   ];
 
@@ -119,6 +119,7 @@ export const Build = () => {
             id={QueryParamEnum.callbackUrl}
             placeholder='E.g. https://example.com'
             labelValue='Callback URL'
+            isOptional
             value={values.callbackUrl}
             onChange={handleChange}
             onBlur={handleBlur}
