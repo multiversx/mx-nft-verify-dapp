@@ -261,6 +261,10 @@ html {
     font-size: 24px;
   }
 
+  & svg {
+    border-radius: 5px;
+  }
+
   & .dapp-wallet-connect-login-modal,
   & .dapp-core-component__main__h4,
   & .dapp-core-component__main__lead,
@@ -274,6 +278,10 @@ html {
     width: fit-content;
   }
 
+  & .dapp-core-component__main__card {
+    background-color: $bg-card;
+  }
+
   & .dapp-core-component__main__card-body {
     padding: 0;
     margin: 0;
@@ -281,6 +289,8 @@ html {
 
   & .dapp-core-component__main__qr-code-svg-container {
     margin: 0;
+    background-color: $light;
+    border-radius: 5px;
   }
 }
 

@@ -130,6 +130,9 @@ export const Build = () => {
             id={QueryParamEnum.pixel}
             placeholder='E.g. https://example.com'
             labelValue='Pixel'
+            tooltipInfo={
+              'URL being fetched in the background with every successful check'
+            }
             isOptional
             value={values.pixel}
             onChange={handleChange}
@@ -142,6 +145,7 @@ export const Build = () => {
             id={QueryParamEnum.callback}
             placeholder='E.g. https://example.com'
             labelValue='Callback'
+            tooltipInfo='URL where the user is redirected to after every successful check.'
             isOptional
             value={values.callback}
             onChange={handleChange}
@@ -152,6 +156,7 @@ export const Build = () => {
           <BuildFormInputGroup
             id={QueryParamEnum.ref}
             labelValue='Reference'
+            tooltipInfo='Used to store app internal IDs or state references for the users.'
             isOptional
             value={values.ref}
             onChange={handleChange}

@@ -1,10 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
+import { Bubble } from 'components';
 
 interface BuildFormInputGroupProps {
   id: string;
   placeholder?: string;
   labelValue: string;
+  tooltipInfo?: string;
   isOptional?: boolean;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -19,6 +21,7 @@ export const BuildFormInputGroup = ({
   placeholder,
   labelValue,
   value,
+  tooltipInfo,
   isOptional = false,
   onChange,
   onBlur,
@@ -27,10 +30,17 @@ export const BuildFormInputGroup = ({
   className
 }: BuildFormInputGroupProps) => {
   return (
-    <div className={`form-group position-relative ${className}`}>
+    <div
+      className={`form-group position-relative ${className ? className : ''}`}
+    >
       <label htmlFor={id}>
         {labelValue}{' '}
         {isOptional && <span className='text-secondary ml-1'>(optional)</span>}
+        {tooltipInfo && (
+          <Bubble identifier={id} className='ml-2'>
+            {tooltipInfo}
+          </Bubble>
+        )}
       </label>
       <input
         className={classNames('form-control', { 'input-error': isError })}
