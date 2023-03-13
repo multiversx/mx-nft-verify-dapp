@@ -3,7 +3,7 @@ import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { Loader } from '@multiversx/sdk-dapp/UI/Loader';
 import { logout } from '@multiversx/sdk-dapp/utils';
 import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
-import { COLLECTION_ID, CALLBACK_URL, AGE } from 'config';
+import { COLLECTION, PIXEL, CALLBACK, AGE, REF } from 'config';
 import { useApiRequests } from 'hooks/network';
 import { useValidateNft } from 'hooks/nft';
 import { routeNames } from 'routes';
@@ -15,7 +15,7 @@ export const Result = () => {
 
   const { address: accountAddress } = account;
 
-  const { callbackUrlAfterValidate } = useApiRequests();
+  const { callPixelAfterValidate } = useApiRequests();
 
   const { isValidatedNft, isLoadingValidateNft } = useValidateNft();
   const { search } = useLocation();
@@ -26,19 +26,28 @@ export const Result = () => {
   useEffect(() => {
     updateSearchParams();
 
-    if (!searchParams.get(QueryParamEnum.collectionId)) {
+    if (!searchParams.get(QueryParamEnum.collection)) {
+      console.log('collection: ', searchParams.get(QueryParamEnum.collection));
       navigate(routeNames.home);
     }
 
-    const callbackUrlParam = searchParams.get(QueryParamEnum.callbackUrl);
-    const ref = searchParams.get(QueryParamEnum.ref);
+    const pixelParam = searchParams.get(QueryParamEnum.pixel);
+    const callbackParam = searchParams.get(QueryParamEnum.callback);
+    const refParam = searchParams.get(QueryParamEnum.ref);
 
-    if (callbackUrlParam) {
-      callbackUrlAfterValidate({
-        callbackUrl: callbackUrlParam,
+    if (pixelParam) {
+      callPixelAfterValidate({
+        pixel: pixelParam,
         address: accountAddress,
-        ...(ref && { ref })
+        ...(callbackParam && { callback: callbackParam }),
+        ...(refParam && { ref: refParam })
       });
+    }
+
+    if (callbackParam) {
+      setTimeout(() => {
+        window.location.href = callbackParam;
+      }, 2000);
     }
   }, []);
 
@@ -46,17 +55,26 @@ export const Result = () => {
     logout(`${location.origin}${routeNames.verify}${search}`);
   };
 
+  // If the params are set in the conifg, we update the searchParams with those, otherwise those built in the Build URL form will remain
   const updateSearchParams = () => {
-    if (COLLECTION_ID) {
-      searchParams.set(QueryParamEnum.collectionId, COLLECTION_ID);
+    if (COLLECTION) {
+      searchParams.set(QueryParamEnum.collection, COLLECTION);
     }
 
-    if (CALLBACK_URL) {
-      searchParams.set(QueryParamEnum.callbackUrl, CALLBACK_URL);
+    if (PIXEL) {
+      searchParams.set(QueryParamEnum.pixel, PIXEL);
+    }
+
+    if (CALLBACK) {
+      searchParams.set(QueryParamEnum.callback, CALLBACK);
     }
 
     if (AGE) {
       searchParams.set(QueryParamEnum.age, AGE);
+    }
+
+    if (REF) {
+      searchParams.set(QueryParamEnum.ref, REF);
     }
 
     setSearchParams(searchParams);

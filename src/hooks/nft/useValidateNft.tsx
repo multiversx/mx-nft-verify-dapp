@@ -25,7 +25,7 @@ export const useValidateNft = () => {
   const [searchParams] = useSearchParams();
 
   const getNftCollection = async () => {
-    const nftCollection = searchParams.get(QueryParamEnum.collectionId);
+    const nftCollection = searchParams.get(QueryParamEnum.collection);
     const age = searchParams.get(QueryParamEnum.age);
 
     if (!nftCollection || !age) {
@@ -43,7 +43,7 @@ export const useValidateNft = () => {
       getTransactionsCount({
         apiAddress,
         receiverAddress: accountAddress,
-        collectionId: nftCollection,
+        collection: nftCollection,
         beforeTimestamp: getTimestamp('seconds', Number(age) * -1)
       })
     ]);

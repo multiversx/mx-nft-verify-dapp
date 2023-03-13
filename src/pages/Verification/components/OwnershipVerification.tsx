@@ -8,9 +8,9 @@ import { routeNames } from 'routes';
 
 export const OwnershipVerification = () => {
   const { search } = useLocation();
-  const isLoggedIn = useGetIsLoggedIn();
+  // const isLoggedIn = useGetIsLoggedIn();
 
-  const [toggleRefresh, setToggleRefresh] = useState(false);
+  // const [toggleRefresh, setToggleRefresh] = useState(false);
 
   const getRef = async (e: HTMLDivElement) => {
     if (!e) {
@@ -28,14 +28,14 @@ export const OwnershipVerification = () => {
     return e;
   };
 
-  useEffect(() => {
-    const interval = setInterval(
-      () => setToggleRefresh((prevToggleRefresh) => !prevToggleRefresh),
-      6000
-    );
+  // useEffect(() => {
+  //   const interval = setInterval(
+  //     () => setToggleRefresh((prevToggleRefresh) => !prevToggleRefresh),
+  //     6000
+  //   );
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <div className='verify-ownership card'>
@@ -43,14 +43,14 @@ export const OwnershipVerification = () => {
       <div ref={getRef} className='card-body text-center pb-0 mx-auto'>
         <WalletConnectLoginButton
           callbackRoute={`${routeNames.result}${search}`}
-          logoutRoute={routeNames.verify}
+          logoutRoute={`${routeNames.verify}${search}`}
           nativeAuth={true}
           hideButtonWhenModalOpens={true}
           wrapContentInsideModal={false}
           {...(walletConnectV2ProjectId && {
             isWalletConnectV2: true
           })}
-          {...(!isLoggedIn && { key: toggleRefresh.toString() })}
+          // {...(!isLoggedIn && { key: toggleRefresh.toString() })}
         />
       </div>
     </div>

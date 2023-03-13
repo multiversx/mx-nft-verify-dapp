@@ -27,7 +27,7 @@ export const ResultMessage = ({
         new ResultMessageState(
           'result-icon text-success mb-4',
           `Collection identifier: ${searchParams.get(
-            QueryParamEnum.collectionId
+            QueryParamEnum.collection
           )}`,
           faCircleCheck,
           'Ownership Validated'

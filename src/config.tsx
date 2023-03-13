@@ -1,6 +1,8 @@
-export const COLLECTION_ID = ''; // TODO: This must be set
-export const CALLBACK_URL = ''; // TODO: This must be set
+export const COLLECTION = ''; // TODO: This must be set
+export const PIXEL = ''; // TODO: This must be set
+export const CALLBACK = ''; // TODO: This must be set
 export const AGE = ''; // TODO: This must be set
+export const REF = ''; // TODO: This must be set
 
 export const contractAddress =
   'erd1qqqqqqqqqqqqqpgq72l6vl07fkn3alyfq753mcy4nakm0l72396qkcud5x';
