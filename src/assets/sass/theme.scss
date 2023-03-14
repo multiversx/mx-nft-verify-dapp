@@ -36,6 +36,7 @@ Override Bootstrap variables only above.
 
 body {
   background-color: $bg-body;
+  overflow: hidden;
 }
 
 html {
@@ -269,8 +270,20 @@ html {
   & .dapp-core-component__main__h4,
   & .dapp-core-component__main__lead,
   & .dapp-core-component__main__link-style,
+  & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-container-heading,
+  & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-container-subheading,
   & p  {
     display: none;
+  }
+
+  & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-legacy-link {
+    visibility: hidden;
+    margin: 0 !important;
+    z-index: -1;
+  }
+
+  & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-content {
+    padding: 0;
   }
 
   & .dapp-core-component__main__card,
@@ -287,8 +300,9 @@ html {
     margin: 0;
   }
 
-  & .dapp-core-component__main__qr-code-svg-container {
-    margin: 0;
+  & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-qr-code {
+    margin: 0 auto !important;
+    display: block;
     background-color: $light;
     border-radius: 5px;
   }

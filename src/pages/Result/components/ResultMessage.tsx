@@ -22,7 +22,7 @@ export const ResultMessage = ({
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    if (!isValidated) {
+    if (isValidated) {
       setResultMessage(
         new ResultMessageState(
           'result-icon text-success mb-4',
@@ -37,7 +37,9 @@ export const ResultMessage = ({
       setResultMessage(
         new ResultMessageState(
           'result-icon text-danger mb-4',
-          'Reason: Could not find any NFT in the specified collection',
+          `Could not find any NFT in the ${searchParams.get(
+            QueryParamEnum.collection
+          )} collection`,
           faCircleXmark,
           'Unable to Validate Ownership'
         )

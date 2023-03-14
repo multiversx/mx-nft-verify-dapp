@@ -112,8 +112,8 @@ export const Build = () => {
 
   return (
     <section className='build d-flex flex-column justify-content-center flex-fill align-items-center container'>
-      <h2 className='text-white text-center'>Build URL</h2>
       <div className='card w-100'>
+        <h2 className='text-white text-center mb-2'>Build URL</h2>
         <form className='build-form' onSubmit={handleSubmit}>
           <BuildFormInputGroup
             id={QueryParamEnum.collection}

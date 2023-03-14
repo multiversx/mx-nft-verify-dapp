@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 
-import { WalletConnectLoginButton } from '@multiversx/sdk-dapp/UI';
+import {
+  WalletConnectLoginButton,
+  WalletConnectLoginButtonPropsType
+} from '@multiversx/sdk-dapp/UI/walletConnect/WalletConnectLoginButton';
+import { nativeAuth } from '@multiversx/sdk-dapp/services/nativeAuth';
 import { useLocation } from 'react-router-dom';
 import { walletConnectV2ProjectId } from 'config';
 import { routeNames } from 'routes';
 
 export const OwnershipVerification = () => {
   const { search } = useLocation();
-  // const isLoggedIn = useGetIsLoggedIn();
+  const [token, setToken] = useState('');
 
-  // const [toggleRefresh, setToggleRefresh] = useState(false);
+  console.log(token);
 
   const getRef = async (e: HTMLDivElement) => {
     if (!e) {
@@ -28,30 +31,41 @@ export const OwnershipVerification = () => {
     return e;
   };
 
-  // useEffect(() => {
-  //   const interval = setInterval(
-  //     () => setToggleRefresh((prevToggleRefresh) => !prevToggleRefresh),
-  //     6000
-  //   );
+  const getToken = async () => {
+    const client = nativeAuth();
+    const loginToken = await client.initialize();
 
-  //   return () => clearInterval(interval);
-  // }, []);
+    setToken(loginToken);
+  };
+
+  useEffect(() => {
+    getToken();
+    const interval = setInterval(() => getToken(), 6000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const loginProps: WalletConnectLoginButtonPropsType = {
+    callbackRoute: `${routeNames.result}${search}`,
+    logoutRoute: `${routeNames.verify}${search}`,
+    token,
+    nativeAuth: true,
+    hideButtonWhenModalOpens: true,
+    wrapContentInsideModal: false,
+    ...(walletConnectV2ProjectId && {
+      isWalletConnectV2: true
+    })
+  };
+
+  if (!token) {
+    return null;
+  }
 
   return (
     <div className='verify-ownership card'>
       <h1 className='text-center'>Scan with xPortal</h1>
       <div ref={getRef} className='card-body text-center pb-0 mx-auto'>
-        <WalletConnectLoginButton
-          callbackRoute={`${routeNames.result}${search}`}
-          logoutRoute={`${routeNames.verify}${search}`}
-          nativeAuth={true}
-          hideButtonWhenModalOpens={true}
-          wrapContentInsideModal={false}
-          {...(walletConnectV2ProjectId && {
-            isWalletConnectV2: true
-          })}
-          // {...(!isLoggedIn && { key: toggleRefresh.toString() })}
-        />
+        <WalletConnectLoginButton {...loginProps} />
       </div>
     </div>
   );

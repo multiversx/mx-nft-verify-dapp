@@ -27,7 +27,6 @@ export const Result = () => {
     updateSearchParams();
 
     if (!searchParams.get(QueryParamEnum.collection)) {
-      console.log('collection: ', searchParams.get(QueryParamEnum.collection));
       navigate(routeNames.home);
     }
 
@@ -35,7 +34,7 @@ export const Result = () => {
     const callbackParam = searchParams.get(QueryParamEnum.callback);
     const refParam = searchParams.get(QueryParamEnum.ref);
 
-    if (pixelParam) {
+    if (pixelParam && isValidatedNft) {
       callPixelAfterValidate({
         pixel: pixelParam,
         address: accountAddress,
@@ -44,11 +43,11 @@ export const Result = () => {
       });
     }
 
-    if (callbackParam) {
-      setTimeout(() => {
-        window.location.href = callbackParam;
-      }, 2000);
-    }
+    // if (callbackParam && isValidatedNft) {
+    //   setTimeout(() => {
+    //     window.location.href = callbackParam;
+    //   }, 2000);
+    // }
   }, []);
 
   const handleLogout = () => {
@@ -83,6 +82,8 @@ export const Result = () => {
   if (isLoadingValidateNft) {
     return <Loader noText />;
   }
+
+  console.log('isValidatedNft: ', isValidatedNft);
 
   return (
     <div className='d-flex flex-fill align-items-center container'>

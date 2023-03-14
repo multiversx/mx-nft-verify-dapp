@@ -1,9 +1,6 @@
-import { DateTime } from 'luxon';
+import moment from 'moment';
 
-export const getTimestamp = (timeField: string, units: number) =>
-  parseInt(
-    DateTime.local()
-      .plus({ [timeField]: units })
-      .toSeconds()
-      .toFixed(0)
-  );
+export const getTimestamp = (
+  timeField: moment.unitOfTime.DurationConstructor,
+  units: number
+) => moment().subtract(units, timeField).unix();
