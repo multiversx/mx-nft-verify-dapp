@@ -16,15 +16,12 @@ export const useApiRequests = () => {
     }: GetAccountNfts) =>
       axiosAuthWrapper().then((authAxios) =>
         asyncWrapper(() =>
-          authAxios.get(
-            `${apiAddress}/accounts/erd1wh9c0sjr2xn8hzf02lwwcr4jk2s84tat9ud2kaq6zr7xzpvl9l5q8awmex/nfts`,
-            {
-              timeout: DEFAULT_TIMEOUT,
-              params: {
-                collections: collections.join(',')
-              }
+          authAxios.get(`${apiAddress}/accounts/${accountAddress}/nfts`, {
+            timeout: DEFAULT_TIMEOUT,
+            params: {
+              collections: collections.join(',')
             }
-          )
+          })
         )
       ),
 
@@ -38,18 +35,20 @@ export const useApiRequests = () => {
       pixel,
       address,
       callback,
+      identifier,
       ref
     }: {
       pixel: string;
       address: string;
+      identifier: string;
       callback?: string;
       ref?: string;
     }) =>
       axios.get(pixel, {
         params: {
-          address:
-            'erd1wh9c0sjr2xn8hzf02lwwcr4jk2s84tat9ud2kaq6zr7xzpvl9l5q8awmex',
+          address,
           callback,
+          identifier,
           ref
         },
         timeout: DEFAULT_TIMEOUT
@@ -70,8 +69,7 @@ export const useApiRequests = () => {
         asyncWrapper(() =>
           authAxios.get(`${apiAddress}/transactions/count`, {
             params: {
-              receiver:
-                'erd1wh9c0sjr2xn8hzf02lwwcr4jk2s84tat9ud2kaq6zr7xzpvl9l5q8awmex',
+              receiver: receiverAddress,
               token: collection,
               after: afterTimestamp
             },

@@ -21,6 +21,7 @@ export const useValidateNft = () => {
 
   const [isLoadingValidateNft, setIsLoadingValidateNft] = useState(false);
   const [isValidatedNft, setIsValidatedNft] = useState(false);
+  const [nftIdentifier, setNftIdentifier] = useState<string>();
 
   const [searchParams] = useSearchParams();
 
@@ -49,6 +50,7 @@ export const useValidateNft = () => {
       });
 
       if (noOfTx === 0) {
+        setNftIdentifier(availableNfts[i].identifier);
         setIsValidatedNft(true);
         break;
       }
@@ -63,6 +65,7 @@ export const useValidateNft = () => {
 
   return {
     isValidatedNft,
-    isLoadingValidateNft
+    isLoadingValidateNft,
+    nftIdentifier
   };
 };

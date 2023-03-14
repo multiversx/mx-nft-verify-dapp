@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
+import { nativeAuth } from '@multiversx/sdk-dapp/services/nativeAuth';
 import {
   WalletConnectLoginButton,
   WalletConnectLoginButtonPropsType
 } from '@multiversx/sdk-dapp/UI/walletConnect/WalletConnectLoginButton';
-import { nativeAuth } from '@multiversx/sdk-dapp/services/nativeAuth';
 import { useLocation } from 'react-router-dom';
 import { walletConnectV2ProjectId } from 'config';
 import { routeNames } from 'routes';
@@ -12,8 +12,6 @@ import { routeNames } from 'routes';
 export const OwnershipVerification = () => {
   const { search } = useLocation();
   const [token, setToken] = useState('');
-
-  console.log(token);
 
   const getRef = async (e: HTMLDivElement) => {
     if (!e) {

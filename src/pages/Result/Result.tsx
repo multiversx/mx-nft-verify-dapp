@@ -17,7 +17,8 @@ export const Result = () => {
 
   const { callPixelAfterValidate } = useApiRequests();
 
-  const { isValidatedNft, isLoadingValidateNft } = useValidateNft();
+  const { isValidatedNft, isLoadingValidateNft, nftIdentifier } =
+    useValidateNft();
   const { search } = useLocation();
   const navigate = useNavigate();
 
@@ -34,20 +35,23 @@ export const Result = () => {
     const callbackParam = searchParams.get(QueryParamEnum.callback);
     const refParam = searchParams.get(QueryParamEnum.ref);
 
-    if (pixelParam && isValidatedNft) {
+    if (pixelParam && nftIdentifier && isValidatedNft) {
       callPixelAfterValidate({
         pixel: pixelParam,
         address: accountAddress,
+        identifier: nftIdentifier,
         ...(callbackParam && { callback: callbackParam }),
         ...(refParam && { ref: refParam })
       });
     }
 
-    // if (callbackParam && isValidatedNft) {
-    //   setTimeout(() => {
-    //     window.location.href = callbackParam;
-    //   }, 2000);
-    // }
+    if (callbackParam && nftIdentifier && isValidatedNft) {
+      setTimeout(() => {
+        window.location.href = `${callbackParam}?identifier=${nftIdentifier}${
+          pixelParam && `&pixel=${pixelParam}`
+        }`;
+      }, 2000);
+    }
   }, []);
 
   const handleLogout = () => {
