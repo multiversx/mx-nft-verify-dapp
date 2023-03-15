@@ -1,6 +1,7 @@
 import React from 'react';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-import { Bubble } from 'components';
 
 interface BuildFormInputGroupProps {
   id: string;
@@ -30,16 +31,14 @@ export const BuildFormInputGroup = ({
   className
 }: BuildFormInputGroupProps) => {
   return (
-    <div
-      className={`form-group position-relative ${className ? className : ''}`}
-    >
+    <div className={`form-group ${className ? className : ''}`}>
       <label htmlFor={id}>
-        {labelValue}{' '}
-        {isOptional && <span className='text-secondary ml-1'>(optional)</span>}
+        {labelValue} {isOptional && <span>(optional)</span>}
         {tooltipInfo && (
-          <Bubble identifier={id} className='ml-2'>
-            {tooltipInfo}
-          </Bubble>
+          <div className='info-icon'>
+            <FontAwesomeIcon icon={faInfoCircle} />
+            <span className='info-tooltip'>{tooltipInfo}</span>
+          </div>
         )}
       </label>
       <input

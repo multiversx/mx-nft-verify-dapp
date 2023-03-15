@@ -5,7 +5,6 @@ import {
   faCircleXmark
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Button from 'react-bootstrap/Button';
 import { useSearchParams } from 'react-router-dom';
 import { QueryParamEnum, ResultMessageState } from 'pages/Result/result.types';
 
@@ -25,7 +24,7 @@ export const ResultMessage = ({
     if (isValidated) {
       setResultMessage(
         new ResultMessageState(
-          'result-icon text-success mb-4',
+          'result-icon color-success',
           `Collection identifier: ${searchParams.get(
             QueryParamEnum.collection
           )}`,
@@ -36,7 +35,7 @@ export const ResultMessage = ({
     } else {
       setResultMessage(
         new ResultMessageState(
-          'result-icon text-danger mb-4',
+          'result-icon color-danger',
           `Could not find any NFT in the ${searchParams.get(
             QueryParamEnum.collection
           )} collection`,
@@ -48,24 +47,18 @@ export const ResultMessage = ({
   }, [isValidated]);
 
   return (
-    <div className='card'>
-      <div className='text-center'>
+    <div className='result-message card'>
+      <div className='result-content'>
         <FontAwesomeIcon
           icon={resultMessage.icon as IconDefinition}
           size='7x'
           className={resultMessage.className}
         />
-        <h4 className='text-white card-title' data-testid='title'>
-          {resultMessage.title}
-        </h4>
-        <p className='text-secondary mb-4'>{resultMessage.description}</p>
-        <Button
-          onClick={handleReset}
-          className='button-submit'
-          variant='primary'
-        >
+        <h4 className='result-title'>{resultMessage.title}</h4>
+        <p className='result-description'>{resultMessage.description}</p>
+        <button onClick={handleReset} className='btn btn-primary'>
           Start over
-        </Button>
+        </button>
       </div>
     </div>
   );

@@ -111,9 +111,9 @@ export const Build = () => {
     QueryParamEnum.callback in errors && QueryParamEnum.callback in touched;
 
   return (
-    <section className='build d-flex flex-column justify-content-center flex-fill align-items-center container'>
-      <div className='card w-100'>
-        <h2 className='text-white text-center mb-2'>Build URL</h2>
+    <section className='build'>
+      <div className='card'>
+        <h2 className='build-title'>Build URL</h2>
         <form className='build-form' onSubmit={handleSubmit}>
           <BuildFormInputGroup
             id={QueryParamEnum.collection}
@@ -176,7 +176,7 @@ export const Build = () => {
         </form>
       </div>
 
-      <div className='d-flex align-items-center'>
+      <div className='build-generated-url-wrapper'>
         <div className='build-generated-url'>{generatedUrl}</div>
         {generatedUrl && <CopyButton text={generatedUrl} />}
       </div>

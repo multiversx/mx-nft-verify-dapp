@@ -1,31 +1,12 @@
-/* Bootstrap overrides
--------------------------------------------------- */
-
 $primary: #FBCA1C;
 $secondary: #8E9396;
 $light: #fff;
 $dark: #000;
+$success: #28a745;
+$danger: #dc3545;
 $bg-body: #0B0B0B;
 $bg-card: #212121;
-$card-border-radius: 0.75rem;
-$card-inner-border-radius: subtract($card-border-radius, 1px);
 
-$headings-font-weight: 300 !important;
-$a: #1392ff;
-
-/* Do not move the imports from here.
-Override Bootstrap variables only above.
--------------------------------------------------- */
-
-// Bootstrap
-
-@import '~bootstrap/scss/bootstrap.scss';
-
-@import '~bootstrap/scss/reboot';
-
-.custom-classname.btn-primary {
-  background-color: green;
-}
 /* Base
 -------------------------------------------------- */
 * {
@@ -45,11 +26,16 @@ html {
 }
 
 .btn {
+  cursor: pointer;
   border-radius: 100px;
   border: none;
   min-width: 110px;
-  padding: 6px 22px;
+  padding: 8px 22px;
   font-size: 12px;
+
+  &:hover {
+    opacity: .9;
+  }
 }
 
 .btn-primary {
@@ -57,19 +43,19 @@ html {
   color: $dark;
 }
 
+.color-success {
+  color: $success;
+}
+
+.color-danger {
+  color: $danger;
+}
+
 .card {
   background-color: $bg-card;
   border-radius: 10px;
   padding: 1.5rem;
   border: none;
-}
-
-.wrapper {
-  min-height: 100vh;
-}
-
-.opacity-6 {
-  opacity: 0.6;
 }
 
 .dapp-icon {
@@ -89,11 +75,6 @@ html {
   }
 }
 
-.result-icon {
-  background-color: $light;
-  border-radius: 50%;
-}
-
 /* Navbar
 -------------------------------------------------- */
 .multiversx-logo {
@@ -101,93 +82,35 @@ html {
   height: 25px;
 }
 
-.dapp-name {
-  line-height: 1;
-  border-left: 1px solid $gray-400;
-  padding-left: 3px;
-  margin-left: 4px;
-}
-
-/* Dashboard
--------------------------------------------------- */
-.action-btn {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: $white;
-  margin: 0 7px;
-
-  button {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    background-color: $white;
-
-    &:hover {
-      opacity: 0.9;
-    }
-  }
-}
-
-.transactions {
-  .transaction-icon {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-  }
-
-  &.table {
-    .transaction-hash .trim {
-      @include media-breakpoint-down(xl) {
-        max-width: none;
-      }
-      @include media-breakpoint-down(lg) {
-        max-width: 26rem;
-      }
-      @include media-breakpoint-down(md) {
-        max-width: 12rem;
-      }
-      @include media-breakpoint-down(sm) {
-        max-width: 8rem;
-      }
-    }
-
-    td,
-    tr {
-      padding: 0.65rem;
-    }
-
-    td {
-      white-space: nowrap;
-      vertical-align: middle;
-    }
-
-    tr:last-of-type {
-      td {
-        border-bottom: 1px solid #dee2e6;
-      }
-    }
-  }
-}
 
 /* Home
 -------------------------------------------------- */
 
 .home {
-  & > div {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+
+  & .home-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    text-align: center;
     gap: 16px;
   }
 
   & .home-title {
     font-size: 32px;
-    font-weight: 600;
+    font-weight: 400;
+    margin-bottom: 0;
     color: $light;
   }
 
   & .home-description {
     color: $secondary;
     font-size: 16px;
+    margin-bottom: 1rem;
   }
 
   & .home-links {
@@ -205,8 +128,27 @@ html {
 -------------------------------------------------- */
 
 .build {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 auto;
+  margin: 0 auto;
+  width: 100%;
   max-width: 500px;
   gap: 18px;
+
+  & .card {
+    width: 100%;
+  }
+
+  & .build-title {
+    color: $light;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 28px;
+    font-weight: 400;
+  }
 
   & .build-form {
     display: flex;
@@ -214,27 +156,52 @@ html {
     gap: 18px;
     width: 100%;
 
+    & .form-group {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
     & input,
     & select {
+      display: block;
+      width: 100%;
       border: none;
+      height: calc(1.5em + 0.75rem + 2px);
+      padding: 0.375rem 0.75rem;
       background-color: #171717;
       border-radius: 5px;
       border-bottom: 1px solid $dark;
+      background-clip: padding-box;
+      transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
       color: $light;
+    }
+
+    & input {
+      width: 100%;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
     }
 
     & label {
+      display: inline-block;
       color: $light;
       font-size: 16px;
+      margin-bottom: .5rem;
+
+      & span {
+        color: $secondary;
+        margin-left: .25rem;
+      }
     }
 
     & .input-error {
-      border: 1px solid $red;
-      outline-color: $red;
+      border: 1px solid $danger;
+      outline-color: $danger;
     }
 
     & .error {
-      color: $red;
+      color: $danger;
       font-size: 14px;
       position: absolute;
       margin-top: 4px;
@@ -244,75 +211,159 @@ html {
       align-self: center;
     }
 
+    .info-icon {
+      position: relative;
+      display: inline-block;
+      border-bottom: 1px dotted $dark;
+      margin-left: .5rem;
+
+      &:hover {
+        .info-tooltip {
+          visibility: visible;          
+        }
+      }
+
+      & .info-tooltip {
+        visibility: hidden;
+        width: 120px;
+        background-color: $dark;
+        color: $light;
+        text-align: center;
+        border-radius: 5px;
+        padding: .5rem;
+        position: absolute;
+        z-index: 1;
+        bottom: 150%;
+        left: 50%;
+        margin-left: -60px;
+        font-size: 12px;
+
+        &::after {
+          content: "";
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          margin-left: -5px;
+          border-width: 5px;
+          border-style: solid;
+          border-color: $dark transparent transparent transparent;
+        }
+      }
+    }
+
   }
-  & .build-generated-url {
-    font-size: 16px;
-    color: $light;
-    font-weight: 600;
-    margin-right: 6px;
+
+  & .build-generated-url-wrapper {
+    display: flex;
+    align-items: center;
+    & .build-generated-url {
+      font-size: 16px;
+      color: $light;
+      font-weight: 600;
+      margin-right: 6px;
+    }
   }
 }
 
-/* Build
+/* Verify
 -------------------------------------------------- */
+.verification {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  margin: 0 auto;
 
-.verify-ownership {
-  & h1 {
-    color: $light;
-    font-size: 24px;
+
+  .verify-ownership {
+    & h1 {
+      text-align: center;
+      color: $light;
+      font-size: 24px;
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+  
+    & svg {
+      border-radius: 5px;
+    }
+  
+    & .dapp-wallet-connect-login-modal,
+    & .dapp-core-component__main__h4,
+    & .dapp-core-component__main__lead,
+    & .dapp-core-component__main__link-style,
+    & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-container-heading,
+    & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-container-subheading,
+    & p  {
+      display: none;
+    }
+  
+    & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-legacy-link {
+      visibility: hidden;
+      margin: 0 !important;
+      z-index: -1;
+    }
+  
+    & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-content {
+      padding: 0;
+    }
+  
+    & .dapp-core-component__main__card,
+    & .dapp-core-component__main__card-body {
+      width: fit-content;
+    }
+  
+    & .dapp-core-component__main__card {
+      background-color: $bg-card;
+    }
+  
+    & .dapp-core-component__main__card-body {
+      padding: 0;
+      margin: 0;
+    }
+  
+    & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-qr-code {
+      margin: 0 auto !important;
+      display: block;
+      background-color: $light;
+      border-radius: 5px;
+      width: 210px;
+      height: 210px;
+    }
   }
+}
 
-  & svg {
-    border-radius: 5px;
-  }
+/* Result
+-------------------------------------------------- */
+.result-page {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
 
-  & .dapp-wallet-connect-login-modal,
-  & .dapp-core-component__main__h4,
-  & .dapp-core-component__main__lead,
-  & .dapp-core-component__main__link-style,
-  & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-container-heading,
-  & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-container-subheading,
-  & p  {
-    display: none;
-  }
-
-  & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-legacy-link {
-    visibility: hidden;
-    margin: 0 !important;
-    z-index: -1;
-  }
-
-  & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-content {
-    padding: 0;
-  }
-
-  & .dapp-core-component__main__card,
-  & .dapp-core-component__main__card-body {
-    width: fit-content;
-  }
-
-  & .dapp-core-component__main__card {
-    background-color: $bg-card;
-  }
-
-  & .dapp-core-component__main__card-body {
-    padding: 0;
-    margin: 0;
-  }
-
-  & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-qr-code {
-    margin: 0 auto !important;
-    display: block;
+  & .result-icon {
     background-color: $light;
-    border-radius: 5px;
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
   }
-}
 
-/* Actions
--------------------------------------------------- */
+  & .result-message {
+    margin: 0 auto;
+  }
 
-.not-allwed {
-  cursor: not-allowed;
+  & .result-content {
+    text-align: center;
+
+    & .result-title {
+      color: $light;
+      font-size: 1.5rem;
+      margin-bottom: .75rem;
+      font-weight: 400;
+    }
+
+    & .result-description {
+      color: $secondary;
+      margin-bottom: 1.5rem;
+    }
+  }
 }
 
 /* Loader, Transaction success/Fail
@@ -378,18 +429,25 @@ html {
   }
 }
 
-/* Footer
+/* Header
 -------------------------------------------------- */
-header {
+.header {
   padding: 50px 0 0 0;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  & .header-link {
+    display: flex;
+    align-items: center;
+  }
 }
 
 /* Footer
 -------------------------------------------------- */
-footer {
+.footer {
+  text-align: center;
+  margin: .5rem 0 1rem 0;
   div {
     margin-top: 0.5rem;
     font-size: 0.75rem;
@@ -410,5 +468,20 @@ footer {
         margin-right: 5px;
       }
     }
+  }
+}
+
+/* Layout
+-------------------------------------------------- */
+.layout {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 100vh;
+
+  & .layout-main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
   }
 }
