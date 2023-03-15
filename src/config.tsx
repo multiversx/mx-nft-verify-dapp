@@ -1,14 +1,11 @@
-export const COLLECTION_ID = ''; // TODO: This must be set
-export const CALLBACK_URL = ''; // TODO: This must be set
-export const AGE = ''; // TODO: This must be set
-
-export const contractAddress =
-  'erd1qqqqqqqqqqqqqpgq72l6vl07fkn3alyfq753mcy4nakm0l72396qkcud5x';
+export const collection = ''; // TODO: This must be set
+export const pixel = ''; // TODO: This must be set
+export const callback = ''; // TODO: This must be set
+export const age = ''; // TODO: This must be set
+export const ref = ''; // TODO: This must be set
 
 export const dAppName = 'NFT Ownership Verifier';
 
 export const walletConnectV2ProjectId = 'fdd19378018183c698d061078e7cc960';
 
 export const apiTimeout = 6000;
-export const transactionSize = 15;
-export const TOOLS_API_URL = 'https://tools.multiversx.com';

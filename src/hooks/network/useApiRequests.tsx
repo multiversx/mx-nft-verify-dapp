@@ -31,18 +31,24 @@ export const useApiRequests = () => {
           timeout: DEFAULT_TIMEOUT
         })
       ),
-    callbackUrlAfterValidate: ({
-      callbackUrl,
+    callPixelAfterValidate: ({
+      pixel,
       address,
+      callback,
+      identifier,
       ref
     }: {
-      callbackUrl: string;
+      pixel: string;
       address: string;
+      identifier: string;
+      callback?: string;
       ref?: string;
     }) =>
-      axios.get(callbackUrl, {
+      axios.get(pixel, {
         params: {
           address,
+          callback,
+          identifier,
           ref
         },
         timeout: DEFAULT_TIMEOUT
@@ -51,21 +57,21 @@ export const useApiRequests = () => {
     getTransactionsCount: ({
       apiAddress,
       receiverAddress,
-      collectionId,
-      beforeTimestamp
+      collection,
+      afterTimestamp
     }: {
       apiAddress: string;
       receiverAddress: string;
-      collectionId: string;
-      beforeTimestamp: number;
+      collection: string;
+      afterTimestamp: number;
     }) =>
       axiosAuthWrapper().then((authAxios) =>
         asyncWrapper(() =>
           authAxios.get(`${apiAddress}/transactions/count`, {
             params: {
               receiver: receiverAddress,
-              token: collectionId,
-              before: beforeTimestamp
+              token: collection,
+              after: afterTimestamp
             },
             timeout: DEFAULT_TIMEOUT
           })

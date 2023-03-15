@@ -1,10 +1,13 @@
 import React from 'react';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 
 interface BuildFormInputGroupProps {
   id: string;
   placeholder?: string;
   labelValue: string;
+  tooltipInfo?: string;
   isOptional?: boolean;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -19,6 +22,7 @@ export const BuildFormInputGroup = ({
   placeholder,
   labelValue,
   value,
+  tooltipInfo,
   isOptional = false,
   onChange,
   onBlur,
@@ -27,10 +31,15 @@ export const BuildFormInputGroup = ({
   className
 }: BuildFormInputGroupProps) => {
   return (
-    <div className={`form-group position-relative ${className}`}>
+    <div className={`form-group ${className ? className : ''}`}>
       <label htmlFor={id}>
-        {labelValue}{' '}
-        {isOptional && <span className='text-secondary ml-1'>(optional)</span>}
+        {labelValue} {isOptional && <span>(optional)</span>}
+        {tooltipInfo && (
+          <div className='info-icon'>
+            <FontAwesomeIcon icon={faInfoCircle} />
+            <span className='info-tooltip'>{tooltipInfo}</span>
+          </div>
+        )}
       </label>
       <input
         className={classNames('form-control', { 'input-error': isError })}

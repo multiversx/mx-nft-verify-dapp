@@ -15,7 +15,6 @@ export const routeNames = {
 const routes = [
   {
     path: routeNames.home,
-    title: 'Home',
     component: Home
   },
   {
@@ -39,7 +38,7 @@ const routes = [
 const mappedRoutes = routes.map((route) => {
   const title = route.title
     ? `${route.title} •  MultiversX ${dAppName}`
-    : `MultiversX ${dAppName}`;
+    : dAppName;
 
   const requiresAuth = Boolean(route.authenticatedRoute);
   const wrappedComponent = withPageTitle(title, route.component);
