@@ -1,6 +1,6 @@
 <div style="text-align:center">
   <img
-  src="https://verify.xspotlight.com/preview.jpg"
+  src="https://github.com/multiversx/mx-nft-verify-dapp/blob/master/public/share.jpg"
   alt="MultiversX Network">
 </div>
 <br>
