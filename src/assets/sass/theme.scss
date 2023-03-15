@@ -126,7 +126,6 @@ html {
 
 /* Build
 -------------------------------------------------- */
-
 .build {
   display: flex;
   flex-direction: column;
@@ -483,5 +482,50 @@ html {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+  }
+}
+
+/* Page Not Found
+-------------------------------------------------- */
+.page-not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 auto;
+  color: $light;
+  text-align: center;
+
+  & .card {
+    min-width: 350px;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  & .dapp-icon {
+    align-items: center;
+    color: $light;
+    border-radius: 50%;
+    display: flex;
+    height: 65px;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 5px;
+    width: 65px;
+    background-color: inherit;
+  }
+
+  & .icon-medium {
+    width: 80px;
+    height: 80px;
+  }
+
+  & .page-not-found-title {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin: 1rem 0 .5rem 0;
+  }
+
+  & .empty-details {
+    font-size: 14px;
   }
 }
