@@ -3,7 +3,7 @@ import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { Loader } from '@multiversx/sdk-dapp/UI/Loader';
 import { logout } from '@multiversx/sdk-dapp/utils';
 import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
-import { COLLECTION, PIXEL, CALLBACK, AGE, REF } from 'config';
+import { collection, pixel, callback, age, ref } from 'config';
 import { useApiRequests } from 'hooks/network';
 import { useValidateNft } from 'hooks/nft';
 import { routeNames } from 'routes';
@@ -60,24 +60,24 @@ export const Result = () => {
 
   // If the params are set in the conifg, we update the searchParams with those, otherwise those built in the Build URL form will remain
   const updateSearchParams = () => {
-    if (COLLECTION) {
-      searchParams.set(QueryParamEnum.collection, COLLECTION);
+    if (collection) {
+      searchParams.set(QueryParamEnum.collection, collection);
     }
 
-    if (PIXEL) {
-      searchParams.set(QueryParamEnum.pixel, PIXEL);
+    if (pixel) {
+      searchParams.set(QueryParamEnum.pixel, pixel);
     }
 
-    if (CALLBACK) {
-      searchParams.set(QueryParamEnum.callback, CALLBACK);
+    if (callback) {
+      searchParams.set(QueryParamEnum.callback, callback);
     }
 
-    if (AGE) {
-      searchParams.set(QueryParamEnum.age, AGE);
+    if (age) {
+      searchParams.set(QueryParamEnum.age, age);
     }
 
-    if (REF) {
-      searchParams.set(QueryParamEnum.ref, REF);
+    if (ref) {
+      searchParams.set(QueryParamEnum.ref, ref);
     }
 
     setSearchParams(searchParams);
