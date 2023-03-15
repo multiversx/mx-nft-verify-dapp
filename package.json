@@ -1,6 +1,6 @@
 {
   "name": "@multiversx/mx-nft-verify-dapp",
-  "description": "NFT Verifier Ownership",
+  "description": "NFT Ownership Verifier",
   "version": "1.0.0",
   "author": "MultiversX",
   "license": "GPL-3.0-or-later",
