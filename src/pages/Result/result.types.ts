@@ -2,9 +2,11 @@ import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 export enum QueryParamEnum {
-  collectionId = 'collectionId',
-  callbackUrl = 'callbackUrl',
-  age = 'age'
+  collection = 'collection',
+  pixel = 'pixel',
+  callback = 'callback',
+  age = 'age',
+  ref = 'ref'
 }
 
 export class ResultMessageState {

@@ -1,23 +1,3 @@
-export interface TransactionType {
-  epoch: number;
-  gasConsumed: number;
-  gasPenalized: number;
-  gasRefunded: number;
-  hash: string;
-  maxGasLimit: number;
-  nonce: number;
-  prevHash: string;
-  proposer: string;
-  pubKeyBitmap: string;
-  round: number;
-  shard: number;
-  size: number;
-  sizeTxs: number;
-  stateRootHash: string;
-  timestamp: number;
-  txCount: number;
-}
-
 export interface TransactionAction {
   category: string;
   name: string;

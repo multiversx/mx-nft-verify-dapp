@@ -6,7 +6,7 @@ import {
 import { useSearchParams } from 'react-router-dom';
 import { useApiRequests } from 'hooks/network';
 import { QueryParamEnum } from 'pages/Result/result.types';
-import { checkNftOwnership, getTimestamp } from 'utils';
+import { getTimestamp } from 'utils';
 
 export const useValidateNft = () => {
   const account = useGetAccountInfo();
@@ -21,11 +21,12 @@ export const useValidateNft = () => {
 
   const [isLoadingValidateNft, setIsLoadingValidateNft] = useState(false);
   const [isValidatedNft, setIsValidatedNft] = useState(false);
+  const [nftIdentifier, setNftIdentifier] = useState<string>();
 
   const [searchParams] = useSearchParams();
 
   const getNftCollection = async () => {
-    const nftCollection = searchParams.get(QueryParamEnum.collectionId);
+    const nftCollection = searchParams.get(QueryParamEnum.collection);
     const age = searchParams.get(QueryParamEnum.age);
 
     if (!nftCollection || !age) {
@@ -34,37 +35,37 @@ export const useValidateNft = () => {
 
     setIsLoadingValidateNft(true);
 
-    const [accountNftsResult, transactionsCountResult] = await Promise.all([
-      getAccountNfts({
-        apiAddress,
-        accountAddress,
-        collections: [nftCollection]
-      }),
-      getTransactionsCount({
+    const { data: availableNfts } = await getAccountNfts({
+      apiAddress,
+      accountAddress,
+      collections: [nftCollection]
+    });
+
+    for (let i = 0; i < availableNfts.length; i++) {
+      const { data: noOfTx } = await getTransactionsCount({
         apiAddress,
         receiverAddress: accountAddress,
-        collectionId: nftCollection,
-        beforeTimestamp: getTimestamp('seconds', Number(age) * -1)
-      })
-    ]);
+        collection: availableNfts[i].identifier,
+        afterTimestamp: getTimestamp('seconds', Number(age))
+      });
+
+      if (noOfTx === 0) {
+        setNftIdentifier(availableNfts[i].identifier);
+        setIsValidatedNft(true);
+        break;
+      }
+    }
 
     setIsLoadingValidateNft(false);
-
-    if (accountNftsResult && transactionsCountResult) {
-      const hasNft = checkNftOwnership({
-        accountNftsResult,
-        transactionsCountResult
-      });
-      setIsValidatedNft(hasNft);
-    }
   };
 
   useEffect(() => {
     getNftCollection();
-  }, [isValidatedNft, searchParams]);
+  }, []);
 
   return {
     isValidatedNft,
-    isLoadingValidateNft
+    isLoadingValidateNft,
+    nftIdentifier
   };
 };

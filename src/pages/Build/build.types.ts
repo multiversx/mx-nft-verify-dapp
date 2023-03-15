@@ -1,7 +1,9 @@
 import { AgeEnum } from 'types';
 
 export interface BuildFormValuesType {
-  collectionId: string;
-  callbackUrl: string;
+  collection: string;
+  pixel: string;
+  callback: string;
   age: AgeEnum;
+  ref: string;
 }

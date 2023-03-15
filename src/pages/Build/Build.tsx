@@ -19,36 +19,42 @@ export const Build = () => {
   const { getCollectionNfts } = useApiRequests();
 
   const initialValues: BuildFormValuesType = {
-    collectionId: '',
-    callbackUrl: '',
-    age: AgeEnum.oneDay
+    collection: '',
+    pixel: '',
+    callback: '',
+    age: AgeEnum.oneDay,
+    ref: ''
   };
 
   const showComputedUrl = (values: BuildFormValuesType) => {
-    const { collectionId, callbackUrl, age } = values;
+    const { collection, callback, age, ref } = values;
     const domain = new URL(`${window.location.origin}/verify`);
 
-    domain.searchParams.append(QueryParamEnum.collectionId, collectionId);
+    domain.searchParams.append(QueryParamEnum.collection, collection);
 
-    if (callbackUrl) {
-      domain.searchParams.append(QueryParamEnum.callbackUrl, callbackUrl);
+    if (callback) {
+      domain.searchParams.append(QueryParamEnum.callback, callback);
     }
     domain.searchParams.append(QueryParamEnum.age, age);
+
+    if (ref) {
+      domain.searchParams.append(QueryParamEnum.ref, ref);
+    }
 
     setGeneratedUrl(domain.href);
   };
 
   const onSubmit = async (values: BuildFormValuesType) => {
-    // Before computing the URL, at first we must validate that the collectionId is valid
+    // Before computing the URL, at first we must validate that the collection is valid
     const response = await getCollectionNfts({
       apiAddress,
-      collection: values.collectionId
+      collection: values.collection
     });
 
     if (!response.data) {
       setErrors({
         ...errors,
-        collectionId: 'This collection does not exist'
+        collection: 'This collection does not exist'
       });
 
       return;
@@ -95,42 +101,68 @@ export const Build = () => {
     }
   ];
 
-  const isCollectionIdError =
-    QueryParamEnum.collectionId in errors &&
-    QueryParamEnum.collectionId in touched;
+  const isCollectionError =
+    QueryParamEnum.collection in errors && QueryParamEnum.collection in touched;
+
+  const isPixelError =
+    QueryParamEnum.pixel in errors && QueryParamEnum.pixel in touched;
 
   const isCallbackUrlError =
-    QueryParamEnum.callbackUrl in errors &&
-    QueryParamEnum.callbackUrl in touched;
+    QueryParamEnum.callback in errors && QueryParamEnum.callback in touched;
 
   return (
-    <section className='build d-flex flex-column justify-content-center flex-fill align-items-center container'>
-      <h2 className='text-white text-center'>Build URL</h2>
-      <div className='card w-100'>
+    <section className='build'>
+      <div className='card'>
+        <h2 className='build-title'>Build URL</h2>
         <form className='build-form' onSubmit={handleSubmit}>
           <BuildFormInputGroup
-            id={QueryParamEnum.collectionId}
+            id={QueryParamEnum.collection}
             placeholder='E.g. MOS-b9b4b2'
-            labelValue='Collection ID'
-            value={values.collectionId}
+            labelValue='Collection'
+            value={values.collection}
             onChange={handleChange}
             onBlur={handleBlur}
-            isError={isCollectionIdError}
-            error={errors.collectionId}
-            className='foo'
+            isError={isCollectionError}
+            error={errors.collection}
           />
 
           <BuildFormInputGroup
-            id={QueryParamEnum.callbackUrl}
+            id={QueryParamEnum.pixel}
             placeholder='E.g. https://example.com'
-            labelValue='Callback URL'
+            labelValue='Pixel'
+            tooltipInfo={
+              'URL being fetched in the background with every successful check'
+            }
             isOptional
-            value={values.callbackUrl}
+            value={values.pixel}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            isError={isPixelError}
+            error={errors.pixel}
+          />
+
+          <BuildFormInputGroup
+            id={QueryParamEnum.callback}
+            placeholder='E.g. https://example.com'
+            labelValue='Callback'
+            tooltipInfo='URL where the user is redirected to after every successful check.'
+            isOptional
+            value={values.callback}
             onChange={handleChange}
             onBlur={handleBlur}
             isError={isCallbackUrlError}
-            error={errors.callbackUrl}
+            error={errors.callback}
           />
+          <BuildFormInputGroup
+            id={QueryParamEnum.ref}
+            labelValue='Reference'
+            tooltipInfo='Used to store app internal IDs or state references for the users.'
+            isOptional
+            value={values.ref}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+
           <BuildFormSelectGroup
             id={QueryParamEnum.age}
             labelValue='Age'
@@ -144,7 +176,7 @@ export const Build = () => {
         </form>
       </div>
 
-      <div className='d-flex align-items-center'>
+      <div className='build-generated-url-wrapper'>
         <div className='build-generated-url'>{generatedUrl}</div>
         {generatedUrl && <CopyButton text={generatedUrl} />}
       </div>

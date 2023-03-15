@@ -6,10 +6,7 @@ import { routeNames } from 'routes';
 export const Navbar = () => {
   return (
     <header className='header'>
-      <Link
-        className='d-flex align-items-center navbar-brand mr-0'
-        to={routeNames.home}
-      >
+      <Link className='header-link' to={routeNames.home}>
         <SpotlightLogo className='spotlight-logo' />
       </Link>
     </header>
