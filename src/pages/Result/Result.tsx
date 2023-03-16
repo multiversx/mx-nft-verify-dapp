@@ -48,11 +48,11 @@ export const Result = () => {
     if (callbackParam && nftIdentifier && isValidatedNft) {
       setTimeout(() => {
         window.location.href = `${callbackParam}?identifier=${nftIdentifier}${
-          pixelParam && `&pixel=${pixelParam}`
+          pixelParam ? `&pixel=${pixelParam}` : ''
         }`;
       }, 2000);
     }
-  }, []);
+  }, [isValidatedNft]);
 
   const handleLogout = () => {
     logout(`${location.origin}${routeNames.verify}${search}`);

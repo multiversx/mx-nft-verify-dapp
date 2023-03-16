@@ -10,10 +10,10 @@
 
 <p align="center">
 
- <h3 align="center">Dapp boilerplate for Delegation </h3>
+ <h3 align="center">NFT Ownership Verifier</h3>
 
   <p align="center">
-The react implementation for Dashboard Delegation
+Quickly and easily verify user ownership of authentic NFTs from any collection.
     <br />
     <br />
     <br />
@@ -70,7 +70,7 @@ From a terminal, navigate to the project folder and run `yarn install`
 
 ### Step 2. Run the dashboard
 
-To run the project locally run `yarn start` from the project folder. Open http://localhost:3000 to view it in the browser.
+To run the project locally run `yarn start` from the project folder. Open http://localhost:3001 to view it in the browser.
 
 <!-- ROADMAP -->
 
