@@ -8,5 +8,6 @@ export const validationSchema = yup.object().shape({
     })
     .required('Required'),
   pixel: yup.string().url('Invalid URL pattern'),
-  callback: yup.string().url('Invalid URL pattern')
+  callback: yup.string().url('Invalid URL pattern'),
+  ref: yup.string().max(100, 'Maximum limit is 100 characters')
 });
