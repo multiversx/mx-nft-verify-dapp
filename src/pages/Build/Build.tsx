@@ -114,6 +114,9 @@ export const Build = () => {
   const isCallbackUrlError =
     QueryParamEnum.callback in errors && QueryParamEnum.callback in touched;
 
+  const isRefError =
+    QueryParamEnum.ref in errors && QueryParamEnum.ref in touched;
+
   return (
     <section className='build'>
       <div className='card'>
@@ -163,6 +166,8 @@ export const Build = () => {
             tooltipInfo='Used to store app internal IDs or state references for the users.'
             isOptional
             value={values.ref}
+            isError={isRefError}
+            error={errors.ref}
             onChange={handleChange}
             onBlur={handleBlur}
           />

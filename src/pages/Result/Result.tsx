@@ -40,7 +40,6 @@ export const Result = () => {
         pixel: pixelParam,
         address: accountAddress,
         identifier: nftIdentifier,
-        ...(callbackParam && { callback: callbackParam }),
         ...(refParam && { ref: refParam })
       });
     }
@@ -52,7 +51,8 @@ export const Result = () => {
         const callbackParams = new URLSearchParams(callbackUrl.search);
 
         callbackParams.append('identifier', nftIdentifier);
-        pixelParam && callbackParams.append('pixel', pixelParam);
+        callbackParams.append('address', accountAddress);
+        refParam && callbackParams.append('ref', refParam);
 
         callbackUrl.search = callbackParams.toString();
         window.location.href = callbackUrl.toString();
