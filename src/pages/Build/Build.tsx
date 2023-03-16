@@ -27,15 +27,19 @@ export const Build = () => {
   };
 
   const showComputedUrl = (values: BuildFormValuesType) => {
-    const { collection, callback, age, ref } = values;
+    const { collection, pixel, callback, age, ref } = values;
     const domain = new URL(`${window.location.origin}/verify`);
 
     domain.searchParams.append(QueryParamEnum.collection, collection);
+    domain.searchParams.append(QueryParamEnum.age, age);
+
+    if (pixel) {
+      domain.searchParams.append(QueryParamEnum.pixel, pixel);
+    }
 
     if (callback) {
       domain.searchParams.append(QueryParamEnum.callback, callback);
     }
-    domain.searchParams.append(QueryParamEnum.age, age);
 
     if (ref) {
       domain.searchParams.append(QueryParamEnum.ref, ref);
@@ -51,7 +55,7 @@ export const Build = () => {
       collection: values.collection
     });
 
-    if (!response.data) {
+    if (!response.data || !response.data.length) {
       setErrors({
         ...errors,
         collection: 'This collection does not exist'
@@ -174,11 +178,22 @@ export const Build = () => {
             Generate URL
           </button>
         </form>
-      </div>
-
-      <div className='build-generated-url-wrapper'>
-        <div className='build-generated-url'>{generatedUrl}</div>
-        {generatedUrl && <CopyButton text={generatedUrl} />}
+        {generatedUrl && (
+          <div className='build-generated-url-wrapper'>
+            <div className='build-generated-url'>
+              <a
+                href={generatedUrl}
+                title={generatedUrl}
+                {...{
+                  target: '_blank'
+                }}
+              >
+                {generatedUrl}
+              </a>
+            </div>
+            <CopyButton text={generatedUrl} />
+          </div>
+        )}
       </div>
     </section>
   );

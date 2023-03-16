@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
 import { nativeAuth } from '@multiversx/sdk-dapp/services/nativeAuth';
 import {
   WalletConnectLoginButton,
@@ -11,6 +12,8 @@ import { routeNames } from 'routes';
 
 export const Verification = () => {
   const { search } = useLocation();
+  const isLoggedIn = useGetIsLoggedIn();
+
   const [token, setToken] = useState('');
 
   const getRef = async (e: HTMLDivElement) => {
@@ -37,10 +40,15 @@ export const Verification = () => {
   };
 
   useEffect(() => {
-    getToken();
-    const interval = setInterval(() => getToken(), 6000);
+    if (!isLoggedIn) {
+      const interval = setInterval(() => getToken(), 6000);
 
-    return () => clearInterval(interval);
+      return () => clearInterval(interval);
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    getToken();
   }, []);
 
   const loginProps: WalletConnectLoginButtonPropsType = {
@@ -63,7 +71,7 @@ export const Verification = () => {
     <div className='verification'>
       <div className='verify-ownership card'>
         <h1>Scan with xPortal</h1>
-        <div ref={getRef} className='card-body text-center pb-0 mx-auto'>
+        <div ref={getRef}>
           <WalletConnectLoginButton {...loginProps} />
         </div>
       </div>
