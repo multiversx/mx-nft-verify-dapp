@@ -24,7 +24,7 @@ export const ResultMessage = ({
     if (isValidated) {
       setResultMessage(
         new ResultMessageState(
-          'result-icon color-success',
+          'result-icon color-success outline-success',
           `Collection identifier: ${searchParams.get(
             QueryParamEnum.collection
           )}`,
@@ -35,7 +35,7 @@ export const ResultMessage = ({
     } else {
       setResultMessage(
         new ResultMessageState(
-          'result-icon color-danger',
+          'result-icon color-danger outline-danger',
           `Could not find any NFT in the ${searchParams.get(
             QueryParamEnum.collection
           )} collection`,

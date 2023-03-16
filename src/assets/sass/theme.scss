@@ -55,6 +55,14 @@ a {
   color: $danger;
 }
 
+.outline-success {
+  outline: 1px solid $success;
+}
+
+.outline-danger {
+  outline: 1px solid $danger;
+}
+
 .card {
   background-color: $bg-card;
   border-radius: 10px;
