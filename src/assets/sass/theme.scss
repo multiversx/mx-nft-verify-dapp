@@ -17,7 +17,6 @@ $bg-card: #212121;
 
 body {
   background-color: $bg-body;
-  overflow: hidden;
 }
 
 html {
@@ -139,8 +138,15 @@ a {
   flex: 1 1 auto;
   margin: 0 auto;
   width: 100%;
-  max-width: 500px;
   gap: 18px;
+
+  @media (min-width: 375px) {
+    max-width: 325px;
+  }
+
+  @media (min-width: 500px) {
+    max-width: 500px;
+  }
 
   & .card {
     width: 100%;
@@ -452,10 +458,17 @@ a {
 /* Header
 -------------------------------------------------- */
 .header {
-  padding: 50px 0 0 0;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (min-width: 375px) {
+    padding: 50px 0;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 50px 0 0 0;
+  }
 
   & .header-link {
     display: flex;
