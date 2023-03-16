@@ -45,11 +45,17 @@ export const Result = () => {
       });
     }
 
+    // If NFT is validated and a callback was provided, redirect to callback
     if (callbackParam && nftIdentifier && isValidatedNft) {
       setTimeout(() => {
-        window.location.href = `${callbackParam}?identifier=${nftIdentifier}${
-          pixelParam ? `&pixel=${pixelParam}` : ''
-        }`;
+        const callbackUrl = new URL(callbackParam);
+        const callbackParams = new URLSearchParams(callbackUrl.search);
+
+        callbackParams.append('identifier', nftIdentifier);
+        pixelParam && callbackParams.append('pixel', pixelParam);
+
+        callbackUrl.search = callbackParams.toString();
+        window.location.href = callbackUrl.toString();
       }, 2000);
     }
   }, [isValidatedNft]);
