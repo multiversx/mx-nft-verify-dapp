@@ -72,6 +72,13 @@ From a terminal, navigate to the project folder and run `yarn install`
 
 To run the project locally run `yarn start` from the project folder. Open http://localhost:3001 to view it in the browser.
 
+<!-- USAGE -->
+
+## Usage
+
+Use the variables in the [config.tsx](https://github.com/multiversx/mx-nft-verify-dapp/blob/master/src/config.tsx) file to start the project in single check mode with hardcoded settings.
+There you can set the **collection** required variable as well as the optional **pixel**, **callback**, **ref** and **age**.
+
 <!-- ROADMAP -->
 
 ## Roadmap
