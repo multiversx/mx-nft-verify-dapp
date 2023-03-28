@@ -35,12 +35,14 @@ export const useApiRequests = () => {
       pixel,
       address,
       callback,
+      nativeAuthToken,
       identifier,
       ref
     }: {
       pixel: string;
       address: string;
       identifier: string;
+      nativeAuthToken: string;
       callback?: string;
       ref?: string;
     }) =>
@@ -48,6 +50,7 @@ export const useApiRequests = () => {
         params: {
           address,
           callback,
+          nativeAuthToken,
           identifier,
           ref
         },
