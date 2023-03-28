@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo, useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
 import { Loader } from '@multiversx/sdk-dapp/UI/Loader';
 import { logout } from '@multiversx/sdk-dapp/utils';
 import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
@@ -12,8 +12,10 @@ import { QueryParamEnum } from './result.types';
 
 export const Result = () => {
   const account = useGetAccountInfo();
+  const loginInfo = useGetLoginInfo();
 
   const { address: accountAddress } = account;
+  const { tokenLogin } = loginInfo;
 
   const { callPixelAfterValidate } = useApiRequests();
 
@@ -35,11 +37,14 @@ export const Result = () => {
     const callbackParam = searchParams.get(QueryParamEnum.callback);
     const refParam = searchParams.get(QueryParamEnum.ref);
 
+    const nativeAuthToken = tokenLogin?.nativeAuthToken ?? '';
+
     if (pixelParam && nftIdentifier && isValidatedNft) {
       callPixelAfterValidate({
         pixel: pixelParam,
         address: accountAddress,
         identifier: nftIdentifier,
+        nativeAuthToken,
         ...(refParam && { ref: refParam })
       });
     }
@@ -52,6 +57,8 @@ export const Result = () => {
 
         callbackParams.append('identifier', nftIdentifier);
         callbackParams.append('address', accountAddress);
+        nativeAuthToken &&
+          callbackParams.append('nativeAuthToken', nativeAuthToken);
         refParam && callbackParams.append('ref', refParam);
 
         callbackUrl.search = callbackParams.toString();
