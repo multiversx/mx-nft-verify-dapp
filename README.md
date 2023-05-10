@@ -1,6 +1,6 @@
 <div style="text-align:center">
   <img
-  src="https://github.com/multiversx/mx-nft-verify-dapp/blob/master/public/share.jpg"
+  src="https://github.com/multiversx/mx-nft-verify-dapp/blob/main/public/share.jpg"
   alt="MultiversX Network">
 </div>
 <br>
@@ -76,7 +76,7 @@ To run the project locally run `yarn start` from the project folder. Open http:/
 
 ## Usage
 
-Use the variables in the [config.tsx](https://github.com/multiversx/mx-nft-verify-dapp/blob/master/src/config.tsx) file to start the project in single check mode with hardcoded settings.
+Use the variables in the [config.tsx](https://github.com/multiversx/mx-nft-verify-dapp/blob/main/src/config.tsx) file to start the project in single check mode with hardcoded settings.
 There you can set the **collection** required variable as well as the optional **pixel**, **callback**, **ref** and **age**.
 
 <!-- ROADMAP -->
