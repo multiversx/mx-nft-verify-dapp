@@ -9,9 +9,9 @@
     "@fortawesome/fontawesome-svg-core": "6.1.0",
     "@fortawesome/free-solid-svg-icons": "6.1.0",
     "@fortawesome/react-fontawesome": "0.2.0",
-    "@multiversx/sdk-core": "11.2.0",
-    "@multiversx/sdk-dapp": "2.10.8",
-    "@multiversx/sdk-network-providers": "1.2.1",
+    "@multiversx/sdk-core": "12.2.1",
+    "@multiversx/sdk-dapp": "2.14.4",
+    "@multiversx/sdk-network-providers": "1.4.0",
     "axios": "0.24.0",
     "formik": "2.2.9",
     "moment": "2.29.1",
@@ -23,7 +23,7 @@
     "yup": "1.0.1"
   },
   "scripts": {
-    "start": "HTTPS=true PORT=3001 react-scripts start",
+    "start": "SKIP_PREFLIGHT_CHECK=true HTTPS=true PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
