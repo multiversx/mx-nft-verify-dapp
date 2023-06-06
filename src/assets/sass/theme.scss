@@ -523,6 +523,8 @@ a {
   & .layout-main {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     flex-grow: 1;
   }
 }
@@ -570,4 +572,45 @@ a {
   & .empty-details {
     font-size: 14px;
   }
+}
+
+.qr-reader-container {
+  width: 1000px;
+  height: 1000px;
+}
+
+.scan-result {
+  min-width: 250px;
+  min-height: 250px;
+  position: absolute;
+  color: #fff;
+  z-index: 2023;
+
+  & .card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    & p {
+      margin: 12px 0 24px 0;
+    }
+
+    & .icon-positive {
+      background-color: $success;
+      border-radius: 50px;
+      padding: 1rem;
+      width: 3rem;
+      height: 3rem;
+    }
+   
+    & .icon-negative {
+      background-color: $danger;
+      border-radius: 50px;
+      padding: 1rem;
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+
 }

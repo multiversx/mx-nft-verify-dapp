@@ -1,11 +1,8 @@
 import axios from 'axios';
 import { GetAccountNfts, GetCollectionNfts } from 'types';
 import { asyncWrapper } from 'utils';
-import { useAxiosAuthWrapper } from './useAxiosAuthWrapper';
 
 export const useApiRequests = () => {
-  const axiosAuthWrapper = useAxiosAuthWrapper();
-
   const DEFAULT_TIMEOUT = 3000;
 
   return {
@@ -14,15 +11,13 @@ export const useApiRequests = () => {
       accountAddress,
       collections
     }: GetAccountNfts) =>
-      axiosAuthWrapper().then((authAxios) =>
-        asyncWrapper(() =>
-          authAxios.get(`${apiAddress}/accounts/${accountAddress}/nfts`, {
-            timeout: DEFAULT_TIMEOUT,
-            params: {
-              collections: collections.join(',')
-            }
-          })
-        )
+      asyncWrapper(() =>
+        axios.get(`${apiAddress}/accounts/${accountAddress}/nfts`, {
+          timeout: DEFAULT_TIMEOUT,
+          params: {
+            collections: collections.join(',')
+          }
+        })
       ),
 
     getCollectionNfts: ({ apiAddress, collection }: GetCollectionNfts) =>
@@ -68,17 +63,15 @@ export const useApiRequests = () => {
       collection: string;
       afterTimestamp: number;
     }) =>
-      axiosAuthWrapper().then((authAxios) =>
-        asyncWrapper(() =>
-          authAxios.get(`${apiAddress}/transactions/count`, {
-            params: {
-              receiver: receiverAddress,
-              token: collection,
-              after: afterTimestamp
-            },
-            timeout: DEFAULT_TIMEOUT
-          })
-        )
+      asyncWrapper(() =>
+        axios.get(`${apiAddress}/transactions/count`, {
+          params: {
+            receiver: receiverAddress,
+            token: collection,
+            after: afterTimestamp
+          },
+          timeout: DEFAULT_TIMEOUT
+        })
       )
   };
 };
