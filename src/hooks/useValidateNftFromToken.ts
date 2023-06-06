@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
 import { useSearchParams } from 'react-router-dom';
-import { useApiRequests } from 'hooks/network';
 import { QueryParamEnum } from 'pages/Result/result.types';
 import { decodeNativeAuthToken } from 'pages/Scan/utils';
 import { getTimestamp } from 'utils';
+import { useApiRequests } from './useApiRequests';
 
 export const useValidateNftFromToken = (nativeAuthToken: string) => {
   const {

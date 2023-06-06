@@ -2,10 +2,8 @@ import React, { useEffect } from 'react';
 import { useGetAccountInfo, useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
 import { Loader } from '@multiversx/sdk-dapp/UI/Loader';
 import { logout } from '@multiversx/sdk-dapp/utils';
-import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
-import { collection, pixel, callback, age, ref } from 'config';
-import { useApiRequests } from 'hooks/network';
-import { useValidateNft } from 'hooks/nft';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useApiRequests, useValidateNft, useUpdateSearchParams } from 'hooks';
 import { routeNames } from 'routes';
 import { ResultMessage } from './components';
 import { QueryParamEnum } from './result.types';
@@ -24,7 +22,7 @@ export const Result = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { searchParams, updateSearchParams } = useUpdateSearchParams();
 
   useEffect(() => {
     updateSearchParams();
@@ -69,31 +67,6 @@ export const Result = () => {
 
   const handleLogout = () => {
     logout(`${location.origin}${routeNames.verify}${search}`);
-  };
-
-  // If the params are set in the conifg, we update the searchParams with those, otherwise those built in the Build URL form will remain
-  const updateSearchParams = () => {
-    if (collection) {
-      searchParams.set(QueryParamEnum.collection, collection);
-    }
-
-    if (pixel) {
-      searchParams.set(QueryParamEnum.pixel, pixel);
-    }
-
-    if (callback) {
-      searchParams.set(QueryParamEnum.callback, callback);
-    }
-
-    if (age) {
-      searchParams.set(QueryParamEnum.age, age);
-    }
-
-    if (ref) {
-      searchParams.set(QueryParamEnum.ref, ref);
-    }
-
-    setSearchParams(searchParams);
   };
 
   if (isLoadingValidateNft) {

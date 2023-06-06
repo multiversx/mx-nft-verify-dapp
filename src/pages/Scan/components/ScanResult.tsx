@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { faCheck, faTimes, faEraser } from '@fortawesome/free-solid-svg-icons';
 import { Loader } from '@multiversx/sdk-dapp/UI/Loader';
 import { PageState } from '@multiversx/sdk-dapp/UI/PageState';
-import { useSearchParams } from 'react-router-dom';
-import { useApiRequests } from 'hooks/network';
-import { useValidateNftFromToken } from 'hooks/nft';
+import { useNavigate } from 'react-router-dom';
+import {
+  useApiRequests,
+  useUpdateSearchParams,
+  useValidateNftFromToken
+} from 'hooks';
 import { QueryParamEnum } from 'pages/Result/result.types';
+import { routeNames } from 'routes';
 import { isNativeAuthToken, isNativeAuthTokenValid } from '../utils';
 
 interface ScanResultProps {
@@ -19,7 +23,8 @@ export const ScanResult = ({
 }: ScanResultProps) => {
   const { callPixelAfterValidate } = useApiRequests();
 
-  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { searchParams, updateSearchParams } = useUpdateSearchParams();
 
   const [scanResultMessage, setScanResultMessage] = useState<string>();
   const [isScanResultPositive, setIsScanResultPositive] = useState<boolean>();
@@ -50,9 +55,15 @@ export const ScanResult = ({
 
   useEffect(() => {
     validateNativeAuthToken();
+    updateSearchParams();
 
+    const collectionParam = searchParams.get(QueryParamEnum.collection);
     const pixelParam = searchParams.get(QueryParamEnum.pixel);
     const refParam = searchParams.get(QueryParamEnum.ref);
+
+    if (!collectionParam) {
+      navigate(routeNames.home);
+    }
 
     if (isValidatedNft && pixelParam && nftIdentifier && accountAddress) {
       callPixelAfterValidate({

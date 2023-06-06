@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
 import { CopyButton } from '@multiversx/sdk-dapp/UI/CopyButton';
 import { useFormik } from 'formik';
-import { useApiRequests } from 'hooks/network';
+import { useApiRequests } from 'hooks';
 import { QueryParamEnum } from 'pages/Result/result.types';
 import { AgeEnum } from 'types';
 import { BuildFormValuesType } from './build.types';

@@ -4,9 +4,9 @@ import {
   useGetNetworkConfig
 } from '@multiversx/sdk-dapp/hooks';
 import { useSearchParams } from 'react-router-dom';
-import { useApiRequests } from 'hooks/network';
 import { QueryParamEnum } from 'pages/Result/result.types';
 import { getTimestamp } from 'utils';
+import { useApiRequests } from './useApiRequests';
 
 export const useValidateNft = () => {
   const account = useGetAccountInfo();
