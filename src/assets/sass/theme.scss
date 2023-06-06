@@ -470,13 +470,7 @@ a {
   justify-content: center;
   align-items: center;
 
-  @media (min-width: 375px) {
-    padding: 50px 0;
-  }
-
-  @media (min-width: 1024px) {
-    padding: 50px 0 0 0;
-  }
+  padding: 50px 0;
 
   & .header-link {
     display: flex;
@@ -575,8 +569,15 @@ a {
 }
 
 .qr-reader-container {
-  width: 1000px;
-  height: 1000px;
+  @media (min-width: 375px) {
+    width: 90%;
+    height: auto;
+  }
+
+  @media (min-width: 1440px) {
+    width: 1000px;
+    height: 1000px;
+  }
 }
 
 .scan-result {
