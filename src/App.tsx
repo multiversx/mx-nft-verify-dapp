@@ -1,5 +1,4 @@
 import React from 'react';
-import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
 
 import {
   DappProvider,
@@ -8,6 +7,7 @@ import {
 
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { Layout } from 'components/Layout';
+import { dappEnvironment } from 'config';
 import { walletConnectV2ProjectId, apiTimeout } from 'config';
 import { PageNotFound } from 'pages/PageNotFound';
 import routes from 'routes';
@@ -16,7 +16,7 @@ const App = () => {
   return (
     <AxiosInterceptorContext.Provider>
       <DappProvider
-        environment={EnvironmentsEnum.mainnet}
+        environment={dappEnvironment}
         customNetworkConfig={{
           name: 'customConfig',
           apiTimeout,
