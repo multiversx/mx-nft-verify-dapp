@@ -29,7 +29,15 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext js,ts,tsx src"
+    "lint": "eslint --ext js,ts,tsx src",
+    "build-mainnet": "yarn run copy-mainnet-config && yarn run build",
+    "build-staging": "yarn run copy-staging-config && yarn run build",
+    "build-testnet": "yarn run copy-testnet-config && yarn run build",
+    "build-devnet": "yarn run copy-devnet-config && yarn run build",
+    "copy-mainnet-config": "cp ./src/config.mainnet.ts ./src/config.ts",
+    "copy-staging-config": "cp ./src/config.staging.ts ./src/config.ts",
+    "copy-testnet-config": "cp ./src/config.testnet.ts ./src/config.ts",
+    "copy-devnet-config": "cp ./src/config.devnet.ts ./src/config.ts"
   },
   "eslintConfig": {
     "extends": [
