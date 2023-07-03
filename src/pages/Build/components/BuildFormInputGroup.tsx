@@ -9,7 +9,7 @@ interface BuildFormInputGroupProps {
   labelValue: string;
   tooltipInfo?: string;
   isOptional?: boolean;
-  value: string;
+  value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isError?: boolean;
