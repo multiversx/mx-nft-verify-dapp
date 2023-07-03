@@ -542,15 +542,15 @@ a {
 .layout {
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
-  min-height: 100vh;
+  height: 100vh;
 
   & .layout-main {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-grow: 1;
+    flex-grow: 1; /* Make the div grow and take up remaining space */
+    overflow-y: hidden; /* Add scrollbars only if content overflows */
   }
 }
 
@@ -600,14 +600,21 @@ a {
 }
 
 .qr-reader-container {
-  @media (min-width: 375px) {
-    width: 90%;
+  @media (min-width: 320px) {
+    width: 300px;
     height: auto;
   }
 
-  @media (min-width: 1440px) {
-    width: 1000px;
-    height: 1000px;
+  @media (min-width: 375px) {
+    width: 350px;
+  }
+
+  @media (min-width: 768px) {
+    width: 600px;
+  }
+
+  @media (min-width: 1024px) {
+    width: 700px;
   }
 }
 
