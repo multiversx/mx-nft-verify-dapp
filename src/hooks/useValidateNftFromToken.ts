@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import { NftType } from '@multiversx/sdk-dapp/types/tokens.types';
 import { useSearchParams } from 'react-router-dom';
 import { QueryParamEnum } from 'pages/Result/result.types';
 import { decodeNativeAuthToken } from 'pages/Scan/utils';
@@ -31,31 +32,37 @@ export const useValidateNftFromToken = (nativeAuthToken: string) => {
       return;
     }
 
-    const { address } = decodedToken;
+    const { address, extraInfo } = decodedToken;
+    const { identifier } = extraInfo;
 
     setAccountAddress(address);
     setIsLoadingValidateNft(true);
 
     try {
-      const { data: availableNfts } = await getAccountNfts({
+      const { data: ownedNfts } = await getAccountNfts({
         apiAddress,
         accountAddress: address,
         collections: [nftCollection]
       });
 
-      for (let i = 0; i < availableNfts.length; i++) {
-        const { data: noOfTx } = await getTransactionsCount({
-          apiAddress,
-          receiverAddress: address,
-          collection: availableNfts[i].identifier,
-          afterTimestamp: getTimestamp('seconds', Number(age))
-        });
+      let isOwnedNftInUrlCollection = false;
 
-        if (noOfTx === 0) {
-          setNftIdentifier(availableNfts[i].identifier);
-          setIsValidatedNft(true);
-          break;
+      ownedNfts.forEach((nft: NftType) => {
+        if (nft.identifier === identifier && nft.collection === nftCollection) {
+          isOwnedNftInUrlCollection = true;
         }
+      });
+
+      const { data: noOfTx } = await getTransactionsCount({
+        apiAddress,
+        receiverAddress: address,
+        collection: identifier,
+        afterTimestamp: getTimestamp('seconds', Number(age))
+      });
+
+      if (noOfTx === 0 && isOwnedNftInUrlCollection) {
+        setNftIdentifier(identifier);
+        setIsValidatedNft(true);
       }
     } catch (error) {
       setIsErrorValidateNft(true);

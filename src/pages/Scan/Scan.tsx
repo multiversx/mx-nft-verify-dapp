@@ -3,7 +3,7 @@ import QrReader from 'react-web-qr-reader';
 import { ScanResult } from './components';
 
 export const Scan = () => {
-  const [nativeAuthToken, setNativeAuthToken] = useState<string | null>(null);
+  const [nativeAuthToken, setNativeAuthToken] = useState<string | null>();
 
   const handleScan = (payload: any) => {
     if (payload.data) {

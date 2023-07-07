@@ -8,7 +8,7 @@ export const ref = ''; // TODO: This must be set
 
 export const dAppName = 'NFT Ownership Verifier';
 
-export const dappEnvironment = EnvironmentsEnum.devnet;
+export const dappEnvironment = EnvironmentsEnum.mainnet;
 
 export const walletConnectV2ProjectId = '138fd3454a31d70561484e0b7b88eab0';
 
