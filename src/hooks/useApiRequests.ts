@@ -61,7 +61,7 @@ export const useApiRequests = () => {
       apiAddress: string;
       receiverAddress: string;
       collection: string;
-      afterTimestamp?: number;
+      afterTimestamp: number;
     }) =>
       asyncWrapper(() =>
         axios.get(`${apiAddress}/transactions/count`, {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkConfig';
+import { NftType } from '@multiversx/sdk-dapp/types/tokens.types';
 import { useSearchParams } from 'react-router-dom';
 import { QueryParamEnum } from 'pages/Result/result.types';
 import { decodeNativeAuthToken } from 'pages/Scan/utils';
@@ -11,7 +12,7 @@ export const useValidateNftFromToken = (nativeAuthToken: string) => {
     network: { apiAddress }
   } = useGetNetworkConfig();
 
-  const { getTransactionsCount } = useApiRequests();
+  const { getAccountNfts, getTransactionsCount } = useApiRequests();
 
   const [searchParams] = useSearchParams();
 
@@ -38,6 +39,20 @@ export const useValidateNftFromToken = (nativeAuthToken: string) => {
     setIsLoadingValidateNft(true);
 
     try {
+      const { data: ownedNfts } = await getAccountNfts({
+        apiAddress,
+        accountAddress: address,
+        collections: [nftCollection]
+      });
+
+      let isOwnedNftInUrlCollection = false;
+
+      ownedNfts.forEach((nft: NftType) => {
+        if (nft.identifier === identifier && nft.collection === nftCollection) {
+          isOwnedNftInUrlCollection = true;
+        }
+      });
+
       const { data: noOfTx } = await getTransactionsCount({
         apiAddress,
         receiverAddress: address,
@@ -45,7 +60,7 @@ export const useValidateNftFromToken = (nativeAuthToken: string) => {
         afterTimestamp: getTimestamp('seconds', Number(age))
       });
 
-      if (noOfTx === 0) {
+      if (noOfTx === 0 && isOwnedNftInUrlCollection) {
         setNftIdentifier(identifier);
         setIsValidatedNft(true);
       }
