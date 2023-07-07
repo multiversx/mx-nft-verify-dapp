@@ -11,7 +11,7 @@ export const useValidateNftFromToken = (nativeAuthToken: string) => {
     network: { apiAddress }
   } = useGetNetworkConfig();
 
-  const { getAccountNfts, getTransactionsCount } = useApiRequests();
+  const { getTransactionsCount } = useApiRequests();
 
   const [searchParams] = useSearchParams();
 
@@ -31,31 +31,23 @@ export const useValidateNftFromToken = (nativeAuthToken: string) => {
       return;
     }
 
-    const { address } = decodedToken;
+    const { address, extraInfo } = decodedToken;
+    const { identifier } = extraInfo;
 
     setAccountAddress(address);
     setIsLoadingValidateNft(true);
 
     try {
-      const { data: availableNfts } = await getAccountNfts({
+      const { data: noOfTx } = await getTransactionsCount({
         apiAddress,
-        accountAddress: address,
-        collections: [nftCollection]
+        receiverAddress: address,
+        collection: identifier,
+        afterTimestamp: getTimestamp('seconds', Number(age))
       });
 
-      for (let i = 0; i < availableNfts.length; i++) {
-        const { data: noOfTx } = await getTransactionsCount({
-          apiAddress,
-          receiverAddress: address,
-          collection: availableNfts[i].identifier,
-          afterTimestamp: getTimestamp('seconds', Number(age))
-        });
-
-        if (noOfTx === 0) {
-          setNftIdentifier(availableNfts[i].identifier);
-          setIsValidatedNft(true);
-          break;
-        }
+      if (noOfTx === 0) {
+        setNftIdentifier(identifier);
+        setIsValidatedNft(true);
       }
     } catch (error) {
       setIsErrorValidateNft(true);
