@@ -31,11 +31,12 @@ jobs:
           aws-region: 'us-east-1'
       - name: Deploy to S3 bucket
         run: aws s3 sync ./build/ s3://${{ secrets.AWS_S3_BUCKET_STAGING }} --delete
-      - uses: rtCamp/action-slack-notify@master
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@master
         env:
-          SLACK_ICON_EMOJI: ':admission_tickets:'
-          SLACK_USERNAME: ${{ secrets.AWS_S3_BUCKET.STAGING }}
-          SLACK_MESSAGE: ${{ secrets.AWS_S3_BUCKET.STAGING }}
+          SLACK_ICON_EMOJI: ':globe_with_meridians:'
+          SLACK_USERNAME: NFT Ownership Verifier Staging
+          SLACK_MESSAGE: ${{ secrets.AWS_S3_BUCKET_STAGING }}
           SLACK_FOOTER: ''
           MSG_MINIMAL: true
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
