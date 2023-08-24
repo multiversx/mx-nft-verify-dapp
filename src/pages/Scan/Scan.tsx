@@ -21,9 +21,7 @@ export const Scan = () => {
 
   return (
     <>
-      <div className='qr-reader-container'>
-        <video ref={ref} />
-      </div>
+      <video ref={ref} className='qr-reader-container' />
 
       {nativeAuthToken && (
         <ScanResult
