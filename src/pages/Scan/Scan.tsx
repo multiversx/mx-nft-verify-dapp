@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import QrReader from 'react-web-qr-reader';
+import { useZxing } from 'react-zxing';
 import { ScanResult } from './components';
 
 export const Scan = () => {
   const [nativeAuthToken, setNativeAuthToken] = useState<string | null>();
 
-  const handleScan = (payload: any) => {
-    if (payload.data) {
-      setNativeAuthToken(payload.data);
+  const { ref } = useZxing({
+    onDecodeResult(data) {
+      console.log('data: ', data);
+      setNativeAuthToken(data.getText());
+    },
+    onDecodeError(error) {
+      console.log(`Could not scan: ${error}`);
     }
-  };
-
-  const handleError = (error: unknown) => {
-    console.log(error);
-  };
+  });
 
   const handleReset = () => {
     setNativeAuthToken(null);
@@ -22,12 +22,7 @@ export const Scan = () => {
   return (
     <>
       <div className='qr-reader-container'>
-        <QrReader
-          delay={2000}
-          facingMode='environment'
-          onError={handleError}
-          onScan={handleScan}
-        />
+        <video ref={ref} />
       </div>
 
       {nativeAuthToken && (
