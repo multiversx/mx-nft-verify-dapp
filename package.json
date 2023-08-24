@@ -27,7 +27,7 @@
   },
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true HTTPS=true PORT=3001 react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext js,ts,tsx src",
