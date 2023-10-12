@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
-import { CopyButton } from '@multiversx/sdk-dapp/UI/CopyButton';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useApiRequests } from 'hooks';
 import { QueryParamEnum } from 'pages/Result/result.types';
 import { AgeEnum } from 'types';
-import { BuildFormValuesType } from '../build.types';
+import {
+  BuildFormValuesType,
+  RadioElementType,
+  VerificationType
+} from '../build.types';
 import { BuildFormInputGroup } from './BuildFormInputGroup';
+import { BuildFormRadioGroup } from './BuildFormRadioGroup';
 import { BuildFormSelectGroup } from './BuildFormSelectGroup';
+import { GeneratedUrl } from './GeneratedUrl';
 
-interface BuildPosFormCardProps {
+export interface BuildPosFormCardProps {
   validationSchema: yup.ObjectSchema<yup.AnyObject>;
   ageSelectOptions: { value: string; label: string }[];
 }
@@ -19,6 +24,9 @@ export const BuildPosFormCard = ({
   validationSchema,
   ageSelectOptions
 }: BuildPosFormCardProps) => {
+  const [verificationType, setVerificationType] =
+    useState<VerificationType>('scanner');
+  const [isUrlLoading, setIsUrlLoading] = useState(false);
   const [generatedUrl, setGeneratedUrl] = useState('');
 
   const {
@@ -41,6 +49,7 @@ export const BuildPosFormCard = ({
 
     domain.searchParams.append(QueryParamEnum.collection, collection);
     domain.searchParams.append(QueryParamEnum.age, age);
+    domain.searchParams.append(QueryParamEnum.type, verificationType);
 
     if (pixel) {
       domain.searchParams.append(QueryParamEnum.pixel, pixel);
@@ -58,6 +67,7 @@ export const BuildPosFormCard = ({
   };
 
   const onSubmit = async (values: BuildFormValuesType) => {
+    setIsUrlLoading(true);
     // Before computing the URL, at first we must validate that the collection is valid
     const response = await getCollectionNfts({
       apiAddress,
@@ -70,10 +80,12 @@ export const BuildPosFormCard = ({
         collection: 'This collection does not exist'
       });
 
+      setIsUrlLoading(false);
       return;
     }
 
     showComputedUrl(values);
+    setIsUrlLoading(false);
   };
 
   const {
@@ -89,6 +101,11 @@ export const BuildPosFormCard = ({
     validationSchema,
     onSubmit
   });
+
+  const radioElements: RadioElementType[] = [
+    { id: 'pos', value: 'pos', label: 'PoS' },
+    { id: 'scanner', value: 'scanner', label: 'Scanner', checked: true }
+  ];
 
   const isCollectionError =
     QueryParamEnum.collection in errors && QueryParamEnum.collection in touched;
@@ -156,6 +173,12 @@ export const BuildPosFormCard = ({
           onBlur={handleBlur}
         />
 
+        <BuildFormRadioGroup
+          elements={radioElements}
+          title='Prefered'
+          setVerificationType={setVerificationType}
+        />
+
         <BuildFormSelectGroup
           id={QueryParamEnum.age}
           labelValue='Age'
@@ -167,22 +190,7 @@ export const BuildPosFormCard = ({
           Generate URL
         </button>
       </form>
-      {generatedUrl && (
-        <div className='build-generated-url-wrapper'>
-          <div className='build-generated-url'>
-            <a
-              href={generatedUrl}
-              title={generatedUrl}
-              {...{
-                target: '_blank'
-              }}
-            >
-              {generatedUrl}
-            </a>
-          </div>
-          <CopyButton text={generatedUrl} />
-        </div>
-      )}
+      <GeneratedUrl url={generatedUrl} isUrlLoading={isUrlLoading} />
     </div>
   );
 };

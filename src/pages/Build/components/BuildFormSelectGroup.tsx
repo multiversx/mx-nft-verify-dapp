@@ -19,10 +19,10 @@ export const BuildFormSelectGroup = ({
   labelValue,
   onChange,
   options,
-  className
+  className = ''
 }: BuildFormSelectGroupProps) => {
   return (
-    <div className={`form-group ${className ? className : ''}`}>
+    <div className={`form-group ${className}`}>
       <label htmlFor={id}>{labelValue}</label>
       <select className='form-control' id={id} onChange={onChange}>
         {options.map((option: SelectOptionType, idx: number) => (

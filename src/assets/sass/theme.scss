@@ -160,36 +160,7 @@ a {
     min-height: 570px;
   }
 
-  & .build-tabs {
-    background-color: $bg-card;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    align-items: center;
-    border-radius: 10px;
-    padding: 6px;
-    flex-wrap: wrap;
-    grid-gap: 4px;
-    gap: 4px;
 
-    & .build-tab {
-      font-size: 1rem;
-      padding: 0.75rem 1rem;
-      transition: all 0.2s ease-out;
-      cursor: pointer;
-      line-height: 1;
-      padding: 12px 16px;
-      color: $light;
-      border-radius: 10px;
-      background-color: transparent;
-      outline: none;
-      border: none;
-    }
-
-    & .build-tab-active {
-      background-color: $primary;
-      color: $dark;   
-    }
-  }
 
   & .build-title {
     color: $light;
@@ -205,12 +176,34 @@ a {
     gap: 18px;
     width: 100%;
 
+    & .radio-group {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      grid-gap: 1rem;
+
+      & .radio-field {
+        display: flex;
+        align-items: center;
+
+        label, p {
+          margin-bottom: 0;
+          margin-left: .5rem;
+          color: $light;
+        }
+      }
+
+      p {
+        color: $light;
+      }
+
+    }
+
     & .form-group {
       position: relative;
       margin-bottom: 1rem;
-    }
 
-    & input,
+      & input,
     & select {
       display: block;
       width: 100%;
@@ -299,6 +292,9 @@ a {
         }
       }
     }
+    }
+
+    
 
   }
 
@@ -334,68 +330,108 @@ a {
 -------------------------------------------------- */
 .verification {
   display: flex;
-  flex: 1 1 auto;
+  flex-direction: column;
   align-items: center;
-  margin: 0 auto;
+  height: 100%;
 
+  .build-tabs {
+    background-color: $bg-card;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    border-radius: 10px;
+    padding: 6px;
+    flex-wrap: wrap;
+    grid-gap: 4px;
+    gap: 4px;
+    width: 300px;
+    margin-bottom: 50px;
 
-  .verify-ownership {
-    & h1 {
-      text-align: center;
+    .build-tab {
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+      transition: all 0.2s ease-out;
+      cursor: pointer;
+      line-height: 1;
+      padding: 12px 16px;
       color: $light;
-      font-size: 24px;
-      margin-bottom: 1.5rem;
-      font-weight: 400;
+      border-radius: 10px;
+      background-color: transparent;
+      outline: none;
+      border: none;
     }
-  
-    & svg {
-      border-radius: 5px;
-    }
-  
-    & .dapp-wallet-connect-login-modal,
-    & .dapp-core-component__main__h4,
-    & .dapp-core-component__main__lead,
-    & .dapp-core-component__main__link-style,
-    & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-container-heading,
-    & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-container-subheading,
-    & p  {
-      display: none;
-    }
-  
-    & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-legacy-link {
-      visibility: hidden;
-      margin: 0 !important;
-      z-index: -1;
-    }
-  
-    & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-content {
-      padding: 0;
-    }
-  
-    & .dapp-core-component__main__card,
-    & .dapp-core-component__main__card-body {
-      width: fit-content;
-    }
-  
-    & .dapp-core-component__main__card {
-      background-color: $bg-card;
-    }
-  
-    & .dapp-core-component__main__card-body {
-      padding: 0;
-      margin: 0;
-    }
-  
-    & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-qr-code {
-      margin: 0 auto !important;
-      display: block;
-      background-color: $light;
-      border-radius: 5px;
-      width: 210px;
-      height: 210px;
+
+    .build-tab-active {
+      background-color: $primary;
+      color: $dark;   
     }
   }
+  .pos-container {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    margin: 0 auto;
+  
+    .verify-ownership {
+      & h1 {
+        text-align: center;
+        color: $light;
+        font-size: 24px;
+        margin-bottom: 1.5rem;
+        font-weight: 400;
+      }
+    
+      & svg {
+        border-radius: 5px;
+      }
+    
+      & .dapp-wallet-connect-login-modal,
+      & .dapp-core-component__main__h4,
+      & .dapp-core-component__main__lead,
+      & .dapp-core-component__main__link-style,
+      & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-container-heading,
+      & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-container-subheading,
+      & p  {
+        display: none;
+      }
+    
+      & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-legacy-link {
+        visibility: hidden;
+        margin: 0 !important;
+        z-index: -1;
+      }
+    
+      & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-content {
+        padding: 0;
+      }
+    
+      & .dapp-core-component__main__card,
+      & .dapp-core-component__main__card-body {
+        width: fit-content;
+      }
+    
+      & .dapp-core-component__main__card {
+        background-color: $bg-card;
+      }
+    
+      & .dapp-core-component__main__card-body {
+        padding: 0;
+        margin: 0;
+      }
+    
+      & .dapp-core-component__walletConnectLoginContainerStyles__xPortal-qr-code {
+        margin: 0 auto !important;
+        display: block;
+        background-color: $light;
+        border-radius: 5px;
+        width: 210px;
+        height: 210px;
+      }
+    }
+  }
+
 }
+
 
 /* Result
 -------------------------------------------------- */
@@ -542,12 +578,11 @@ a {
 .layout {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100dvh;
 
   & .layout-main {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     flex-grow: 1; 
   }
@@ -599,23 +634,36 @@ a {
 }
 
 .qr-reader-container {
-  @media (min-width: 320px) {
-    width: 300px;
-    height: auto;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid red;
 
-  @media (min-width: 375px) {
-    width: 350px;
-  }
+  .qr-reader-video {
+    overflow: auto;
 
-  @media (min-width: 768px) {
-    width: 600px;
-  }
-
-  @media (min-width: 1024px) {
-    width: 700px;
+    @media (min-width: 320px) {
+      width: 300px;
+      height: 300px;
+    }
+  
+    @media (min-width: 375px) {
+      width: 350px;
+      height: 350px;
+    }
+  
+    @media (min-width: 768px) {
+      width: 600px;
+      height: 600px;
+    }
+  
+    @media (min-width: 1024px) {
+      width: 700px;
+      height: 700px;
+    }
   }
 }
+
 
 .scan-result {
   min-width: 250px;

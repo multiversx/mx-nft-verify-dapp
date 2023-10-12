@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { BuildPosFormCard, BuildScannerFormCard } from './components';
-import { BuildTabs } from './components/BuildTabs';
+import { BuildPosFormCard } from './components';
 import { validationSchema } from './validation';
 
 const ageSelectOptions = [
@@ -29,22 +28,12 @@ const ageSelectOptions = [
 ];
 
 export const Build = () => {
-  const [activeTab, setActiveTab] = useState(0);
-
   return (
     <section className='build'>
-      <BuildTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      {activeTab === 0 ? (
-        <BuildPosFormCard
-          validationSchema={validationSchema}
-          ageSelectOptions={ageSelectOptions}
-        />
-      ) : (
-        <BuildScannerFormCard
-          validationSchema={validationSchema}
-          ageSelectOptions={ageSelectOptions}
-        />
-      )}
+      <BuildPosFormCard
+        validationSchema={validationSchema}
+        ageSelectOptions={ageSelectOptions}
+      />
     </section>
   );
 };
