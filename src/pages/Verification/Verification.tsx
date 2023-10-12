@@ -1,80 +1,36 @@
 import React, { useEffect, useState } from 'react';
 
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks';
-import { nativeAuth } from '@multiversx/sdk-dapp/services/nativeAuth';
-import {
-  WalletConnectLoginButton,
-  WalletConnectLoginButtonPropsType
-} from '@multiversx/sdk-dapp/UI/walletConnect/WalletConnectLoginButton';
-import { useLocation } from 'react-router-dom';
-import { walletConnectV2ProjectId } from 'config';
-import { routeNames } from 'routes';
+import { Loader } from '@multiversx/sdk-dapp/UI/Loader';
+import { VerificationTypeEnum } from 'pages/Build/build.types';
+import { VerificationTypeTabs } from 'pages/Build/components/VerificationTypeTabs';
+import { QueryParamEnum } from 'pages/Result/result.types';
+import { Pos, Scanner } from './components';
 
 export const Verification = () => {
-  const { search } = useLocation();
-  const isLoggedIn = useGetIsLoggedIn();
+  const [activeTab, setActiveTab] = useState<VerificationTypeEnum | null>(null);
 
-  const [token, setToken] = useState('');
+  const getVerificationTypeFromUrl = () => {
+    const urlParams = new URLSearchParams(window.location.href);
 
-  const getRef = async (e: HTMLDivElement) => {
-    if (!e) {
-      return;
-    }
+    const verificationTypeParam = urlParams.get(QueryParamEnum.type);
 
-    const buttonRef = e.querySelector('button');
-
-    if (buttonRef) {
-      setTimeout(() => {
-        buttonRef.click();
-      }, 0.01);
-    }
-
-    return e;
+    setActiveTab(verificationTypeParam as VerificationTypeEnum);
   };
 
-  const getToken = async () => {
-    const client = nativeAuth();
-    const loginToken = await client.initialize();
+  useEffect(getVerificationTypeFromUrl, []);
 
-    setToken(loginToken);
-  };
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      const interval = setInterval(() => getToken(), 6000);
-
-      return () => clearInterval(interval);
-    }
-  }, [isLoggedIn]);
-
-  useEffect(() => {
-    getToken();
-  }, []);
-
-  const loginProps: WalletConnectLoginButtonPropsType = {
-    callbackRoute: `${routeNames.result}${search}`,
-    logoutRoute: `${routeNames.verify}${search}`,
-    token,
-    nativeAuth: true,
-    hideButtonWhenModalOpens: true,
-    wrapContentInsideModal: false,
-    ...(walletConnectV2ProjectId && {
-      isWalletConnectV2: true
-    })
-  };
-
-  if (!token) {
-    return null;
+  if (activeTab === null) {
+    return <Loader noText />;
   }
 
   return (
     <div className='verification'>
-      <div className='verify-ownership card'>
-        <h1>Scan with xPortal</h1>
-        <div ref={getRef}>
-          <WalletConnectLoginButton {...loginProps} />
-        </div>
-      </div>
+      <VerificationTypeTabs
+        verificationTypeTab={activeTab}
+        setVerificationTypeTab={setActiveTab}
+      />
+
+      {activeTab === VerificationTypeEnum.pos ? <Pos /> : <Scanner />}
     </div>
   );
 };

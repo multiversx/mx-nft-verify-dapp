@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useZxing } from 'react-zxing';
 import { ScanResult } from './components';
 
-export const Scan = () => {
+export const Scanner = () => {
   const [nativeAuthToken, setNativeAuthToken] = useState<string | null>();
 
   const { ref } = useZxing({
@@ -20,9 +20,8 @@ export const Scan = () => {
   };
 
   return (
-    <>
-      <video ref={ref} className='qr-reader-container' />
-      <div className='qr-reader' />
+    <div className='qr-reader-container'>
+      <video ref={ref} className='qr-reader-video' />
 
       {nativeAuthToken && (
         <ScanResult
@@ -30,6 +29,6 @@ export const Scan = () => {
           handleReset={handleReset}
         />
       )}
-    </>
+    </div>
   );
 };
