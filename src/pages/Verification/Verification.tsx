@@ -8,11 +8,17 @@ import { Pos, Scanner } from './components';
 
 export const Verification = () => {
   const [activeTab, setActiveTab] = useState<VerificationTypeEnum | null>(null);
+  const [showTabs, setShowTabs] = useState(false);
 
   const getVerificationTypeFromUrl = () => {
     const urlParams = new URLSearchParams(window.location.href);
 
     const verificationTypeParam = urlParams.get(QueryParamEnum.type);
+    const switcherParam = urlParams.get(QueryParamEnum.switcher);
+
+    if (switcherParam) {
+      setShowTabs(true);
+    }
 
     setActiveTab(verificationTypeParam as VerificationTypeEnum);
   };
@@ -25,10 +31,12 @@ export const Verification = () => {
 
   return (
     <div className='verification'>
-      <VerificationTypeTabs
-        verificationTypeTab={activeTab}
-        setVerificationTypeTab={setActiveTab}
-      />
+      {showTabs && (
+        <VerificationTypeTabs
+          verificationTypeTab={activeTab}
+          setVerificationTypeTab={setActiveTab}
+        />
+      )}
 
       {activeTab === VerificationTypeEnum.pos ? <Pos /> : <Scanner />}
     </div>

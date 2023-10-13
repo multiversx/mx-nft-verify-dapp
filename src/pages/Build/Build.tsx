@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BuildPosFormCard } from './components';
+import { BuildFormCard } from './components';
 import { validationSchema } from './validation';
 
 const ageSelectOptions = [
@@ -30,7 +30,7 @@ const ageSelectOptions = [
 export const Build = () => {
   return (
     <section className='build'>
-      <BuildPosFormCard
+      <BuildFormCard
         validationSchema={validationSchema}
         ageSelectOptions={ageSelectOptions}
       />
