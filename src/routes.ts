@@ -3,15 +3,13 @@ import { dAppName } from 'config';
 import { Build } from 'pages/Build';
 import { Home } from 'pages/Home';
 import { Result } from 'pages/Result';
-import { Scan } from 'pages/Scan';
 import { Verification } from 'pages/Verification';
 
 export const routeNames = {
   home: '/',
   verify: '/verify',
   result: '/result',
-  build: '/build',
-  scan: '/scan'
+  build: '/build'
 };
 
 const routes = [
@@ -34,11 +32,6 @@ const routes = [
     title: 'Result',
     component: Result,
     authenticatedRoute: false
-  },
-  {
-    path: routeNames.scan,
-    title: 'Scan',
-    component: Scan
   }
 ];
 

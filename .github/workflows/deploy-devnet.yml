@@ -17,7 +17,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: '18.x'
       - name: Setup yarn
         run: npm install -g yarn
       - run: yarn install
@@ -31,11 +31,12 @@ jobs:
           aws-region: 'us-east-1'
       - name: Deploy to S3 bucket
         run: aws s3 sync ./build/ s3://${{ secrets.AWS_S3_BUCKET_DEVNET }} --delete
-      - uses: rtCamp/action-slack-notify@master
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@master
         env:
-          SLACK_ICON_EMOJI: ':admission_tickets:'
-          SLACK_USERNAME: ${{ secrets.AWS_S3_BUCKET.DEVNET }}
-          SLACK_MESSAGE: ${{ secrets.AWS_S3_BUCKET.DEVNET }}
+          SLACK_ICON_EMOJI: ':globe_with_meridians:'
+          SLACK_USERNAME: NFT Ownership Verifier Devnet
+          SLACK_MESSAGE: ${{ secrets.AWS_S3_BUCKET_DEVNET }}
           SLACK_FOOTER: ''
           MSG_MINIMAL: true
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

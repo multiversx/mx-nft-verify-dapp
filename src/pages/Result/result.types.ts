@@ -6,7 +6,9 @@ export enum QueryParamEnum {
   pixel = 'pixel',
   callback = 'callback',
   age = 'age',
-  ref = 'ref'
+  ref = 'ref',
+  type = 'type',
+  switcher = 'switcher'
 }
 
 export class ResultMessageState {

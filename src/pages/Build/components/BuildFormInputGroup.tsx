@@ -28,10 +28,10 @@ export const BuildFormInputGroup = ({
   onBlur,
   isError,
   error,
-  className
+  className = ''
 }: BuildFormInputGroupProps) => {
   return (
-    <div className={`form-group ${className ? className : ''}`}>
+    <div className={`form-group ${className}`}>
       <label htmlFor={id}>
         {labelValue} {isOptional && <span>(optional)</span>}
         {tooltipInfo && (

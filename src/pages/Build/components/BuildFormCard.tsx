@@ -1,25 +1,32 @@
 import React, { useState } from 'react';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks';
-import { CopyButton } from '@multiversx/sdk-dapp/UI/CopyButton';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useApiRequests } from 'hooks';
 import { QueryParamEnum } from 'pages/Result/result.types';
-import { routeNames } from 'routes';
 import { AgeEnum } from 'types';
-import { BuildFormValuesType } from '../build.types';
+import {
+  BuildFormValuesType,
+  RadioElementType,
+  VerificationType
+} from '../build.types';
 import { BuildFormInputGroup } from './BuildFormInputGroup';
+import { BuildFormRadioGroup } from './BuildFormRadioGroup';
 import { BuildFormSelectGroup } from './BuildFormSelectGroup';
+import { GeneratedUrl } from './GeneratedUrl';
 
-interface BuildScannerFormCardProps {
+export interface BuildFormCardProps {
   validationSchema: yup.ObjectSchema<yup.AnyObject>;
   ageSelectOptions: { value: string; label: string }[];
 }
 
-export const BuildScannerFormCard = ({
+export const BuildFormCard = ({
   validationSchema,
   ageSelectOptions
-}: BuildScannerFormCardProps) => {
+}: BuildFormCardProps) => {
+  const [verificationType, setVerificationType] =
+    useState<VerificationType>('scanner');
+  const [isUrlLoading, setIsUrlLoading] = useState(false);
   const [generatedUrl, setGeneratedUrl] = useState('');
 
   const {
@@ -31,19 +38,26 @@ export const BuildScannerFormCard = ({
   const initialValues: BuildFormValuesType = {
     collection: '',
     pixel: '',
+    callback: '',
     age: AgeEnum.oneDay,
     ref: ''
   };
 
   const showComputedUrl = (values: BuildFormValuesType) => {
-    const { collection, pixel, age, ref } = values;
-    const domain = new URL(`${window.location.origin}${routeNames.scan}`);
+    const { collection, pixel, callback, age, ref } = values;
+    const domain = new URL(`${window.location.origin}/verify`);
 
     domain.searchParams.append(QueryParamEnum.collection, collection);
     domain.searchParams.append(QueryParamEnum.age, age);
+    domain.searchParams.append(QueryParamEnum.type, verificationType);
+    domain.searchParams.append(QueryParamEnum.switcher, 'true');
 
     if (pixel) {
       domain.searchParams.append(QueryParamEnum.pixel, pixel);
+    }
+
+    if (callback) {
+      domain.searchParams.append(QueryParamEnum.callback, callback);
     }
 
     if (ref) {
@@ -54,6 +68,7 @@ export const BuildScannerFormCard = ({
   };
 
   const onSubmit = async (values: BuildFormValuesType) => {
+    setIsUrlLoading(true);
     // Before computing the URL, at first we must validate that the collection is valid
     const response = await getCollectionNfts({
       apiAddress,
@@ -66,10 +81,12 @@ export const BuildScannerFormCard = ({
         collection: 'This collection does not exist'
       });
 
+      setIsUrlLoading(false);
       return;
     }
 
     showComputedUrl(values);
+    setIsUrlLoading(false);
   };
 
   const {
@@ -86,11 +103,19 @@ export const BuildScannerFormCard = ({
     onSubmit
   });
 
+  const radioElements: RadioElementType[] = [
+    { id: 'pos', value: 'pos', label: 'PoS' },
+    { id: 'scanner', value: 'scanner', label: 'Scanner', checked: true }
+  ];
+
   const isCollectionError =
     QueryParamEnum.collection in errors && QueryParamEnum.collection in touched;
 
   const isPixelError =
     QueryParamEnum.pixel in errors && QueryParamEnum.pixel in touched;
+
+  const isCallbackUrlError =
+    QueryParamEnum.callback in errors && QueryParamEnum.callback in touched;
 
   const isRefError =
     QueryParamEnum.ref in errors && QueryParamEnum.ref in touched;
@@ -126,6 +151,18 @@ export const BuildScannerFormCard = ({
         />
 
         <BuildFormInputGroup
+          id={QueryParamEnum.callback}
+          placeholder='E.g. https://example.com'
+          labelValue='Callback'
+          tooltipInfo='URL where the user is redirected to after every successful check.'
+          isOptional
+          value={values.callback}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          isError={isCallbackUrlError}
+          error={errors.callback}
+        />
+        <BuildFormInputGroup
           id={QueryParamEnum.ref}
           labelValue='Reference'
           tooltipInfo='Used to store app internal IDs or state references for the users.'
@@ -135,6 +172,12 @@ export const BuildScannerFormCard = ({
           error={errors.ref}
           onChange={handleChange}
           onBlur={handleBlur}
+        />
+
+        <BuildFormRadioGroup
+          elements={radioElements}
+          title='Prefered'
+          setVerificationType={setVerificationType}
         />
 
         <BuildFormSelectGroup
@@ -148,22 +191,7 @@ export const BuildScannerFormCard = ({
           Generate URL
         </button>
       </form>
-      {generatedUrl && (
-        <div className='build-generated-url-wrapper'>
-          <div className='build-generated-url'>
-            <a
-              href={generatedUrl}
-              title={generatedUrl}
-              {...{
-                target: '_blank'
-              }}
-            >
-              {generatedUrl}
-            </a>
-          </div>
-          <CopyButton text={generatedUrl} />
-        </div>
-      )}
+      <GeneratedUrl url={generatedUrl} isUrlLoading={isUrlLoading} />
     </div>
   );
 };

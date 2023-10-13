@@ -3,7 +3,7 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/hooks/useGetNetworkCon
 import { NftType } from '@multiversx/sdk-dapp/types/tokens.types';
 import { useSearchParams } from 'react-router-dom';
 import { QueryParamEnum } from 'pages/Result/result.types';
-import { decodeNativeAuthToken } from 'pages/Scan/utils';
+import { decodeNativeAuthToken } from 'pages/Verification/components/Scanner/utils';
 import { getTimestamp } from 'utils';
 import { useApiRequests } from './useApiRequests';
 
