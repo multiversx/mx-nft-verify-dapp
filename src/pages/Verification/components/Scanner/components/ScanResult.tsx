@@ -21,7 +21,7 @@ export const ScanResult = ({
   nativeAuthToken,
   handleReset
 }: ScanResultProps) => {
-  const { callPixelAfterValidate } = useApiRequests();
+  const { callPixelAfterValidate, getParticipantName } = useApiRequests();
 
   const navigate = useNavigate();
   const { searchParams, updateSearchParams } = useUpdateSearchParams();
@@ -53,6 +53,20 @@ export const ScanResult = ({
     }
   };
 
+  const getTicketInformation = async () => {
+    if (accountAddress) {
+      const response = await getParticipantName({
+        accountAddress: accountAddress
+      });
+
+      const { ticket, fullName } = response.data;
+
+      if (ticket && fullName) {
+        setScanResultMessage(`Ticket: ${ticket} \n Name: ${fullName}`);
+      }
+    }
+  };
+
   useEffect(() => {
     validateNativeAuthToken();
     updateSearchParams();
@@ -73,6 +87,7 @@ export const ScanResult = ({
         nativeAuthToken,
         ...(refParam && { ref: refParam })
       });
+      getTicketInformation();
     }
   }, [nativeAuthToken, isValidatedNft]);
 

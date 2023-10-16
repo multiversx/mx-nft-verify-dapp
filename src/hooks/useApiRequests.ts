@@ -72,6 +72,15 @@ export const useApiRequests = () => {
           },
           timeout: DEFAULT_TIMEOUT
         })
+      ),
+    getParticipantName: ({ accountAddress }: { accountAddress: string }) =>
+      asyncWrapper(() =>
+        axios.get('https://7a6e-82-79-237-138.ngrok-free.app/xday/tickets', {
+          params: {
+            address: accountAddress
+          },
+          timeout: DEFAULT_TIMEOUT
+        })
       )
   };
 };
