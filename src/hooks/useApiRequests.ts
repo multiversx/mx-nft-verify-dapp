@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { GetAccountNfts, GetCollectionNfts } from 'types';
 import { asyncWrapper } from 'utils';
+import { extrasApi } from 'config';
 
 export const useApiRequests = () => {
   const DEFAULT_TIMEOUT = 3000;
@@ -75,7 +76,7 @@ export const useApiRequests = () => {
       ),
     getParticipantName: ({ accountAddress }: { accountAddress: string }) =>
       asyncWrapper(() =>
-        axios.get('https://7a6e-82-79-237-138.ngrok-free.app/xday/tickets', {
+        axios.get(`${extrasApi}/xday/tickets`, {
           params: {
             address: accountAddress
           },

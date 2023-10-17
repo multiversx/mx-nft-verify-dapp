@@ -1,5 +1,6 @@
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { ReactNode } from 'react';
 
 export enum QueryParamEnum {
   collection = 'collection',
@@ -16,6 +17,6 @@ export class ResultMessageState {
     public className: string = '',
     public description: string = '',
     public icon: IconDefinition = faQuestionCircle,
-    public title: string = ''
+    public title: string | ReactNode = ''
   ) {}
 }

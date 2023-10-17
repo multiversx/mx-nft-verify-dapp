@@ -20,8 +20,15 @@ export const Verification = () => {
       setShowTabs(true);
     }
 
+    if (!verificationTypeParam) {
+      setActiveTab(VerificationTypeEnum.scanner);
+      return;
+    }
+
     setActiveTab(verificationTypeParam as VerificationTypeEnum);
   };
+
+  console.log('activeTab: ', activeTab);
 
   useEffect(getVerificationTypeFromUrl, []);
 

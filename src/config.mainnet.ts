@@ -10,6 +10,8 @@ export const dAppName = 'NFT Ownership Verifier';
 
 export const dappEnvironment = EnvironmentsEnum.mainnet;
 
+export const extrasApi = 'https://extras-api.multiversx.com';
+
 export const walletConnectV2ProjectId = '138fd3454a31d70561484e0b7b88eab0';
 
 export const apiTimeout = 6000;

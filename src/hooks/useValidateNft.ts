@@ -17,6 +17,8 @@ export const useValidateNft = () => {
     network: { apiAddress }
   } = useGetNetworkConfig();
 
+  console.log('apiAddress: ', apiAddress);
+
   const { getAccountNfts, getTransactionsCount } = useApiRequests();
 
   const [isLoadingValidateNft, setIsLoadingValidateNft] = useState(false);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { faCheck, faTimes, faEraser } from '@fortawesome/free-solid-svg-icons';
 import { Loader } from '@multiversx/sdk-dapp/UI/Loader';
 import { PageState } from '@multiversx/sdk-dapp/UI/PageState';
@@ -26,7 +26,9 @@ export const ScanResult = ({
   const navigate = useNavigate();
   const { searchParams, updateSearchParams } = useUpdateSearchParams();
 
-  const [scanResultMessage, setScanResultMessage] = useState<string>();
+  const [scanResultMessage, setScanResultMessage] = useState<
+    string | ReactNode
+  >();
   const [isScanResultPositive, setIsScanResultPositive] = useState<boolean>();
 
   const {
@@ -50,6 +52,7 @@ export const ScanResult = ({
     } else {
       setIsScanResultPositive(true);
       setScanResultMessage('You are in!');
+      getTicketInformation();
     }
   };
 
@@ -62,7 +65,11 @@ export const ScanResult = ({
       const { ticket, fullName } = response.data;
 
       if (ticket && fullName) {
-        setScanResultMessage(`Ticket: ${ticket} \n Name: ${fullName}`);
+        setScanResultMessage(
+          <div className='scan-result-message'>
+            Ticket: <span>{ticket}</span> <br /> Name: <span>{fullName}</span>
+          </div>
+        );
       }
     }
   };
@@ -87,7 +94,6 @@ export const ScanResult = ({
         nativeAuthToken,
         ...(refParam && { ref: refParam })
       });
-      getTicketInformation();
     }
   }, [nativeAuthToken, isValidatedNft]);
 

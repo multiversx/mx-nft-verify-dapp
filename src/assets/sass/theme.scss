@@ -430,6 +430,16 @@ a {
     }
   }
 
+  .scan-result-message {
+    color: $secondary;
+    font-weight: 400;
+
+    span {
+      font-weight: 600;
+      color: $light
+    }
+  }
+
 }
 
 

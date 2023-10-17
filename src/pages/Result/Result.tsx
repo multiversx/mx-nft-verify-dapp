@@ -75,7 +75,11 @@ export const Result = () => {
 
   return (
     <div className='result-page'>
-      <ResultMessage isValidated={isValidatedNft} handleReset={handleLogout} />
+      <ResultMessage
+        isValidated={isValidatedNft}
+        handleReset={handleLogout}
+        accountAddress={accountAddress}
+      />
     </div>
   );
 };

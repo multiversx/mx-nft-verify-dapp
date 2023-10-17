@@ -8,6 +8,8 @@ export const ref = ''; // TODO: This must be set
 
 export const dappEnvironment = EnvironmentsEnum.testnet;
 
+export const extrasApi = 'https://testnet-extras-api.multiversx.com';
+
 export const dAppName = 'NFT Ownership Verifier';
 
 export const walletConnectV2ProjectId = 'fbe15e2787b66ba7464fc2a819848b37';
